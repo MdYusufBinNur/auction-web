@@ -6,44 +6,18 @@
           Browse By All Categories
         </div>
       </v-col>
-      <v-col v-if="bp.smAndUp" :cols="3" v-for="(cat, i) in categories" :key="i">
-        <v-card
-          :elevation="5">
-          <v-avatar>
-            <v-img :src="cat.image" contain aspect-ratio="5"/>
-          </v-avatar>
-          <template v-slot:default>
-            <v-card-text class="pa-1">
-              {{ cat.name }}
-            </v-card-text>
-          </template>
-          <template v-slot:default>
-            <v-card-text class="pa-1">
-              {{ cat.ads + ' ads' }}
-            </v-card-text>
-          </template>
-        </v-card>
-      </v-col>
-      <v-col v-if="bp.xs" :cols="6" v-for="(cat, i) in categories" :key="i">
-        <v-card
-          :elevation="0"
-        >
-          <template v-slot:default>
-            <v-img :src="cat.image" width="40" :cover="true"/>
-          </template>
-          <template v-slot:default>
-            <v-card-text class="pa-1">
-              {{ cat.name }}
-            </v-card-text>
-          </template>
-          <template v-slot:default>
-            <v-card-text class="pa-1">
-              {{ cat.ads + ' ads' }}
-            </v-card-text>
-          </template>
-        </v-card>
-      </v-col>
+      <v-col :cols="bp.mdAndUp ? 2 : 4" v-for="(cat, i) in categories" :key="i">
+        <v-card :elevation="0" class="text-center">
+          <v-img :src="cat.image" contain :aspect-ratio="bp.mdAndUp ? 6 : 4"/>
+          <v-card-text class="pa-1">
+            {{ cat.name }}
+          </v-card-text>
 
+          <v-card-text class="pa-1">
+            {{ cat.ads + ' ads' }}
+          </v-card-text>
+        </v-card>
+      </v-col>
     </v-row>
 
   </v-container>
