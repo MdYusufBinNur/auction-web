@@ -3,7 +3,6 @@
        style="display: flex; justify-content: center; align-items: center; height: 100%">
     <v-form
         ref="form"
-        @submit.prevent="submitForm"
         lazy-validation>
       <v-card
           class="py-8 px-6 mx-auto  border"
@@ -71,6 +70,7 @@
 </template>
 <script >
 export default {
+  name: 'Login'
 
 }
 </script>

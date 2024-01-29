@@ -18,13 +18,13 @@
         <v-sheet color="surface">
           <v-text-field
               type="password"
-              variant="outlined"
+              outlined
               density="comfortable"
               class="mt-4"
           ></v-text-field>
           <v-text-field
               type="password"
-              variant="outlined"
+              outlined
               density="comfortable"
               class="mt-4"
           ></v-text-field>
@@ -48,7 +48,9 @@
 </template>
 
 <script>
-
+export default {
+  name: 'NewPassword'
+}
 </script>
 
 <style scoped>

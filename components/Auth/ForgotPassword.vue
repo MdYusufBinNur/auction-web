@@ -19,7 +19,7 @@
         <v-sheet color="surface">
           <v-text-field
               type="email"
-              variant="outlined"
+              outlined
               density="comfortable"
               class="mt-4"
           ></v-text-field>
@@ -31,8 +31,7 @@
             height="40"
             v-text="'Send Reset Code'"
             :ripple="false"
-
-            variant="flat"
+            outlined
             :block="true"
             @click.prevent="$router.push('/auth/send-otp')"
         ></v-btn>
@@ -47,6 +46,9 @@
 </template>
 
 <script>
+export default {
+  name: 'ForgotPassword'
+}
 
 </script>
 

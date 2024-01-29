@@ -45,7 +45,9 @@
 </template>
 
 <script>
-
+export default {
+  name: 'OTP'
+}
 </script>
 
 <style scoped>
