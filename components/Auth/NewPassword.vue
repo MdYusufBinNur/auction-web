@@ -10,23 +10,27 @@
           elevation="0"
           max-width="400"
           width="100%"
+          outlined
       >
         <h3 class="text-h6 ">Reset your password</h3>
         <div class="text-caption mb-4">
           For your security, please choose a password that is strong and unique
         </div>
-        <v-sheet color="surface">
+        <v-sheet color="surface" class="mb-4">
           <v-text-field
               type="password"
               outlined
               density="comfortable"
               class="mt-4"
+              hide-details="auto"
+              hint="Put a strong password"
           ></v-text-field>
           <v-text-field
               type="password"
               outlined
               density="comfortable"
               class="mt-4"
+              hide-details
           ></v-text-field>
         </v-sheet>
         <v-btn
@@ -35,12 +39,9 @@
             height="40"
             v-text="'Change password'"
             :ripple="false"
-            variant="flat"
             :block="true"
+            @click.prevent="$router.push('/auth/login')"
         ></v-btn>
-        <div class="text-caption">
-          Didn't receive the code? <a href="#">Resend</a>
-        </div>
       </v-card>
     </v-form>
   </div>

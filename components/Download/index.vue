@@ -6,10 +6,10 @@
       </v-col>
       <v-col cols="12" :class="'px-5 text-center'">
         <h1 class="" style="color: black;">
-          Download the app
+          {{ $t('download_the_app')}}
         </h1>
         <p class="black--text">
-          Make your life easier with Auction app. You can find our app in Google Play Store and App Store.
+          {{ $t('make_life_easy')}}
         </p>
         <div :class="'d-flex flex-column py-4'">
           <div class="py-4">

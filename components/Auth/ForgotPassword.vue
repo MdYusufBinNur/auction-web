@@ -1,11 +1,10 @@
 <template>
-  <div class="centered_div_content pa-10"
-       style="display: flex; justify-content: center; align-items: center; height: 100%">
+  <div class="centered_div_content pa-10">
     <v-form
         ref="form"
         lazy-validation>
       <v-card
-          class="py-8 px-6 mx-auto ma-4 border"
+          class="py-8 px-6 mx-auto ma-4" outlined
           elevation="0"
           max-width="400"
           width="100%"
@@ -16,12 +15,14 @@
           a verification code.
         </div>
 
-        <v-sheet color="surface">
+        <v-sheet color="surface" class="mb-4">
           <v-text-field
               type="email"
               outlined
               density="comfortable"
               class="mt-4"
+              hide-details="auto"
+              hint=""
           ></v-text-field>
         </v-sheet>
 
@@ -31,14 +32,9 @@
             height="40"
             v-text="'Send Reset Code'"
             :ripple="false"
-            outlined
             :block="true"
             @click.prevent="$router.push('/auth/send-otp')"
         ></v-btn>
-
-        <div class="text-caption">
-          Didn't receive the code? <a href="#">Resend</a>
-        </div>
       </v-card>
     </v-form>
   </div>

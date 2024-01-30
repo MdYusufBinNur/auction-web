@@ -1,9 +1,10 @@
 <template>
 
   <v-bottom-navigation
-      v-model="value"
-      :bg-color="'primary'"
-      mode="shift"
+    v-model="value"
+    :bg-color="'primary'"
+    shift
+    fixed
   >
     <v-btn @click.prevent="$router.push('/')">
       <v-icon>mdi-home-outline</v-icon>
@@ -28,7 +29,7 @@
 export default {
   data() {
     return {
-      value : 0
+      value: 0
     }
   }
 }

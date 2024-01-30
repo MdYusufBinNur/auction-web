@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar elevation="0" flat scroll-threshold="0" color="background" app fixed>
+    <v-app-bar elevation="0" flat color="background" fixed>
       <v-container class="d-flex flex-row align-center">
         <v-spacer v-if="bp.smAndDown" />
         <v-app-bar-nav-icon :ripple="false">
@@ -24,6 +24,7 @@
           <v-btn class="bg-white text-capitalize mx-3" rounded :ripple="false">
             Post your AD
           </v-btn>
+          <LanguageSwitcher />
         </div>
       </v-container>
     </v-app-bar>
@@ -99,10 +100,11 @@ import MenuSVG from "@/assets/icons/MenuSVG.vue";
 import ArrowUpRightSVG from "@/assets/icons/ArrowUpRightSVG.vue";
 import ShortLogoSVG from "@/assets/icons/ShortLogoSVG.vue";
 import BottomNavigation from "../components/Common/BottomNavigation.vue";
+import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
 
 export default {
   name: "default",
-  components: {BottomNavigation, ShortLogoSVG, LogoSVG, ArrowUpRightSVG, MenuSVG, SearchSVG, Footer},
+  components: {LanguageSwitcher, BottomNavigation, ShortLogoSVG, LogoSVG, ArrowUpRightSVG, MenuSVG, SearchSVG, Footer},
   data: () => ({
     dialog: false,
     notifications: false,
@@ -132,6 +134,7 @@ export default {
       this.drawer = false
     },
   },
+
 }
 </script>
 

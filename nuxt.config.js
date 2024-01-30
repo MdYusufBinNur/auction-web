@@ -56,7 +56,31 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
+    "vue-toastification/nuxt",
+    '@nuxtjs/i18n'
   ],
+  i18n: {
+    locales: [
+      {
+        code: 'en',
+        file: 'en-US.js',
+        name: 'English'
+      },
+      {
+        code: 'bn',
+        file: 'bn-BN.js',
+        name: 'Bangla'
+      }
+
+    ],
+    lazy: true,
+    langDir: 'lang/',
+    defaultLocale: 'en',
+    vueI18n: {
+      fallbackLocale: 'en',
+    }
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

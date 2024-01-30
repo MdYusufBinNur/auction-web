@@ -1,11 +1,10 @@
 <template>
-<div>
-  <Register />
-</div>
+  <Register/>
 </template>
 
 <script>
 import Register from "../../components/Auth/Register";
+
 export default {
   name: "registration",
   components: {Register},

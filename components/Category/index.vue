@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12" class="text-center">
         <div :class="bp.smAndDown ? 'text-h6 py-4 font-weight-bold' : 'text-h5 py-4 font-weight-bold'">
-          Browse By All Categories
+          {{$t('browse_all_categories')}}
         </div>
       </v-col>
       <v-col :cols="bp.mdAndUp ? 2 : 4" v-for="(cat, i) in categories" :key="i">
