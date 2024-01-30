@@ -100,11 +100,11 @@
 </template>
 
 <script>
-import ShortLogoSVG from "../../assets/icons/ShortLogoSVG.vue";
-import SearchSVG from "../../assets/icons/SearchSVG.vue";
-import MenuSVG from "../../assets/icons/MenuSVG.vue";
-import ArrowUpRightSVG from "../../assets/icons/ArrowUpRightSVG.vue";
-import menuSVG from "../../assets/icons/MenuSVG.vue";
+import ShortLogoSVG from "assets/icons/ShortLogoSVG.svg";
+import SearchSVG from "assets/icons/SearchSVG.svg";
+import MenuSVG from "assets/icons/MenuSVG.svg";
+import ArrowUpRightSVG from "assets/icons/ArrowUpRightSVG.svg";
+import menuSVG from "assets/icons/MenuSVG.svg";
 import Header from "../../components/Common/Header.vue";
 
 export default {

@@ -94,11 +94,11 @@
 
 <script>
 import Footer from "../components/Common/Footer.vue";
-import LogoSVG from "@/assets/icons/LogoSVG.vue";
-import SearchSVG from "@/assets/icons/SearchSVG.vue";
-import MenuSVG from "@/assets/icons/MenuSVG.vue";
-import ArrowUpRightSVG from "@/assets/icons/ArrowUpRightSVG.vue";
-import ShortLogoSVG from "@/assets/icons/ShortLogoSVG.vue";
+import LogoSVG from "assets/icons/logoSVG.svg";
+import SearchSVG from "assets/icons/SearchSVG.svg";
+import MenuSVG from "assets/icons/MenuSVG.svg";
+import ArrowUpRightSVG from "assets/icons/ArrowUpRightSVG.svg";
+import ShortLogoSVG from "assets/icons/ShortLogoSVG.svg";
 import BottomNavigation from "../components/Common/BottomNavigation.vue";
 import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
 
@@ -126,7 +126,6 @@ export default {
         to: '/auth/login',
       },
     ],
-
     opacity: 1
   }),
   watch: {

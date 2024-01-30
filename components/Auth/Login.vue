@@ -56,6 +56,7 @@
               class="text-capitalize"
               type="submit"
               color="primary"
+              @click.prevent="$router.push('/dashboard/home')"
 
             >
               {{ $t('login') }}
@@ -77,7 +78,7 @@
 </template>
 <script>
 export default {
-  name: 'Login'
+  name: 'Login',
 
 }
 </script>
