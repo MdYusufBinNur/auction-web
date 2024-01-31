@@ -1,5 +1,5 @@
 <template>
-  <v-app dark>
+  <v-app dark class="d-flex flex-column justify-center align-self-center align-content-center align-center">
     <h1 v-if="error.statusCode === 404">
       {{ pageNotFound }}
     </h1>

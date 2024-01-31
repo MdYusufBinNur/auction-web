@@ -6,9 +6,7 @@
         <v-app-bar-nav-icon :ripple="false">
 
           <template v-slot:default>
-            <v-img @click="$router.push('/')">
-              <LogoSVG/>
-            </v-img>
+            <v-img @click="$router.push('/')" :src="'/icons/logoSVG.svg'" contain aspect-ratio="1" />
           </template>
         </v-app-bar-nav-icon>
         <v-spacer/>
@@ -94,11 +92,11 @@
 
 <script>
 import Footer from "../components/Common/Footer.vue";
-import LogoSVG from "assets/icons/logoSVG.svg";
-import SearchSVG from "assets/icons/SearchSVG.svg";
-import MenuSVG from "assets/icons/MenuSVG.svg";
-import ArrowUpRightSVG from "assets/icons/ArrowUpRightSVG.svg";
-import ShortLogoSVG from "assets/icons/ShortLogoSVG.svg";
+import LogoSVG from "/static/icons/logoSVG.svg";
+import SearchSVG from "/static/icons/SearchSVG.svg";
+import MenuSVG from "/static/icons/MenuSVG.svg";
+import ArrowUpRightSVG from "/static/icons/ArrowUpRightSVG.svg";
+import ShortLogoSVG from "/static/icons/ShortLogoSVG.svg";
 import BottomNavigation from "../components/Common/BottomNavigation.vue";
 import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
 

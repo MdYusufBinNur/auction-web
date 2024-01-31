@@ -2,14 +2,13 @@ import Vue from 'vue'
 import momentTimezone from 'moment-timezone'
 import vueDebounce from 'vue-debounce'
 Vue.use(vueDebounce)
-// import * as VueGoogleMaps from 'vue2-google-maps'
 import VueSocialSharing from 'vue-social-sharing'
 
 Vue.use(VueSocialSharing);
 Vue.mixin({
   data() {
     return {
-      tiny_api_key: 'mw34pc21bdb4huz4mvu639u3pka3tmggjygirmj07to8lhe8',
+
     }
   },
   computed: {
@@ -33,15 +32,4 @@ Vue.mixin({
     }
   },
 })
-// Vue.use(VueGoogleMaps, {
-//   load: {
-//     key: 'AIzaSyCaElQyMCbsyjftm6nbFJxPDkN7G0rcRrA',
-//     libraries: 'places',
-//     // This is required if you use the Autocomplete plugin
-//     // OR: libraries: 'places,drawing'
-//     // OR: libraries: 'places,drawing,visualization'
-//     //     // (as you require)
-//     //     // If you want to set the version, you can do so:
-//     //     // v: '3.26',
-//   },
-// })
+

@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import LogoSVG from "assets/icons/logoSVG.svg";
+import LogoSVG from "assets/../static/icons/logoSVG.svg";
 import Category from "@/components/Category";
 import About from "@/components/About";
 import Download from "@/components/Download";

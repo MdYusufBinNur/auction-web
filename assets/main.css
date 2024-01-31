@@ -4,3 +4,16 @@
   align-items: center;
   height: 100%;
 }
+
+.auth_container{
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+}
+
+.fixed-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+}

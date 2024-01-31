@@ -11,6 +11,7 @@
           rounded
           color="white"
           outlined
+          :dense="bp.smAndDown"
           hide-details
           placeholder="Search your desired product"
           class="px-0 secondary">
