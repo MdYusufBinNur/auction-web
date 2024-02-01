@@ -1,8 +1,8 @@
 <template>
-  <v-container class="auth_container">
+  <v-container class="">
     <v-row>
       <v-col cols="12" md="3" class="hidden-sm-and-down">
-        <v-card outlined class="mx-auto fill-height fixed-nav" flat>
+        <v-card outlined class="mx-auto fill-height" flat style="min-height: 80vh">
           <v-list>
             <v-list-item
               v-for="item in items"

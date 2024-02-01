@@ -21,8 +21,10 @@ export default async (context, locale) => {
     get_in_touch : "Get in touch",
     download_the_app : "Download the app",
     make_life_easy : "Make your life easier with Auction app. You can find our app in Google Play Store and App Store.",
-
-
+    use_credit: "You can use your credit to post an ad",
+    used_credit: "This amount of credits you have used so far",
+    available_credit: "Total Available Credit",
+    total_used_credit: "Total Used Credit",
   };
 }
 

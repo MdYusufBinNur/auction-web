@@ -1,12 +1,14 @@
 <template>
   <div>
-    this is my wallet section
+    <WalletViewCard />
   </div>
 </template>
 
 <script>
+import WalletViewCard from "@/components/Dashboard/Wallet/WalletViewCard";
 export default {
-  name: "Wallet"
+  name: "Wallet",
+  components: {WalletViewCard}
 }
 </script>
 
