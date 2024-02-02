@@ -11,19 +11,19 @@
               @click="selectItem(item)"
               :class="{ 'active-item': isSelected(item) }"
             >
-            <v-list-item-icon>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item-content>
+              <v-list-item-icon>
+                <v-icon>{{ item.icon }}</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item-content>
             </v-list-item>
           </v-list>
         </v-card>
       </v-col>
       <v-col cols="12" md="9" sm="12">
         <!-- Display selected component here -->
-        <component :is="selectedComponent"></component>
+        <component :is="selectedComponent" @create-ad="loadCreateAdComponent"></component>
       </v-col>
     </v-row>
   </v-container>
@@ -36,10 +36,10 @@ export default {
   data() {
     return {
       items: [
-        { title: 'Home', icon: 'mdi-view-dashboard-outline', component: 'HomeComponent' },
-        { title: 'Wallet', icon: 'mdi-wallet-outline', component: 'WalletComponent' },
-        { title: 'My Ads', icon: 'mdi-bullhorn-outline', component: 'MyAdsComponent' },
-        { title: 'Profile', icon: 'mdi-account-outline', component: 'ProfileComponent' },
+        {title: 'Home', icon: 'mdi-view-dashboard-outline', component: 'HomeComponent'},
+        {title: 'Wallet', icon: 'mdi-wallet-outline', component: 'WalletComponent'},
+        {title: 'My Ads List', icon: 'mdi-format-list-bulleted', component: 'MyAdsComponent'},
+        {title: 'Profile', icon: 'mdi-account-outline', component: 'ProfileComponent'},
       ],
       selectedComponent: 'HomeComponent',
     };
@@ -51,12 +51,16 @@ export default {
     isSelected(item) {
       return this.selectedComponent === item.component;
     },
+    loadCreateAdComponent() {
+      this.selectedComponent = 'CreateAdComponent'
+    }
   },
   components: {
     HomeComponent: () => import('@/components/Dashboard/Home'),
     WalletComponent: () => import('@/components/Dashboard/Wallet'),
     MyAdsComponent: () => import('@/components/Dashboard/MyAds'),
     ProfileComponent: () => import('@/components/Dashboard/Account'),
+    CreateAdComponent: () => import('@/components/Dashboard/CreateAd'),
   },
 };
 </script>

@@ -17,3 +17,12 @@
   left: 0;
   height: 100%;
 }
+.custom_block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: dashed #00000061 1px;
+  min-height: 150px;
+  width: 100%;
+  border-radius: 10px;
+}

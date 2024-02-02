@@ -30,9 +30,11 @@ export default async (context, locale) => {
     close: "Close",
     select_payment_option: "Select a payment option",
     my_ads: "My Ads",
+    my_new_ad: "Create new Ad",
     profile: "Profile",
     buy_credit: "Buy Credit",
     history: "History",
+    post_ad: "Post Ad",
     ad_note: "We offer bundled ads for our premium users. You also can put timeframe for premium ads."
   };
 }
