@@ -1,12 +1,15 @@
 <template>
-<div>
-  This is dashboard home
-</div>
+  <div>
+    <CardHeader :title="$t('home')" :button="false"/>
+  </div>
 </template>
 
 <script>
+import CardHeader from "@/components/Common/CardHeader";
+
 export default {
-  name: "Home"
+  name: "Home",
+  components: {CardHeader}
 }
 </script>
 

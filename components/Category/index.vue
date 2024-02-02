@@ -19,6 +19,45 @@
         </v-card>
       </v-col>
     </v-row>
+    <!-- Dialog for Creating New Post -->
+    <v-dialog v-model="dialogCreatePost" max-width="600">
+      <v-card>
+        <v-card-title class="headline">{{ $t('create_new_post')}}</v-card-title>
+        <v-card-text>
+          <!-- Form fields for creating new post -->
+          <v-form ref="form">
+            <v-row>
+              <v-col cols="12">
+                <v-text-field v-model="newPost.name" label="Name"></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-select v-model="newPost.category" :items="categories" label="Category"></v-select>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field v-model="newPost.image" label="Image URL"></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field v-model="newPost.price" label="Price"></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field v-model="newPost.location" label="Location"></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field v-model="newPost.color" label="Color"></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field v-model="newPost.size" label="Size"></v-text-field>
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <!-- Buttons to cancel or save the new post -->
+          <v-btn color="blue darken-1" text @click="dialogCreatePost = false">{{ $t('cancel')}}</v-btn>
+          <v-btn color="blue darken-1" text @click="savePost">{{ $t('save')}}</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
   </v-container>
 </template>
@@ -64,7 +103,15 @@ export default {
         {name: 'Jobs', ads: 657, image: job},
         {name: 'Services', ads: 646, image: service}, // You can add the image path if available
         {name: 'Overseas', ads: 0, image: overseas}
-      ]
+      ],
+      newPost: {
+        name: '',
+        image: '',
+        price: '',
+        location: '',
+        color: '',
+        size: ''
+      },
     }
   }
 }

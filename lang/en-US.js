@@ -25,6 +25,15 @@ export default async (context, locale) => {
     used_credit: "This amount of credits you have used so far",
     available_credit: "Total Available Credit",
     total_used_credit: "Total Used Credit",
+    submit_transaction: "Submit Transaction ID",
+    submit: "Submit",
+    close: "Close",
+    select_payment_option: "Select a payment option",
+    my_ads: "My Ads",
+    profile: "Profile",
+    buy_credit: "Buy Credit",
+    history: "History",
+    ad_note: "We offer bundled ads for our premium users. You also can put timeframe for premium ads."
   };
 }
 

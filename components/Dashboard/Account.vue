@@ -1,12 +1,15 @@
 <template>
   <div>
-    This is my Profile Section
+    <Profile/>
   </div>
 </template>
 
 <script>
+import Profile from "@/components/Profile/Profile";
+
 export default {
-  name: 'Account'
+  name: 'Account',
+  components: {Profile}
 }
 </script>
 

@@ -105,7 +105,7 @@ export default {
           // secondary: '#03DAC6',
           'secondary-darken-1': '#018786',
           error: '#B00020',
-          info: 'rgba(18,130,218,0.92)',
+          info: '#4973fd',
           success: '#4CAF50',
           warning: 'rgb(178,180,180)',
           primary: '#252525',
