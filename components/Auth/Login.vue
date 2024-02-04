@@ -38,7 +38,7 @@
 
             </v-text-field>
           </v-col>
-          <v-col cols="12" align-self="right" class="py-0">
+          <v-col cols="12" class="py-0">
             <v-card-actions class="py-0">
               <v-spacer/>
               <v-btn small text :ripple="false" align="right"

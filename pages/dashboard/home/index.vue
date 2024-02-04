@@ -41,7 +41,7 @@ export default {
         {title: 'My Ads List', icon: 'mdi-format-list-bulleted', component: 'MyAdsComponent'},
         {title: 'Profile', icon: 'mdi-account-outline', component: 'ProfileComponent'},
       ],
-      selectedComponent: 'HomeComponent',
+      selectedComponent: 'WalletComponent',
     };
   },
   methods: {

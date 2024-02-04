@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <v-card flat>
     <Profile/>
-  </div>
+  </v-card>
 </template>
 
 <script>

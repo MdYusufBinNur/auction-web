@@ -7,7 +7,7 @@
         </div>
       </v-col>
       <v-col :cols="bp.mdAndUp ? 2 : 4" v-for="(cat, i) in categories" :key="i">
-        <v-card :elevation="0" class="text-center">
+        <v-card :elevation="0" class="text-center" @click.prevent="$router.push('/products')">
           <v-img :src="cat.image" contain :aspect-ratio="bp.mdAndUp ? 6 : 4"/>
           <v-card-text class="pa-1">
             {{ cat.name }}

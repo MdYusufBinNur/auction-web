@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-card flat>
     <CardHeader :title="'Wallet'" :button="true"/>
     <v-row class="px-0 d-flex">
       <v-col cols="12" sm="12" md="6">
@@ -92,7 +92,7 @@
         </template>
       </v-col>
     </v-row>
-  </div>
+  </v-card>
 </template>
 
 <script>

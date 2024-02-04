@@ -28,13 +28,19 @@ export default async (context, locale) => {
     submit_transaction: "Submit Transaction ID",
     submit: "Submit",
     close: "Close",
+    add_photo_details: "Add photos form here",
     select_payment_option: "Select a payment option",
     my_ads: "My Ads",
+    product_information: "Product Information",
+    contact_details: "Contact Details",
     my_new_ad: "Create new Ad",
     profile: "Profile",
+    search_here: "Search here",
     buy_credit: "Buy Credit",
     history: "History",
     post_ad: "Post Ad",
+    accept_terms_conditions: "I have read and accept the terms and conditions",
+    create_new_ad: "Create new Ad",
     ad_note: "We offer bundled ads for our premium users. You also can put timeframe for premium ads."
   };
 }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-card flat>
     <v-row>
       <v-col cols="6" class="">
         <div class="text-h5 font-weight-bold">
@@ -35,15 +35,52 @@
             <v-btn icon small>
               <v-icon small>mdi-pencil-circle-outline</v-icon>
             </v-btn>
-            <v-btn icon small>
+            <v-btn icon small @click.prevent="openDeleteDialog">
               <v-icon small color="red lighten-2">mdi-trash-can-outline</v-icon>
             </v-btn>
           </template>
         </v-data-table>
       </v-col>
     </v-row>
+    <v-dialog
+      v-model="dialogDelete"
+      persistent
+      max-width="390"
+    >
+      <v-card align="center">
+        <v-card-text class="text-center pa-5 pp-body-reg-2">
+          <v-icon color="red" large>
+            mdi-alert-outline
+          </v-icon>
+        </v-card-text>
+        <v-card-text class="text-center pa-5 pp-body-reg-2">
+          You are about to delete this Item, do you want to proceed?
+        </v-card-text>
+        <v-card-actions class="pb-5">
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            outlined
+            rounded
+            class="px-5"
+            @click="closeDeleteDialog"
+          >
+            {{ $t('No') }}
+          </v-btn>
+          <v-btn
+            class="primary px-5"
+            rounded
+            :loading="btnLoading"
+            @click="makeDelete"
+          >
+            {{ $t('yes') }}
+          </v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -133,6 +170,8 @@ export default {
           action: 'Credit'
         }
       ],
+      dialogDelete: false,
+      btnLoading: false,
     }
   },
   methods: {
@@ -152,7 +191,17 @@ export default {
     },
     emitCreateAdEvent() {
       this.$emit('create-ad');
-    }
+    },
+    makeDelete() {
+      this.$toast.success('Item deleted')
+      this.closeDeleteDialog()
+    },
+    closeDeleteDialog() {
+      this.dialogDelete = false
+    },
+    openDeleteDialog() {
+      this.dialogDelete = true
+    },
   }
 }
 </script>
