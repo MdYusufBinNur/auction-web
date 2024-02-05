@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar elevation="0" flat color="background" fixed>
+    <v-app-bar elevation="0" flat color="background" fixed app>
       <v-container class="d-flex flex-row align-center">
         <v-spacer v-if="bp.smAndDown" />
         <v-app-bar-nav-icon :ripple="false">
