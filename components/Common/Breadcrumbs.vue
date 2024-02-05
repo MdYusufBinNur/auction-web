@@ -1,7 +1,7 @@
 <template>
   <v-breadcrumbs
     :items="breadcrumbs"
-    class="txt text--primary"
+    class="txt text--primary px-0"
   >
     <template v-slot:divider>
       <v-icon small>

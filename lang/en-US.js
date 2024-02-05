@@ -48,6 +48,8 @@ export default async (context, locale) => {
     model: "Model",
     edition: "Edition",
     features: "Features",
+    seller_info: "Seller Info",
+    seller: "Seller",
     authenticity: "Authenticity",
     accept_terms_conditions: "I have read and accept the terms and conditions",
     create_new_ad: "Create new Ad",

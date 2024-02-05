@@ -113,7 +113,7 @@ export default {
     items: [
       {
         title: 'All Ads',
-        to: '#',
+        to: '/products',
       },
       {
         title: 'Chat',
