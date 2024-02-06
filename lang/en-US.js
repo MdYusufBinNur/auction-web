@@ -41,7 +41,9 @@ export default async (context, locale) => {
     post_ad: "Post Ad",
     more: "More",
     price: "Price",
+    street: "Street",
     location: "Location",
+    sub_location: "Sub Location",
     all_categories: "All categories",
     Condition: "Condition",
     brand: "Brand",
@@ -49,13 +51,23 @@ export default async (context, locale) => {
     edition: "Edition",
     features: "Features",
     seller_info: "Seller Info",
+    sub_category: "Sub Category",
+    category: "Category",
+    product_name: "Product Name",
+    color: "Color",
+    size: "Size",
+    contact_number: "Contact Number",
+    additional_contact_number: "Additional Contact Number",
+    change_image: "Change Image",
+    remove_image: "Remove Image",
+    upload_photo_hint: "Upload in .jpg or .png format. Image maximum size is 2MB. First image will be the thumbnail image",
+    upload_image: "Upload Image",
     seller: "Seller",
     authenticity: "Authenticity",
     accept_terms_conditions: "I have read and accept the terms and conditions",
     create_new_ad: "Create new Ad",
+    write_product_details: "Write Product details",
     ad_note: "We offer bundled ads for our premium users. You also can put timeframe for premium ads."
   };
 }
-
-// or
 

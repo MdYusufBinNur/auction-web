@@ -12,31 +12,35 @@
               </v-card-text>
             </v-col>
             <v-col cols="12">
-              <v-select :items="['new', 'used']" v-model="newPost.condition" label="Condition" outlined hide-details="auto"></v-select>
+              <v-select :items="['new', 'used']" v-model="newPost.condition" :label="$t('Condition')" outlined hide-details="auto"></v-select>
             </v-col>
             <v-col cols="12">
-              <v-text-field v-model="newPost.name" label="Product Name" outlined hide-details="auto"></v-text-field>
+              <v-text-field v-model="newPost.name" :label="$t('product_name')" outlined hide-details="auto"></v-text-field>
             </v-col>
-            <v-col cols="12">
+            <v-col cols="6">
               <v-select v-model="newPost.category" :items="categories" item-text="name" item-value="name"
-                        label="Category" outlined hide-details="auto"></v-select>
+                        :label="$t('category')" outlined hide-details="auto"></v-select>
+            </v-col>
+            <v-col cols="6">
+              <v-select v-model="newPost.category" :items="categories" item-text="name" item-value="name"
+                        :label="$t('sub_category')" outlined hide-details="auto"></v-select>
             </v-col>
 
 
             <v-col cols="6">
-              <v-text-field v-model="newPost.price" label="Price" outlined hide-details="auto"></v-text-field>
+              <v-text-field v-model="newPost.price" :label="$t('price')" outlined hide-details="auto"></v-text-field>
             </v-col>
             <v-col cols="6">
-              <v-text-field v-model="newPost.location" label="Location" outlined hide-details="auto"></v-text-field>
+              <v-text-field v-model="newPost.location" :label="$t('location')" outlined hide-details="auto"></v-text-field>
             </v-col>
             <v-col cols="6">
-              <v-text-field v-model="newPost.color" label="Color" outlined hide-details="auto"></v-text-field>
+              <v-text-field v-model="newPost.color" :label="$t('color')" outlined hide-details="auto"></v-text-field>
             </v-col>
             <v-col cols="6">
-              <v-text-field v-model="newPost.size" label="Size" outlined hide-details="auto"></v-text-field>
+              <v-text-field v-model="newPost.size" :label="$t('size')" outlined hide-details="auto"></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-textarea rows="4" v-model="newPost.details" label="Write Product details" hide-details="auto" outlined />
+              <v-textarea rows="4" v-model="newPost.details" :label="$t('write_product_details')" hide-details="auto" outlined />
             </v-col>
 
             <v-col cols="12">
@@ -60,7 +64,7 @@
                       class="text-capitalize py-2"
                       @click.prevent="openFileInput(index)">
                       <UploadSVG/>
-                      <span class="px-2">Change Image</span>
+                      <span class="px-2">{{$t('change_image')}}</span>
                     </v-btn>
                     <v-btn
                       color="error"
@@ -71,9 +75,9 @@
                       v-if="logoPreviewURL[index]"
                       @click.prevent="removeImage(index)">
                       <v-icon x-small>
-                        md-close-outline-circle
+                        md-close-circle-outline
                       </v-icon>
-                      <span class="px-2">Remove Image</span>
+                      <span class="px-2">{{$t('remove_image')}}</span>
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -87,14 +91,14 @@
                   class="text-capitalize"
                   @click.prevent="openFileInput(index)">
                   <UploadSVG/>
-                  <span class="px-2">Upload Image</span>
+                  <span class="px-2">{{$t('upload_image')}}</span>
                 </v-btn>
                 <input ref="fileInputs" type="file" style="display: none" @change="onImageChange($event, index)">
               </div>
             </v-col>
             <v-col cols="12" class="text-right">
               <div class="text-caption text-center">
-                Upload in .jpg or .png format. Image maximum size is 2MB. First image will be the thumbnail image
+                {{$t('upload_photo_hint')}}
               </div>
             </v-col>
 
@@ -119,10 +123,10 @@
               <v-checkbox label="Show Contact Number" class="py-0"/>
             </v-col>
             <v-col cols="12" sm="12" md="6">
-              <v-text-field v-model="newPost.mobile" label="Contact Number" hint="01x xxx xxx xxx" outlined hide-details="auto"></v-text-field>
+              <v-text-field v-model="newPost.mobile" :label="$t('contact_number')" hint="01x xxx xxx xxx" outlined hide-details="auto"></v-text-field>
             </v-col>
             <v-col cols="12" sm="12" md="6">
-              <v-text-field v-model="newPost.additional_mobile" hint="01x xxx xxx xxx" label="Additional Contact Number" outlined hide-details="auto"></v-text-field>
+              <v-text-field v-model="newPost.additional_mobile" hint="01x xxx xxx xxx" :label="$t('additional_contact_number')" outlined hide-details="auto"></v-text-field>
             </v-col>
           </v-row>
 

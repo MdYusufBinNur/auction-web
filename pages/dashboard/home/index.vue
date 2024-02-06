@@ -1,9 +1,9 @@
 <template>
   <v-container class="">
     <v-row>
-      <v-col cols="12" md="3" class="hidden-sm-and-down">
-        <v-card outlined class="mx-auto fill-height" flat style="min-height: 80vh">
-          <v-list>
+      <v-col cols="12" md="3" class="hidden-sm-and-down grey lighten-5">
+        <v-card outlined class="mx-auto fill-height transparent" flat style="min-height: 80vh">
+          <v-list class="transparent">
             <v-list-item
               v-for="item in items"
               :key="item.title"
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import ChatSVG from "@/components/SVG/ChatSVG";
 export default {
   name: "index",
   layout: 'auth',
@@ -40,6 +41,7 @@ export default {
         {title: 'Wallet', icon: 'mdi-wallet-outline', component: 'WalletComponent'},
         {title: 'My Ads List', icon: 'mdi-format-list-bulleted', component: 'MyAdsComponent'},
         {title: 'Profile', icon: 'mdi-account-outline', component: 'ProfileComponent'},
+        {title: 'Chat', icon: 'mdi-wechat', component: 'ChatComponent'},
       ],
       selectedComponent: 'WalletComponent',
     };
@@ -61,6 +63,8 @@ export default {
     MyAdsComponent: () => import('@/components/Dashboard/MyAds'),
     ProfileComponent: () => import('@/components/Dashboard/Account'),
     CreateAdComponent: () => import('@/components/Dashboard/CreateAd'),
+    ChatComponent: () => import('@/components/Dashboard/ChatComponent'),
+    ChatSVG
   },
 };
 </script>

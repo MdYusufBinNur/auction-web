@@ -82,8 +82,8 @@
                     mdi-wechat
                   </v-icon>
                   Chat
-                  <div class="text-caption">
-                    Yo can chat with this seller
+                  <div class="text-caption" style="cursor: pointer">
+                    You can chat with this seller
                   </div>
                 </v-card-subtitle>
               </v-card>

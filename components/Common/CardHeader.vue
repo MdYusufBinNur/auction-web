@@ -2,7 +2,7 @@
   <v-row class="">
     <v-col cols="6" class="">
       <div class="text-h5 font-weight-bold">
-        {{ title }}
+        {{ $t(title) }}
       </div>
     </v-col>
     <v-col cols="6" class="" align="end" v-if="button">
