@@ -142,7 +142,7 @@ export default {
       },
       {
         sender : 2,
-        message: 'Hello',
+        message: 'আমরা প্রিমিয়াম ব্যবহারকারীদের জন্য বান্ডল বিজ্ঞাপন প্রদান করি। আপনি প্রিমিয়াম বিজ্ঞাপনের জন্য সময়সীমা সেট করতে পারেন।',
         file_name: '',
         file_image: '',
         avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
@@ -156,7 +156,7 @@ export default {
       },
       {
         user_id : 2,
-        message: "I'm fine. Thank you",
+        message: "আমরা প্রিমিয়াম ব্যবহারকারীদের জন্য বান্ডল বিজ্ঞাপন প্রদান করি। আপনি প্রিমিয়াম বিজ্ঞাপনের জন্য সময়সীমা সেট করতে পারেন।",
         file_name: '',
         file_image: '',
         avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',

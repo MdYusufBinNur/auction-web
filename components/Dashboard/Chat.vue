@@ -14,10 +14,10 @@
               <v-img :src="message.avatar" alt="User1 Avatar"></v-img>
             </v-list-item-avatar>
             <v-list-item-content v-if="message.user_id === 1">
-              <v-list-item-subtitle>{{ message.message }}</v-list-item-subtitle>
+              <v-list-item-subtitle style="max-width: 70%;  border-radius: 10px" class="primary lighten-2 white--text pa-5">{{ message.message }}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-content v-else class="justify-end text-right">
-              <v-list-item-subtitle>{{ message.message }}</v-list-item-subtitle>
+              <div style="max-width: 60%;  border-radius: 10px" class="grey lighten-5 pa-5">{{ message.message }}</div>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -36,6 +36,16 @@ export default {
     messages: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    getWidth(text) {
+      // Calculate the width of the text in pixels
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      context.font = '14px Roboto'; // Adjust font size and family as needed
+      const width = context.measureText(text).width;
+      return `${Math.min(width, window.innerWidth * 0.7)}px`; // Set the width to maximum 70% of the window width
     }
   }
 }
