@@ -5,31 +5,7 @@
         {{ user ? user.title : 'Yusuf' }}
       </v-card-title>
       <v-divider/>
-      <v-card flat height="60vh" class="overflow-y-auto d-flex flex-column">
-
-<!--        <v-card-text>-->
-<!--          <v-list data-spy="scroll" class="scroll-to-me">-->
-<!--            <v-list-item v-for="(message, index) in messages" :key="index">-->
-<!--              <v-list-item-avatar v-if="message.user_id === 1">-->
-<!--                <v-img :src="user ? user.avatar : message.avatar" alt="User1 Avatar"></v-img>-->
-<!--              </v-list-item-avatar>-->
-<!--              <v-list-item-content v-if="message.user_id === 1">-->
-<!--                <v-list-item-subtitle style="max-width: 70%;   border-radius: 35px 0 10px 10px;"-->
-<!--                                      class="primary lighten-2 white&#45;&#45;text pa-5">{{ message.message }}-->
-<!--                </v-list-item-subtitle>-->
-<!--              </v-list-item-content>-->
-<!--              <v-list-item-content v-else class="text-right">-->
-<!--                <v-card-text style="border-radius: 10px 35px 0 10px;" class="grey lighten-5 pa-5">-->
-<!--                  {{-->
-<!--                    message.message-->
-<!--                  }}-->
-<!--                </v-card-text>-->
-<!--              </v-list-item-content>-->
-<!--            </v-list-item>-->
-<!--          </v-list>-->
-<!--        </v-card-text>-->
-
-
+      <v-card flat height="57vh" class="overflow-y-auto d-flex flex-column">
         <div v-for="(chat, i) in messages" :key="i">
           <v-card
             v-if="chat.user_id === 1"
@@ -37,6 +13,9 @@
             flat
             tile
           >
+            <v-list-item-avatar>
+              <v-img :src="user ? user.avatar : chat.avatar" alt="User1 Avatar"></v-img>
+            </v-list-item-avatar>
             <v-card
               class="pa-2 primary lighten-2 white--text rounded-tl-xl my-2 rounded px-5"
               flat
@@ -44,6 +23,7 @@
               color=""
               style="max-width: 70%;  border-radius: 35px 0 10px 10px;"
             >
+
               {{chat.message}}
             </v-card>
           </v-card>
