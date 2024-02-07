@@ -4,7 +4,7 @@
       <CardHeader :title="'chat'" :button="false"/>
     </v-col>
     <v-col cols="12" sm="12" md="8">
-      <Chat :messages="messages" />
+      <Chat :messages="messages" :user="user" />
     </v-col>
     <v-col cols="12" sm="12" md="4">
       <v-card flat max-height="70vh" class="overflow-y-auto" outlined>
@@ -99,13 +99,6 @@ export default {
     }],
     messages: [
       {
-        sender : 1,
-        message: 'Hey',
-        file_name: '',
-        file_image: '',
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-      },
-      {
         sender : 2,
         message: 'Hello',
         file_name: '',
@@ -197,48 +190,13 @@ export default {
       file_name: null,
       message: null
     },
-
+    user : 'Yusuf'
   }),
 
   methods: {
     openChat(item) {
-
+      this.user = item
     },
-    onButtonClick() {
-      this.isSelecting = true
-      window.addEventListener('focus', () => {
-        this.isSelecting = false
-      }, {once: true})
-      this.$refs.uploader.click()
-    },
-    downloadItem({url, label}) {
-      this.$axios.get(url, {responseType: 'blob'})
-        .then(response => {
-          const blob = new Blob([response.data], {type: 'application/pdf'})
-          const link = document.createElement('a')
-          link.href = URL.createObjectURL(blob)
-          link.download = label
-          link.click()
-          URL.revokeObjectURL(link.href)
-        }).catch(console.error)
-    },
-    scrollToElement() {
-      const el = this.$el.getElementsByClassName('scroll-to-me')[0];
-
-      if (el) {
-        // Use el.scrollIntoView() to instantly scroll to the element
-        el.scrollIntoView({behavior: 'smooth'});
-      }
-    },
-    cancelFile() {
-
-    },
-    sendMessage() {
-
-    },
-    onFileChange() {
-
-    }
   }
 }
 </script>

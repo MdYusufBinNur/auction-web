@@ -2,11 +2,11 @@
   <v-app>
     <v-app-bar elevation="0" flat color="background" fixed app>
       <v-container class="d-flex flex-row align-center">
-        <v-spacer v-if="bp.smAndDown" />
+        <v-spacer v-if="bp.smAndDown"/>
         <v-app-bar-nav-icon :ripple="false">
 
           <template v-slot:default>
-            <v-img @click="$router.push('/')" :src="'/icons/logoSVG.svg'" contain aspect-ratio="1" />
+            <v-img @click="$router.push('/')" :src="'/icons/logoSVG.svg'" contain aspect-ratio="1"/>
           </template>
         </v-app-bar-nav-icon>
         <v-spacer/>
@@ -14,15 +14,21 @@
           <nuxt-link v-for="(item, i) in items" :key="i"
                      class="mx-3 text-capitalize text-decoration-none text-shades-white white--text"
                      active-class="transparent" elevation="0"
-                     :to="item.to">
+                     :to="item.to"
+          >
               <span class="text-sm-body-2">
                 {{ item.title }}
               </span>
           </nuxt-link>
-          <v-btn class="bg-white text-capitalize mx-3" rounded :ripple="false">
+          <v-btn class="text-capitalize white--text" text @click.prevent="gotoRoute('ChatComponent')" rounded
+                 :ripple="false">
+            Chat
+          </v-btn>
+          <v-btn class="bg-white text-capitalize mx-3" @click.prevent="gotoRoute('MyAdsComponent')" rounded
+                 :ripple="false">
             Post your AD
           </v-btn>
-          <LanguageSwitcher />
+          <LanguageSwitcher/>
         </div>
       </v-container>
     </v-app-bar>
@@ -76,17 +82,17 @@
           style="width: 100%"
           class="px-15 py-6"
         >
-          <v-btn rounded color="secondary" >
+          <v-btn rounded color="secondary">
             Post your Ad
           </v-btn>
         </v-card>
       </v-card>
     </v-dialog>
     <v-main class="bg-white">
-     <nuxt />
+      <nuxt/>
     </v-main>
-    <BottomNavigation v-if="bp.smAndDown" />
-    <Footer v-if="bp.mdAndUp" />
+    <BottomNavigation v-if="bp.smAndDown"/>
+    <Footer v-if="bp.mdAndUp"/>
   </v-app>
 </template>
 
@@ -116,10 +122,6 @@ export default {
         to: '/products',
       },
       {
-        title: 'Chat',
-        to: '#',
-      },
-      {
         title: 'My Account',
         to: '/auth/login',
       },
@@ -131,6 +133,13 @@ export default {
       this.drawer = false
     },
   },
+
+  methods: {
+    gotoRoute(item) {
+      localStorage.setItem('selectedComponent', item);
+      this.$router.push('/dashboard/home')
+    }
+  }
 
 }
 </script>

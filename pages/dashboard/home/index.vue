@@ -31,13 +31,14 @@
 
 <script>
 import ChatSVG from "@/components/SVG/ChatSVG";
+
 export default {
   name: "index",
   layout: 'auth',
   data() {
     return {
       items: [
-        {title: 'Home', icon: 'mdi-view-dashboard-outline', component: 'HomeComponent'},
+        // {title: 'Home', icon: 'mdi-view-dashboard-outline', component: 'HomeComponent'},
         {title: 'Wallet', icon: 'mdi-wallet-outline', component: 'WalletComponent'},
         {title: 'My Ads List', icon: 'mdi-format-list-bulleted', component: 'MyAdsComponent'},
         {title: 'Profile', icon: 'mdi-account-outline', component: 'ProfileComponent'},
@@ -49,13 +50,15 @@ export default {
   methods: {
     selectItem(item) {
       this.selectedComponent = item.component;
+      localStorage.setItem('selectedComponent', item.component);
+
     },
     isSelected(item) {
       return this.selectedComponent === item.component;
     },
     loadCreateAdComponent() {
-      this.selectedComponent = 'CreateAdComponent'
-    }
+      this.selectedComponent =  'CreateAdComponent'
+    },
   },
   components: {
     HomeComponent: () => import('@/components/Dashboard/Home'),
@@ -65,6 +68,13 @@ export default {
     CreateAdComponent: () => import('@/components/Dashboard/CreateAd'),
     ChatComponent: () => import('@/components/Dashboard/ChatComponent'),
     ChatSVG
+  },
+  created() {
+    // Check if there's a selected component stored in localStorage and set selectedComponent accordingly
+    const storedComponent = localStorage.getItem('selectedComponent');
+    if (storedComponent && this.items.find(item => item.component === storedComponent)) {
+      this.selectedComponent = storedComponent;
+    }
   },
 };
 </script>

@@ -77,12 +77,12 @@
                     Click to show mobile number
                   </div>
                 </v-card-subtitle>
-                <v-card-subtitle class="">
+                <v-card-subtitle class="" style="cursor: pointer" @click.prevent="gotoRoute('ChatComponent')">
                   <v-icon  class="pr-2">
                     mdi-wechat
                   </v-icon>
                   Chat
-                  <div class="text-caption" style="cursor: pointer">
+                  <div class="text-caption" >
                     You can chat with this seller
                   </div>
                 </v-card-subtitle>
@@ -141,6 +141,10 @@ export default {
   methods: {
     togglePhoneNumber() {
       this.showMobile = !this.showMobile;
+    },
+    gotoRoute(item) {
+      localStorage.setItem('selectedComponent', item);
+      this.$router.push('/dashboard/home')
     }
   }
 }

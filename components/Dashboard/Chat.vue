@@ -1,30 +1,79 @@
 <template>
   <div>
-    <v-card flat height="63vh" class="overflow-y-auto d-flex flex-column" >
-      <v-divider />
-
-      <v-card-title>
-        Yusuf
+    <div>
+      <v-card-title class="py-0 py-2">
+        {{ user ? user.title : 'Yusuf' }}
       </v-card-title>
-      <v-divider />
-      <v-card-text>
-        <v-list>
-          <v-list-item v-for="(message, index) in messages" :key="index">
-            <v-list-item-avatar v-if="message.user_id === 1">
-              <v-img :src="message.avatar" alt="User1 Avatar"></v-img>
-            </v-list-item-avatar>
-            <v-list-item-content v-if="message.user_id === 1">
-              <v-list-item-subtitle style="max-width: 70%;  border-radius: 10px" class="primary lighten-2 white--text pa-5">{{ message.message }}</v-list-item-subtitle>
-            </v-list-item-content>
-            <v-list-item-content v-else class="justify-end text-right">
-              <div style="max-width: 60%;  border-radius: 10px" class="grey lighten-5 pa-5">{{ message.message }}</div>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-card-text>
-    </v-card>
-    <div class="justify-end align-self-end bottom-center">
-      <v-text-field append-icon="mdi-send" placeholder="Type you message here" outlined></v-text-field>
+      <v-divider/>
+      <v-card flat height="60vh" class="overflow-y-auto d-flex flex-column">
+
+<!--        <v-card-text>-->
+<!--          <v-list data-spy="scroll" class="scroll-to-me">-->
+<!--            <v-list-item v-for="(message, index) in messages" :key="index">-->
+<!--              <v-list-item-avatar v-if="message.user_id === 1">-->
+<!--                <v-img :src="user ? user.avatar : message.avatar" alt="User1 Avatar"></v-img>-->
+<!--              </v-list-item-avatar>-->
+<!--              <v-list-item-content v-if="message.user_id === 1">-->
+<!--                <v-list-item-subtitle style="max-width: 70%;   border-radius: 35px 0 10px 10px;"-->
+<!--                                      class="primary lighten-2 white&#45;&#45;text pa-5">{{ message.message }}-->
+<!--                </v-list-item-subtitle>-->
+<!--              </v-list-item-content>-->
+<!--              <v-list-item-content v-else class="text-right">-->
+<!--                <v-card-text style="border-radius: 10px 35px 0 10px;" class="grey lighten-5 pa-5">-->
+<!--                  {{-->
+<!--                    message.message-->
+<!--                  }}-->
+<!--                </v-card-text>-->
+<!--              </v-list-item-content>-->
+<!--            </v-list-item>-->
+<!--          </v-list>-->
+<!--        </v-card-text>-->
+
+
+        <div v-for="(chat, i) in messages" :key="i">
+          <v-card
+            v-if="chat.user_id === 1"
+            class="d-flex flex-row mb-6 transparent"
+            flat
+            tile
+          >
+            <v-card
+              class="pa-2 primary lighten-2 white--text rounded-tl-xl my-2 rounded px-5"
+              flat
+              tile
+              color=""
+              style="max-width: 70%;  border-radius: 35px 0 10px 10px;"
+            >
+              {{chat.message}}
+            </v-card>
+          </v-card>
+          <v-card
+            class="d-flex flex-row-reverse transparent"
+            flat
+            tile
+            v-else
+          >
+            <v-card
+              class="grey lighten-5 pa-2 px-5 my-2 rounded-tr-xl rounded"
+              tile
+              flat
+              style="border-radius: 10px 35px 0 10px; max-width: 60%"
+            >
+              {{chat.message}}
+            </v-card>
+          </v-card>
+        </div>
+      </v-card>
+      <div class="justify-end align-self-end bottom-center">
+        <v-text-field v-model="message.message" placeholder="Type you message here" outlined
+                      @submit="sendMessage">
+          <template v-slot:append>
+            <v-icon @click="sendMessage">
+              mdi-send
+            </v-icon>
+          </template>
+        </v-text-field>
+      </div>
     </div>
   </div>
 </template>
@@ -36,16 +85,36 @@ export default {
     messages: {
       type: Array,
       required: true
-    }
+    },
+    user: null,
   },
+  data: () => ({
+    message: {
+      user_id: 2,
+      message: null,
+    }
+  })
+  ,
   methods: {
-    getWidth(text) {
-      // Calculate the width of the text in pixels
-      const canvas = document.createElement('canvas');
-      const context = canvas.getContext('2d');
-      context.font = '14px Roboto'; // Adjust font size and family as needed
-      const width = context.measureText(text).width;
-      return `${Math.min(width, window.innerWidth * 0.7)}px`; // Set the width to maximum 70% of the window width
+    sendMessage() {
+      if (this.message.message !== null) {
+        this.messages.push({
+          user_id: 2,
+          message: this.message.message
+        })
+        // this.scrollToElement()
+      }
+
+      this.message.message = null
+
+    },
+    scrollToElement() {
+      const el = this.$el.getElementsByClassName('scroll-to-me')[0];
+
+      if (el) {
+        // Use el.scrollIntoView() to instantly scroll to the element
+        el.scrollIntoView({behavior: 'smooth'});
+      }
     }
   }
 }
