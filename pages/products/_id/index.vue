@@ -127,7 +127,6 @@ export default {
     breadcrumbs: [
       {
         text: 'Category',
-        disabled: false,
         href: '/products',
       },
       {

@@ -41,6 +41,7 @@ export default {
         // {title: 'Home', icon: 'mdi-view-dashboard-outline', component: 'HomeComponent'},
         {title: 'Wallet', icon: 'mdi-wallet-outline', component: 'WalletComponent'},
         {title: 'My Ads List', icon: 'mdi-format-list-bulleted', component: 'MyAdsComponent'},
+        {title: 'Purchase List', icon: 'mdi-chart-timeline', component: 'PurchaseComponent'},
         {title: 'Profile', icon: 'mdi-account-outline', component: 'ProfileComponent'},
         {title: 'Chat', icon: 'mdi-wechat', component: 'ChatComponent'},
       ],
@@ -67,6 +68,7 @@ export default {
     ProfileComponent: () => import('@/components/Dashboard/Account'),
     CreateAdComponent: () => import('@/components/Dashboard/CreateAd'),
     ChatComponent: () => import('@/components/Dashboard/ChatComponent'),
+    PurchaseComponent: () => import('@/components/Dashboard/PurchaseComponent'),
     ChatSVG
   },
   created() {

@@ -3,10 +3,48 @@
     <v-col cols="12">
       <CardHeader :title="'chat'" :button="false"/>
     </v-col>
-    <v-col cols="12" sm="12" md="8">
+    <v-col cols="12" sm="12" class="py-0" v-show="bp.smAndDown">
+      <v-divider />
+      <v-slide-group
+        multiple
+        show-arrows
+      >
+        <v-slide-item
+          v-for="(chat, i) in recent"
+          :key="i"
+        >
+          <v-btn
+            text
+            plain
+            :ripple="false"
+            large
+            style="min-height: 70px"
+            class="px-0 py-0"
+            @click.prevent="openChat(chat)"
+          >
+            <template v-slot:default>
+              <v-card flat rounded class="transparent py-0">
+                <v-avatar size="40">
+                  <v-img :src="chat.avatar" lazy-src="https://cdn.vuetifyjs.com/images/lists/2.jpg"></v-img>
+                </v-avatar>
+                <v-card-actions class="py-0">
+                  <v-card-text class="py-0 text-caption text-capitalize">
+                    {{ chat.title }}
+                  </v-card-text>
+                </v-card-actions>
+              </v-card>
+            </template>
+
+          </v-btn>
+        </v-slide-item>
+      </v-slide-group>
+      <v-divider />
+
+    </v-col>
+    <v-col cols="12" sm="12" md="8" class="py-0">
       <Chat :messages="messages" :user="user" />
     </v-col>
-    <v-col cols="12" sm="12" md="4">
+    <v-col cols="12" sm="12" md="4" v-if="bp.mdAndUp">
       <v-card flat max-height="70vh" class="overflow-y-auto" outlined>
         <v-list subheader>
           <v-subheader>Recent chat</v-subheader>
