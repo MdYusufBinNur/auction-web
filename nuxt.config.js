@@ -85,10 +85,37 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    // baseURL: 'http://lab-api/api/v2',
-    baseURL: 'https://api.faraaz.info/api/v1',
+    baseURL: 'http://adbarta-api/api/v1',
+    // baseURL: 'https://api.faraaz.info/api/v1',
     // baseURL: 'http://faraaz-api/api/v1',
 
+  },
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'data.token',
+          global: true,
+          // required: true,
+          // type: 'Bearer'
+        },
+        user: {
+          property: false,
+          // autoFetch: true
+        },
+        endpoints: {
+          login: {url: '/login', method: 'post'},
+          logout: {url: '/logout', method: 'post'},
+          user: {url: '/profile', method: 'get'}
+        }
+      }
+    },
+    redirect: {
+      login: '/auth/login',
+      logout: '/auth/login',
+      callback: '/auth/login',
+      home: '/dashboard/home'
+    }
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

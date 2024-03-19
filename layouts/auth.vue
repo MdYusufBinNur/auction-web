@@ -29,6 +29,7 @@ import Footer from "@/components/Common/Footer";
 
 export default {
   name: "auth",
+  middleware: ['auth'],
   components: {Footer, BottomNavigation},
   data() {
     return {
