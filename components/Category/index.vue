@@ -41,6 +41,7 @@ import essential from 'static/public/category/tools.png'
 import agriculture from 'static/public/category/wheat-awn.png'
 import overseas from 'static/public/category/airplan.png'
 import service from 'static/public/category/user-headset.png'
+import {mapGetters} from "vuex";
 
 export default {
   name: "Category",
@@ -66,11 +67,40 @@ export default {
         {name: 'Services', ads: 646, image: service}, // You can add the image path if available
         {name: 'Overseas', ads: 0, image: overseas}
       ],
-
+      loading: false
     }
   },
-  methods: {
+  computed: {
+    ...mapGetters({
+      categoryList: 'category/getCategories'
+    })
+  },
 
+  watch: {
+    categoryList: {
+      handler(nv, ov) {
+        if (this.categoryList && this.categoryList.length) {
+          this.categories = JSON.parse(JSON.stringify(this.categoryList))
+        }
+      },
+      immediate: true,
+      deep: true
+    },
+  },
+  methods: {
+    init() {
+      this.loading = true
+      this.$store.dispatch('category/init')
+        .finally(() => {
+          this.loading = false
+        })
+    },
+
+  },
+  created() {
+    if (!this.categoryList) {
+      this.init()
+    }
   }
 }
 </script>
