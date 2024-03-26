@@ -19,8 +19,6 @@
         </v-card>
       </v-col>
     </v-row>
-    <!-- Dialog for Creating New Post -->
-
   </v-container>
 </template>
 
@@ -49,24 +47,7 @@ export default {
     return {
       service, overseas, agriculture, education, essential, business, women, fashion,
       mobile, electronic, property, living, job, sports, pet, car,
-      categories: [
-        {name: 'Mobiles', ads: 59483, image: mobile},
-        {name: 'Electronics', ads: 53760, image: electronic},
-        {name: 'Vehicles', ads: 29829, image: car},
-        {name: 'Property', ads: 18127, image: property},
-        {name: 'Living', ads: 17242, image: living},
-        {name: 'Pets', ads: 13787, image: pet},
-        {name: "Men's Fashion", ads: 10880, image: fashion},
-        {name: "Women's Fashion", ads: 8790, image: women},
-        {name: 'Sports & Kids', ads: 7404, image: sports},
-        {name: 'Business', ads: 3258, image: business},
-        {name: 'Essentials', ads: 3058, image: essential},
-        {name: 'Education', ads: 2902, image: education},
-        {name: 'Agriculture', ads: 797, image: agriculture},
-        {name: 'Jobs', ads: 657, image: job},
-        {name: 'Services', ads: 646, image: service}, // You can add the image path if available
-        {name: 'Overseas', ads: 0, image: overseas}
-      ],
+      categories: [],
       loading: false
     }
   },
@@ -95,10 +76,9 @@ export default {
           this.loading = false
         })
     },
-
   },
   created() {
-    if (!this.categoryList) {
+    if (!this.categories.length) {
       this.init()
     }
   }

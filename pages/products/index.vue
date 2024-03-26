@@ -17,7 +17,9 @@
                 :open.sync="open"
                 activatable
                 color="primary"
+                item-children="sub"
                 open-on-click
+                :multiple-active="false"
                 transition
                 active-class="grey lighten-2"
               >
@@ -49,7 +51,7 @@
           <v-row>
             <v-col cols="12">
               <v-card-text class="px-0">
-                Categories / mobile
+                {{selectedCategory ? selectedCategory?.name : ''}}
               </v-card-text>
             </v-col>
             <v-col  v-show="loading" cols="12" md="4" v-for="n in 8" :key="n*100">
@@ -117,6 +119,8 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: "index",
   data() {
@@ -124,7 +128,9 @@ export default {
       active: [],
       avatar: null,
       open: [],
-      categories: [
+      selectedCategory: {},
+      categories: [],
+      old_categories: [
         {
           name: 'Mobiles',
           children: [
@@ -274,26 +280,76 @@ export default {
       selectedComponent: '',
       loading: false,
       selection: 1,
+      items: [],
+      pagination: {}
     };
   },
   methods: {
     fetchData(item) {
-      console.log('Item => ', item.name)
+      let searchQuery = null;
+      let queryParams = '';
+      this.selectedCategory = item
+      if (!item?.sub) {
+        searchQuery = 'sub_category_id=' + item.id;
+      } else {
+        searchQuery = 'category_id=' + item.id;
+      }
+
+      if (searchQuery) {
+        queryParams = '?' + searchQuery;
+      }
+
+      this.loading = true;
+      this.$axios.get('get-ads' + queryParams)
+        .then((response) => {
+          console.log(response.data.data);
+          this.items = response.data.data.products;
+          this.pagination = response.data.data.pagination;
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     toggleExpanded(item, value) {
       item.expanded = value;
       console.log(item)
     },
-    init() {
-      this.loading = true
-      setTimeout(() => (this.loading = false), 1500)
-    },
     gotoDetails(item) {
       this.$router.push('/products/' + item)
-    }
+    },
+    init() {
+      this.loading = true
+      this.$store.dispatch('category/init')
+        .finally(() => {
+          this.loading = false
+        })
+    },
+  },
+  computed: {
+    ...mapGetters({
+      categoryList: 'category/getCategories'
+    })
+  },
+
+  watch: {
+    categoryList: {
+      handler(nv, ov) {
+        if (this.categoryList && this.categoryList.length) {
+          this.categories = JSON.parse(JSON.stringify(this.categoryList))
+          this.selectedCategory = this.categories[0]
+        }
+      },
+      immediate: true,
+      deep: true
+    },
   },
   created() {
-    this.init()
+    if (!this.categories.length) {
+      this.init()
+    }
   }
 };
 </script>
