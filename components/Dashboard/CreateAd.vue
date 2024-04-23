@@ -18,12 +18,24 @@
               <v-text-field v-model="newPost.name" :label="$t('product_name')" outlined hide-details="auto"></v-text-field>
             </v-col>
             <v-col cols="6">
-              <v-select v-model="newPost.category" :items="categories" item-text="name" item-value="name"
-                        :label="$t('category')" outlined hide-details="auto"></v-select>
+              <v-select v-model="newPost.category_id" :items="categories" item-text="name" item-value="id"
+                        :label="$t('category')" outlined hide-details="auto" @change="setSub(newPost.category_id)"></v-select>
             </v-col>
             <v-col cols="6">
-              <v-select v-model="newPost.category" :items="categories" item-text="name" item-value="name"
+              <v-select v-model="newPost.sub_category_id" :items="subCategories" item-text="name" item-value="id"
                         :label="$t('sub_category')" outlined hide-details="auto"></v-select>
+            </v-col>
+            <v-col cols="6">
+              <v-select v-model="newPost.division_id" :items="divisions" item-text="name" item-value="id"
+                        :label="$t('division')" outlined hide-details="auto" @change="setDistricts(newPost.division_id)"></v-select>
+            </v-col>
+            <v-col cols="6">
+              <v-select v-model="newPost.district_id" :items="districts" item-text="name" item-value="id"
+                        :label="$t('district')" outlined hide-details="auto"  @change="setSubDistricts(newPost.district_id)"></v-select>
+            </v-col>
+            <v-col cols="6">
+              <v-select v-model="newPost.sub_district_id" :items="sub_districts" item-text="name" item-value="id"
+                        :label="$t('sub_district')" outlined hide-details="auto"></v-select>
             </v-col>
 
 
@@ -40,7 +52,7 @@
               <v-text-field v-model="newPost.size" :label="$t('size')" outlined hide-details="auto"></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-textarea rows="4" v-model="newPost.details" :label="$t('write_product_details')" hide-details="auto" outlined />
+              <v-textarea rows="4" v-model="newPost.features" :label="$t('write_product_details')" hide-details="auto" outlined />
             </v-col>
 
             <v-col cols="12">
@@ -150,17 +162,21 @@
 
 <script>
 import UploadSVG from "~/components/SVG/UploadSVG.vue";
+import error from "~/layouts/error.vue";
 
 export default {
   name: "CreateAd",
   components: {UploadSVG},
   data() {
     return {
-      categories: [
-        {name: 'Mobiles',}, {name: 'Electronics',},
-        {name: 'Vehicles',}, {name: 'Property',}, {name: 'Living',}, {name: 'Pets',}, {name: "Men's Fashion",}, {name: "Women's Fashion",}, {name: 'Sports & Kids',}, {name: 'Business',}, {name: 'Essentials',}, {name: 'Education',}, {name: 'Agriculture',}, {name: 'Jobs',}, {name: 'Services',},
-        {name: 'Overseas',},],
+      categories: [],
+      subCategories: [],
+      divisions: [],
+      districts: [],
+      sub_districts: [],
       dialogCreatePost: false,
+      categoryLoader: false,
+      subCategoryLoader: false,
       newPost: {
         name: '',
         image: [],
@@ -172,9 +188,19 @@ export default {
         mobile: '',
         email: '',
         additional_mobile: '',
+        sub_category_id: '',
+        category_id: '',
+        division_id: '',
+        district_id: '',
+        sub_district_id: '',
+        features: '',
       },
       logoPreviewURL: [],
     }
+  },
+  created() {
+    this.getCategories()
+    this.getDivisions()
   },
   methods: {
     onImageChange(event, index) {
@@ -200,7 +226,6 @@ export default {
         }
       }
 
-      // Check if the current image slot has an image uploaded
       if (this.newPost.image[index]) {
         return true; // Disable upload if the current slot is empty
       }
@@ -212,6 +237,56 @@ export default {
       this.$set(this.logoPreviewURL, index, null); // Reset the preview URL
       // Force re-render of the component
       this.$forceUpdate();
+    },
+    setSub(categoryId) {
+
+      console.log(categoryId)
+      this.$axios.get(`sub-category-list/${categoryId}`)
+        .then(response => {
+          this.subCategories = response.data.data;
+        })
+        .catch(error => {
+          console.error('Error fetching subcategories:', error);
+        });
+    },
+
+    getCategories() {
+      this.categoryLoader = true
+      this.$axios.get('category-list')
+        .then((response) => {
+          this.categories = response.data.data
+        })
+        .catch((error) => {
+
+        })
+        .finally(() => {
+          this.categoryLoader = false
+        })
+    },
+    getDivisions() {
+      this.$axios.get('divisions')
+        .then((response) => {
+          this.divisions = response.data.data
+        })
+        .finally(() => {
+        })
+    },
+    setDistricts(divisionId) {
+      this.$axios.get(`get-districts/${divisionId}`)
+        .then((response) => {
+          this.districts = response.data.data
+        })
+        .finally(() => {
+        })
+    },
+    setSubDistricts(districtId) {
+      console.log(districtId)
+      this.$axios.get(`get-sub-districts/${districtId}`)
+        .then((response) => {
+          this.sub_districts = response.data.data
+        })
+        .finally(() => {
+        })
     },
   }
 }
