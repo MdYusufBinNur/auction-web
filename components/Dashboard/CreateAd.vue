@@ -12,47 +12,47 @@
               </v-card-text>
             </v-col>
             <v-col cols="12">
-              <v-select :items="['new', 'used']" v-model="newPost.condition" :label="$t('Condition')" outlined hide-details="auto"></v-select>
+              <v-select :items="['new', 'used']" v-model="newPost.condition" :rules="[v => !!v || 'Item is required']" :label="$t('Condition')" outlined hide-details="auto" required></v-select>
             </v-col>
             <v-col cols="12">
-              <v-text-field v-model="newPost.name" :label="$t('product_name')" outlined hide-details="auto"></v-text-field>
+              <v-text-field v-model="newPost.title" :rules="rules.required" :label="$t('product_name')" outlined hide-details="auto"></v-text-field>
             </v-col>
             <v-col cols="6">
-              <v-select v-model="newPost.category_id" :items="categories" item-text="name" item-value="id"
+              <v-select v-model="newPost.category_id" :rules="rules.required"  :items="categories" item-text="name" item-value="id"
                         :label="$t('category')" outlined hide-details="auto" @change="setSub(newPost.category_id)"></v-select>
             </v-col>
             <v-col cols="6">
-              <v-select v-model="newPost.sub_category_id" :items="subCategories" item-text="name" item-value="id"
+              <v-select v-model="newPost.sub_category_id"  :rules="rules.required" :items="subCategories" item-text="name" item-value="id"
                         :label="$t('sub_category')" outlined hide-details="auto"></v-select>
             </v-col>
             <v-col cols="6">
-              <v-select v-model="newPost.division_id" :items="divisions" item-text="name" item-value="id"
+              <v-select v-model="newPost.division_id" :rules="rules.required"  :items="divisions" item-text="name" item-value="id"
                         :label="$t('division')" outlined hide-details="auto" @change="setDistricts(newPost.division_id)"></v-select>
             </v-col>
             <v-col cols="6">
-              <v-select v-model="newPost.district_id" :items="districts" item-text="name" item-value="id"
+              <v-select v-model="newPost.district_id" :rules="rules.required"  :items="districts" item-text="name" item-value="id"
                         :label="$t('district')" outlined hide-details="auto"  @change="setSubDistricts(newPost.district_id)"></v-select>
             </v-col>
             <v-col cols="6">
-              <v-select v-model="newPost.sub_district_id" :items="sub_districts" item-text="name" item-value="id"
+              <v-select v-model="newPost.sub_district_id" :rules="rules.required" :items="sub_districts" item-text="name" item-value="id"
                         :label="$t('sub_district')" outlined hide-details="auto"></v-select>
             </v-col>
 
+            <v-col cols="6">
+              <v-text-field v-model="newPost.location" :rules="rules.required" :label="$t('location')" outlined hide-details="auto"></v-text-field>
+            </v-col>
+            <v-col cols="6">
+              <v-text-field v-model="newPost.price" :rules="rules.required" :label="$t('price')" outlined hide-details="auto"></v-text-field>
+            </v-col>
 
             <v-col cols="6">
-              <v-text-field v-model="newPost.price" :label="$t('price')" outlined hide-details="auto"></v-text-field>
-            </v-col>
-            <v-col cols="6">
-              <v-text-field v-model="newPost.location" :label="$t('location')" outlined hide-details="auto"></v-text-field>
-            </v-col>
-            <v-col cols="6">
-              <v-text-field v-model="newPost.color" :label="$t('color')" outlined hide-details="auto"></v-text-field>
+              <v-text-field v-model="newPost.color" :rules="rules.required"  :label="$t('color')" outlined hide-details="auto"></v-text-field>
             </v-col>
             <v-col cols="6">
               <v-text-field v-model="newPost.size" :label="$t('size')" outlined hide-details="auto"></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-textarea rows="4" v-model="newPost.features" :label="$t('write_product_details')" hide-details="auto" outlined />
+              <v-textarea rows="4" v-model="newPost.features" :rules="rules.required" :label="$t('write_product_details')" hide-details="auto" outlined />
             </v-col>
 
             <v-col cols="12">
@@ -124,7 +124,7 @@
             </v-col>
 
             <v-col cols="12" sm="12" md="6">
-              <v-text-field v-model="newPost.name" label="Your Name" outlined hide-details="auto"></v-text-field>
+              <v-text-field v-model="newPost.name"  label="Your Name" outlined hide-details="auto"></v-text-field>
             </v-col>
             <v-col cols="12" sm="12" md="6">
               <v-text-field v-model="newPost.email" label="Your Email" outlined hide-details="auto"></v-text-field>
@@ -132,10 +132,10 @@
           </v-row>
           <v-row class="border">
             <v-col cols="12" class="py-0">
-              <v-checkbox label="Show Contact Number" class="py-0"/>
+              <v-checkbox label="Show Contact Number" class="py-0" v-model="newPost.show_contact_number"/>
             </v-col>
             <v-col cols="12" sm="12" md="6">
-              <v-text-field v-model="newPost.mobile" :label="$t('contact_number')" hint="01x xxx xxx xxx" outlined hide-details="auto"></v-text-field>
+              <v-text-field v-model="newPost.mobile" :rules="rules.required" :label="$t('contact_number')" hint="01x xxx xxx xxx" outlined hide-details="auto"></v-text-field>
             </v-col>
             <v-col cols="12" sm="12" md="6">
               <v-text-field v-model="newPost.additional_mobile" hint="01x xxx xxx xxx" :label="$t('additional_contact_number')" outlined hide-details="auto"></v-text-field>
@@ -144,7 +144,7 @@
 
           <v-row>
             <v-col cols="12">
-              <v-checkbox :label="$t('accept_terms_conditions')">
+              <v-checkbox :label="$t('accept_terms_conditions')" v-model="newPost.accept_terms" :rules="[v => !!v || 'You must agree to continue!']">
 
               </v-checkbox>
             </v-col>
@@ -153,7 +153,7 @@
       </v-card-text>
       <v-card-actions align="right">
         <!-- Buttons to cancel or save the new post -->
-        <v-btn color="" rounded class="primary white--text px-5 mb-5" text>{{ $t('Publish') }}</v-btn>
+        <v-btn color="" rounded class="primary white--text px-5 mb-5" :loading="loading" text @click.prevent="submit">{{ $t('Publish') }}</v-btn>
       </v-card-actions>
     </v-card>
 
@@ -174,28 +174,58 @@ export default {
       divisions: [],
       districts: [],
       sub_districts: [],
+      loading : false,
       dialogCreatePost: false,
       categoryLoader: false,
       subCategoryLoader: false,
       newPost: {
-        name: '',
+        title: null,
         image: [],
-        price: '',
-        location: '',
-        color: '',
-        condition: '',
-        size: '',
-        mobile: '',
-        email: '',
-        additional_mobile: '',
-        sub_category_id: '',
-        category_id: '',
-        division_id: '',
-        district_id: '',
-        sub_district_id: '',
-        features: '',
+        price: null,
+        location: null,
+        color: null,
+        condition: null,
+        size: null,
+        mobile: null,
+        email: null,
+        additional_mobile: null,
+        sub_category_id: null,
+        category_id: null,
+        division_id: null,
+        district_id: null,
+        sub_district_id: null,
+        features: null,
+        accept_terms: 0,
+        show_contact_number: 0,
+      },
+      defaultNewPost: {
+        title: null,
+        image: [],
+        price: null,
+        location: null,
+        color: null,
+        condition: null,
+        size: null,
+        mobile: null,
+        email: null,
+        additional_mobile: null,
+        sub_category_id: null,
+        category_id: null,
+        division_id: null,
+        district_id: null,
+        sub_district_id: null,
+        features: null,
       },
       logoPreviewURL: [],
+      rules: {
+        required: [
+          v => !!v || 'Field is required',
+        ],
+        emailRules: [
+          v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+        ],
+        // Other built-in rules can be added here, such as 'email', 'maxLength', etc.
+      }
     }
   },
   created() {
@@ -249,7 +279,6 @@ export default {
           console.error('Error fetching subcategories:', error);
         });
     },
-
     getCategories() {
       this.categoryLoader = true
       this.$axios.get('category-list')
@@ -288,6 +317,45 @@ export default {
         .finally(() => {
         })
     },
+    submit() {
+      if (!this.$refs.form.validate()) {
+        return
+      }
+      this.loading  = true
+      let formData = new FormData()
+      formData.append('category_id', this.newPost.category_id)
+      formData.append('sub_category_id', this.newPost.sub_category_id)
+      formData.append('division_id', this.newPost.division_id)
+      formData.append('district_id', this.newPost.district_id)
+      formData.append('sub_district_id', this.newPost.sub_district_id)
+      formData.append('location', this.newPost.location)
+      formData.append('price', this.newPost.price)
+      formData.append('authenticity', this.newPost.authenticity)
+      formData.append('edition', this.newPost.edition)
+      formData.append('brand', this.newPost.brand)
+      formData.append('condition', this.newPost.condition)
+      formData.append('title', this.newPost.title)
+      formData.append('size', this.newPost.size)
+      formData.append('color', this.newPost.color)
+      formData.append('contact_name', this.newPost.color)
+      formData.append('features', this.newPost.features)
+      formData.append('contact_name', this.newPost.email)
+      formData.append('contact_number', this.newPost.mobile)
+      formData.append('additional_contact_number', this.newPost.additional_mobile)
+      formData.append('show_contact_number', this.newPost.show_contact_number)
+      for (let i = 0; i < this.newPost.image.length; i++) {
+        formData.append(`image[${i}]`,this.newPost.image[i])
+      }
+      this.$axios.post('products', formData)
+        .then((response) => {
+          this.$toast.success(response.data.message)
+          this.newPost = Object.assign({}, this.defaultNewPost)
+        })
+        .catch((error) => {})
+        .finally(() => {
+          this.loading = false
+        })
+    }
   }
 }
 </script>
