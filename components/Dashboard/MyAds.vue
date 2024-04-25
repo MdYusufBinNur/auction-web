@@ -172,9 +172,25 @@ export default {
       ],
       dialogDelete: false,
       btnLoading: false,
+      loading : true
     }
   },
   methods: {
+
+    initAds() {
+      this.loading = true
+      this.$axios.get('products')
+        .then((response) => {
+          this.items = response.data.data
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message)
+        })
+        .finally(() => {
+          this.loading = false
+        })
+
+    },
     getColorInfo(status) {
       switch (status) {
         case 'Not Approved':
