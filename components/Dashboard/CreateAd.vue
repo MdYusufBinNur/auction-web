@@ -3,7 +3,6 @@
     <v-card flat>
       <v-card-title class="headline">{{ $t('create_new_ad') }}</v-card-title>
       <v-card-text>
-        <!-- Form fields for creating new post -->
         <v-form ref="form">
           <v-row class="">
             <v-col cols="12">
@@ -115,7 +114,6 @@
             </v-col>
 
           </v-row>
-
           <v-row class="mb-5">
             <v-col cols="12">
               <v-card-text class="px-0 py-2">
@@ -141,7 +139,6 @@
               <v-text-field v-model="newPost.additional_mobile" hint="01x xxx xxx xxx" :label="$t('additional_contact_number')" outlined hide-details="auto"></v-text-field>
             </v-col>
           </v-row>
-
           <v-row>
             <v-col cols="12">
               <v-checkbox :label="$t('accept_terms_conditions')" v-model="newPost.accept_terms" :rules="[v => !!v || 'You must agree to continue!']">
@@ -269,8 +266,6 @@ export default {
       this.$forceUpdate();
     },
     setSub(categoryId) {
-
-      console.log(categoryId)
       this.$axios.get(`sub-category-list/${categoryId}`)
         .then(response => {
           this.subCategories = response.data.data;
@@ -350,6 +345,8 @@ export default {
         .then((response) => {
           this.$toast.success(response.data.message)
           this.newPost = Object.assign({}, this.defaultNewPost)
+          localStorage.setItem('selectedComponent','MyAdsComponent')
+          this.$refs.form.reset()
         })
         .catch((error) => {})
         .finally(() => {

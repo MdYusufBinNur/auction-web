@@ -175,6 +175,9 @@ export default {
       loading : true
     }
   },
+  created() {
+    this.initAds()
+  },
   methods: {
 
     initAds() {
