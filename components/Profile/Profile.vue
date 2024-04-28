@@ -10,7 +10,7 @@
                 <v-img :src="logoPreviewURL ? logoPreviewURL : image" class="rounded-circle" :alt="image">
                 </v-img>
               </v-avatar>
-              <span class="white--text px-5"> {{ editedItem.first_name }}</span>
+              <span class="white--text px-5"> {{ editedItem.name }}</span>
               <v-spacer>
               </v-spacer>
               <v-btn rounded outlined color="primary" class="white--text  text-capitalize" @click="openDialog">
@@ -23,8 +23,8 @@
               <v-list-item-subtitle>
                 Name
               </v-list-item-subtitle>
-              <v-list-item-subtitle class="font-weight-bold" v-show="editedItem.first_name">
-                {{ editedItem.first_name + ' ' + editedItem.last_name }}
+              <v-list-item-subtitle class="font-weight-bold" v-show="editedItem.name">
+                {{ editedItem.name}}
               </v-list-item-subtitle>
             </v-list-item>
             <v-divider/>
@@ -42,26 +42,17 @@
                 Mobile
               </v-list-item-subtitle>
               <v-list-item-subtitle class="font-weight-bold">
-                {{ editedItem.mobile }}
+                {{ editedItem.phone }}
               </v-list-item-subtitle>
             </v-list-item>
             <v-divider/>
-            <v-divider/>
+
             <v-list-item :three-line="bp.smAndDown">
               <v-list-item-subtitle>
-                Gender
+                Date of birth
               </v-list-item-subtitle>
               <v-list-item-subtitle class="font-weight-bold">
-                {{ editedItem.gender }}
-              </v-list-item-subtitle>
-            </v-list-item>
-            <v-divider/>
-            <v-list-item :three-line="bp.smAndDown">
-              <v-list-item-subtitle>
-                Location
-              </v-list-item-subtitle>
-              <v-list-item-subtitle class="font-weight-bold">
-                {{ editedItem.address }}
+                {{ editedItem.dob }}
               </v-list-item-subtitle>
             </v-list-item>
             <v-divider/>
@@ -69,73 +60,10 @@
               <v-list-item-subtitle>
                 Address
               </v-list-item-subtitle>
-              <v-list-item-subtitle class="font-weight-bold" v-show="editedItem.sub_dist">
-                {{ editedItem.sub_dist + ", " + editedItem.dist }}
+              <v-list-item-subtitle class="font-weight-bold" v-show="editedItem.sub_district">
+                {{ editedItem.street + ', ' +editedItem.sub_district + ", " + editedItem.district }}
               </v-list-item-subtitle>
             </v-list-item>
-            <v-divider/>
-            <v-list-item :three-line="bp.smAndDown"
-                         v-show="editedItem.qualification">
-              <v-list-item-subtitle>
-                Qualification
-              </v-list-item-subtitle>
-              <v-list-item-subtitle>
-                <v-timeline
-                  dense
-                  class="px-0"
-                  :style="bp.mdAndUp ? 'margin-left: -35px' : ''"
-                >
-                  <v-timeline-item
-                    v-for="(item, i) in editedItem.qualification"
-                    :key="i"
-                    small
-
-                  >
-                    <template v-slot:icon>
-                      <v-icon x-small color="white">
-                        mdi-check
-                      </v-icon>
-                    </template>
-                    <div>
-                      <div class="font-weight-normal">
-                        <strong>{{ item }}</strong>
-                      </div>
-                    </div>
-                  </v-timeline-item>
-                </v-timeline>
-              </v-list-item-subtitle>
-              <v-spacer/>
-            </v-list-item>
-            <div >
-              <v-list-item :three-line="bp.smAndDown">
-                <v-list-item-subtitle>
-                  Blood Group
-                </v-list-item-subtitle>
-                <v-list-item-subtitle class="font-weight-bold">
-                  {{ editedItem.patient ? editedItem.patient.blood_group : '-' }}
-                </v-list-item-subtitle>
-              </v-list-item>
-              <v-divider/>
-              <v-list-item :three-line="bp.smAndDown">
-                <v-list-item-subtitle>
-                  Age
-                </v-list-item-subtitle>
-                <v-list-item-subtitle class="font-weight-bold">
-                  {{ editedItem.patient ? editedItem.patient.age : '-' }}
-                </v-list-item-subtitle>
-              </v-list-item>
-              <v-divider/>
-              <v-list-item :three-line="bp.smAndDown">
-                <v-list-item-subtitle>
-                  Date of Birth
-                </v-list-item-subtitle>
-                <v-list-item-subtitle class="font-weight-bold">
-                  {{ editedItem.patient ? editedItem.patient.dob : '-' }}
-                </v-list-item-subtitle>
-              </v-list-item>
-            </div>
-
-
           </v-list>
         </v-card>
       </v-col>
@@ -178,75 +106,47 @@
           </v-col>
         </v-row>
         <v-row class="pa-5">
-          <v-col cols="12" md="6" class="pa-2">
-            <label class="">{{ 'First Name' }}</label>
+          <v-col cols="12" md="12" class="pa-2">
+            <label class="">{{ 'Name' }}</label>
             <v-text-field
               outlined
-              v-model="editedItem.first_name"
+              v-model="editedItem.name"
               dense
               hide-details="auto"
             />
           </v-col>
           <v-col cols="12" md="6" class="pa-2">
-            <label class="">{{ 'Last Name' }}</label>
+            <label class="">{{ 'Email' }}</label>
             <v-text-field
               outlined
-              v-model="editedItem.last_name"
+              v-model="editedItem.email"
               dense
               hide-details="auto"
             />
           </v-col>
 
           <v-col cols="12" md="6" class="pa-2">
-            <label class="">{{ 'Mobile' }}</label>
+            <label class="">{{ 'Phone' }}</label>
             <v-text-field
               outlined
-              v-model="editedItem.mobile"
+              v-model="editedItem.phone"
               dense
               type="numeric"
               hide-details="auto"
             />
           </v-col>
-          <v-col cols="12" md="6" class="pa-2">
-            <label class="">{{ 'Select Gender' }}</label>
-            <v-select
-              :items="['male', 'female']"
-              hide-details="auto"
-              item-text="name"
-              ref="sub_district"
-              dense
-              item-value="name"
-              return-id
-              outlined
-              v-model="editedItem.gender"
-            />
-          </v-col>
-          <v-col cols="12" md="6" class="pa-2">
-            <label class="">Blood Group</label>
-            <v-autocomplete
-              hide-selected
-              ref="blood"
-              hide-details="auto"
-              outlined
-              v-model="editedItem.patient.blood_group"
-              :items="blood"
-              item-value="name"
-              item-text="name"
-              dense
-            />
-          </v-col>
-          <v-col cols="12" md="6" class="pa-2">
+          <v-col cols="12" md="12" class="pa-2">
             <label class="">Date Of Birth</label>
             <v-dialog
               ref="dialog"
               v-model="modal"
-              :return-value.sync="editedItem.patient.dob"
+              :return-value.sync="editedItem.dob"
               persistent
               width="290px"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  v-model="editedItem.patient.dob"
+                  v-model="editedItem.dob"
                   outlined
                   readonly
                   v-bind="attrs"
@@ -256,7 +156,7 @@
                 ></v-text-field>
               </template>
               <v-date-picker
-                v-model="editedItem.patient.dob"
+                v-model="editedItem.dob"
                 scrollable
               >
                 <v-spacer></v-spacer>
@@ -270,22 +170,65 @@
                 <v-btn
                   text
                   color="primary"
-                  @click="$refs.dialog.save(editedItem.patient.dob)"
+                  @click="$refs.dialog.save(editedItem.dob)"
                 >
                   OK
                 </v-btn>
               </v-date-picker>
             </v-dialog>
           </v-col>
+          <v-col cols="6">
+            <label class="">{{ 'Select District' }}</label>
+
+            <v-select v-model="editedItem.district_id" dense :rules="rules.required"  :items="districts" item-text="name" item-value="id"
+                       outlined hide-details="auto"  @change="setSubDistricts(editedItem.district_id)"></v-select>
+          </v-col>
+          <v-col cols="6">
+            <label class="">{{ 'Select Sub District' }}</label>
+
+            <v-select v-model="editedItem.sub_district_id" :rules="rules.required" :items="sub_districts" item-text="name" item-value="id"
+                       dense outlined hide-details="auto"></v-select>
+          </v-col>
           <v-col cols="12" md="12" class="pa-2">
+
             <label class="">{{ 'Street Address' }}</label>
 
             <v-textarea
               hide-details="auto"
-              v-model="editedItem.address"
+              v-model="editedItem.street"
               outlined
-              rows="4"
+              rows="2"
               dense
+            />
+          </v-col>
+          <v-col cols="12" md="6" class="pa-2">
+
+            <label class="">{{ 'NID' }}</label>
+
+            <v-file-input
+              hide-details="auto"
+              v-model="editedItem.nid_one"
+              outlined
+              hint="Front part of your NID"
+              dense
+              prepend-icon=""
+              persistent-hint
+              append-icon="mdi-file"
+            />
+          </v-col>
+          <v-col cols="12" md="6" class="pa-2">
+
+            <label class="">{{ 'NID' }}</label>
+
+            <v-file-input
+              hide-details="auto"
+              v-model="editedItem.nid_two"
+              outlined
+              persistent-hint
+              hint="Back part of your NID"
+              dense
+              prepend-icon=""
+              append-icon="mdi-file"
             />
           </v-col>
 
@@ -326,6 +269,8 @@ export default {
       subDistLoading: false,
       showPassword: false,
       sub_districts: [],
+      districts: [],
+      divisions: [],
       setItem: [],
       eduInfo: {
         degree: null,
@@ -336,66 +281,68 @@ export default {
         passing_year: null
       },
       editedItem: {
-        first_name: null,
-        last_name: null,
-        mobile: null,
+        name: null,
         email: null,
-        gender: null,
-        image: null,
+        uid: null,
+        photo: null,
+        phone: null,
+        website: null,
+        company: null,
+        about: null,
+        role: null,
+        email_verified_at: null,
+        district: null,
+        sub_district: null,
+        last_activity: null,
         district_id: null,
         sub_district_id: null,
-        address: null,
-        doctor_category_id: null,
-        designation: null,
-        short_description: null,
-        educations: null,
-        password: null,
-        bmdc_number: null,
-        fee: null,
-        qualification: null,
-        dist: null,
-        category: null,
-        sub_dist: null,
-        online_fee: null,
-        chamber_fee: null,
-        patient: {
-          dob: null,
-          blood_group: null
-        }
+        active: null,
+        status: null,
+        nid_one: null,
+        nid_two: null,
+        dob: null,
+        street: null
       },
       blood: ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'],
       defaultItem: {
-        first_name: null,
-        last_name: null,
-        mobile: null,
+        name: null,
         email: null,
-        gender: null,
-        image: null,
+        uid: null,
+        photo: null,
+        phone: null,
+        website: null,
+        company: null,
+        about: null,
+        role: null,
+        email_verified_at: null,
+        district: null,
+        sub_district: null,
         district_id: null,
         sub_district_id: null,
-        address: null,
-        doctor_category_id: null,
-        designation: null,
-        short_description: null,
-        password: null,
-        educations: null,
-        bmdc_number: null,
-        fee: null,
-        qualification: null,
-        dist: null,
-        sub_dist: null,
-        category: null,
-        online_fee: null,
-        chamber_fee: null,
-        patient: {
-          dob: null,
-          blood_group: null
-        }
+        last_activity: null,
+        active: null,
+        status: null,
+        nid_one: null,
+        nid_two: null
       },
+      rules: {
+        required: [
+          v => !!v || 'Field is required',
+        ],
+        emailRules: [
+          v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+        ],
+        // Other built-in rules can be added here, such as 'email', 'maxLength', etc.
+      }
     }
   },
 
   created() {
+    if (this.$auth?.user?.data){
+      this.editedItem = Object.assign({}, this.$auth?.user?.data)
+      this.image = this.editedItem.photo
+    }
+    this.setDistricts()
   },
 
   methods: {
@@ -411,9 +358,21 @@ export default {
     setSelectedIDs() {
 
     },
-    addNew() {
-      this.editedItem.educations.push(this.eduInfo)
-      this.snackbar = true
+    setDistricts() {
+      this.$axios.get(`get-district`)
+        .then((response) => {
+          this.districts = response.data.data
+        })
+        .finally(() => {
+        })
+    },
+    setSubDistricts(districtId) {
+      this.$axios.get(`get-sub-districts/${districtId}`)
+        .then((response) => {
+          this.sub_districts = response.data.data
+        })
+        .finally(() => {
+        })
     },
     removeInfo(indexNo) {
 
@@ -425,8 +384,40 @@ export default {
 
     },
     updateProfileInfo() {
-      this.$toast.success('Information updated')
-      this.dialog = false
+      this.loadingSaveData = true
+
+      let formData = new FormData()
+      formData.append('full_name', this.editedItem.name)
+      formData.append('phone', this.editedItem.phone)
+      formData.append('sub_district_id', this.editedItem.sub_district_id)
+      formData.append('district_id', this.editedItem.district_id)
+      formData.append('street', this.editedItem.street)
+      formData.append('dob', this.editedItem.dob)
+
+      if (this.editedItem.photo) {
+        formData.append('image', this.editedItem.photo)
+      }
+      if (this.editedItem.nid_one) {
+        formData.append('nid_one', this.editedItem.nid_one)
+      }
+      if (this.editedItem.nid_two) {
+        formData.append('nid_two', this.editedItem.nid_two)
+      }
+
+      this.$axios.post(`profile-update`, formData)
+        .then((res) => {
+          this.$toast.success(res.data.message)
+          console.log(res.data)
+          this.editedItem = Object.assign({}, res.data.data)
+          this.dialog = false
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message)
+
+        })
+        .finally(() => {
+          this.loadingSaveData = false
+        })
     },
     removeFile() {
       this.profileImagePreviewURL = null
@@ -446,7 +437,7 @@ export default {
     },
     onImageInput(payload) {
       // Console the payload
-      this.editedItem.image = payload.target.files[0];
+      this.editedItem.photo = payload.target.files[0];
       this.logoPreviewURL = URL.createObjectURL(payload.target.files[0]);
       // this.imageCrop = true
       URL.revokeObjectURL(payload.target.files[0]);

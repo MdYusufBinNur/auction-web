@@ -134,7 +134,7 @@ export default {
           error: '#B00020',
           info: '#4973fd',
           success: '#4CAF50',
-          warning: 'rgb(178,180,180)',
+          warning: 'rgb(238,194,115)',
           primary: '#252525',
           accent: '#252525',
           secondary: '#FFFFFF',

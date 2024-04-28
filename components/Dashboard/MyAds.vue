@@ -10,7 +10,8 @@
         </div>
       </v-col>
       <v-col cols="6" class="" align="end">
-        <v-btn rounded small class="primary px-5 text-capitalize" @click.prevent="emitCreateAdEvent">
+        <v-btn rounded small class="primary px-5 text-capitalize" :disabled="this.$auth?.user?.data?.status !== 'approved'" @click.prevent="emitCreateAdEvent">
+<!--        <v-btn rounded small class="primary px-5 text-capitalize"  @click.prevent="emitCreateAdEvent">-->
           {{ $t('post_ad') }}
         </v-btn>
       </v-col>
@@ -35,7 +36,7 @@
             <v-btn icon small>
               <v-icon small>mdi-pencil-circle-outline</v-icon>
             </v-btn>
-            <v-btn icon small @click.prevent="openDeleteDialog">
+            <v-btn icon small @click.prevent="openDeleteDialog(item)">
               <v-icon small color="red lighten-2">mdi-trash-can-outline</v-icon>
             </v-btn>
           </template>
@@ -96,83 +97,15 @@ export default {
         {text: 'Date', value: 'date',},
         {text: 'Status', value: 'status'},
         {text: 'Points', value: 'points'},
+        {text: 'Price', value: 'price'},
         {text: 'Action', value: 'action'},
       ],
-      items: [
-        {
-          image: 'https://www.kasandbox.org/programming-images/avatars/duskpin-sapling.png',
-          date: '2024-02-02',
-          status: 'Sold',
-          points: 100,
-          action: 'Credit'
-        },
-        {
-          image: 'https://www.kasandbox.org/programming-images/avatars/duskpin-sapling.png',
-          date: '2024-02-01',
-          status: 'Not Approved',
-          points: 50,
-          action: 'Debit'
-        },
-        {
-          image: 'https://www.kasandbox.org/programming-images/avatars/duskpin-sapling.png',
-          date: '2024-01-31',
-          status: 'Sold',
-          points: 75,
-          action: 'Credit'
-        },
-        {
-          image: 'https://www.kasandbox.org/programming-images/avatars/duskpin-sapling.png',
-          date: '2024-01-30',
-          status: 'Sold',
-          points: 80,
-          action: 'Credit'
-        },
-        {
-          image: 'https://www.kasandbox.org/programming-images/avatars/duskpin-sapling.png',
-          date: '2024-01-29',
-          status: 'Pending',
-          points: 30,
-          action: 'Debit'
-        },
-        {
-          image: 'https://www.kasandbox.org/programming-images/avatars/duskpin-sapling.png',
-          date: '2024-01-28',
-          status: 'Sold',
-          points: 60,
-          action: 'Credit'
-        },
-        {
-          image: 'https://www.kasandbox.org/programming-images/avatars/duskpin-sapling.png',
-          date: '2024-01-27',
-          status: 'Sold',
-          points: 90,
-          action: 'Credit'
-        },
-        {
-          image: 'https://www.kasandbox.org/programming-images/avatars/duskpin-sapling.png',
-          date: '2024-01-26',
-          status: 'Pending',
-          points: 40,
-          action: 'Debit'
-        },
-        {
-          image: 'https://www.kasandbox.org/programming-images/avatars/duskpin-sapling.png',
-          date: '2024-01-25',
-          status: 'Sold',
-          points: 70,
-          action: 'Credit'
-        },
-        {
-          image: 'https://www.kasandbox.org/programming-images/avatars/duskpin-sapling.png',
-          date: '2024-01-24',
-          status: 'Sold',
-          points: 85,
-          action: 'Credit'
-        }
-      ],
+      items: [],
       dialogDelete: false,
       btnLoading: false,
-      loading : true
+      loading : true,
+      editedItem: {},
+      editedIndex: -1,
     }
   },
   created() {
@@ -194,6 +127,22 @@ export default {
         })
 
     },
+    makeDelete() {
+      this.btnLoading = true
+      this.$axios.delete('products/'+this.editedItem?.id)
+        .then((response) => {
+          this.items.splice(this.editedIndex, 1)
+          this.items = response.data.data
+          this.closeDeleteDialog()
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message)
+        })
+        .finally(() => {
+          this.btnLoading = false
+        })
+
+    },
     getColorInfo(status) {
       switch (status) {
         case 'Not Approved':
@@ -211,14 +160,14 @@ export default {
     emitCreateAdEvent() {
       this.$emit('create-ad');
     },
-    makeDelete() {
-      this.$toast.success('Item deleted')
-      this.closeDeleteDialog()
-    },
     closeDeleteDialog() {
+      this.editedItem = {}
+      this.editedIndex = -1
       this.dialogDelete = false
     },
-    openDeleteDialog() {
+    openDeleteDialog(item) {
+      this.editedItem = item
+      this.editedIndex = this.items.indexOf(item)
       this.dialogDelete = true
     },
   }

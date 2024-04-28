@@ -22,7 +22,18 @@
         </v-card>
       </v-col>
       <v-col cols="12" md="9" sm="12">
-        <!-- Display selected component here -->
+        <v-alert
+          color="yellow lighten-4"
+          v-if="this.$auth?.user?.data?.status !== 'approved'"
+        >
+          <div class="text-h6">
+            Profile not approved yet.
+          </div>
+          <div class="black--text">
+            Your profile is under review. Until it's approved you won't be able to place any AD.
+            Thank You
+          </div>
+        </v-alert>
         <component :is="selectedComponent" @create-ad="loadCreateAdComponent"></component>
       </v-col>
     </v-row>
@@ -52,7 +63,6 @@ export default {
     selectItem(item) {
       this.selectedComponent = item.component;
       localStorage.setItem('selectedComponent', item.component);
-
     },
     isSelected(item) {
       return this.selectedComponent === item.component;
@@ -72,7 +82,6 @@ export default {
     ChatSVG
   },
   created() {
-    // Check if there's a selected component stored in localStorage and set selectedComponent accordingly
     const storedComponent = localStorage.getItem('selectedComponent');
     if (storedComponent && this.items.find(item => item.component === storedComponent)) {
       this.selectedComponent = storedComponent;

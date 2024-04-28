@@ -11,6 +11,9 @@
               </v-card-text>
             </v-col>
             <v-col cols="12">
+              <v-select :items="adType" v-model="newPost.product_type" item-text="name" item-value="value" :rules="[v => !!v || 'Item is required']" :label="$t('Ad Type')" outlined hide-details="auto" required></v-select>
+            </v-col>
+            <v-col cols="12">
               <v-select :items="['new', 'used']" v-model="newPost.condition" :rules="[v => !!v || 'Item is required']" :label="$t('Condition')" outlined hide-details="auto" required></v-select>
             </v-col>
             <v-col cols="12">
@@ -166,6 +169,16 @@ export default {
   components: {UploadSVG},
   data() {
     return {
+      adType: [
+        {
+          name: 'Top Ad',
+          value: 'premium'
+        },
+        {
+          name: 'Normal Ad',
+          value: 'normal'
+        },
+      ],
       categories: [],
       subCategories: [],
       divisions: [],
@@ -192,6 +205,8 @@ export default {
         district_id: null,
         sub_district_id: null,
         features: null,
+        name: null,
+        product_type: null,
         accept_terms: 0,
         show_contact_number: 0,
       },
@@ -212,6 +227,10 @@ export default {
         district_id: null,
         sub_district_id: null,
         features: null,
+        name: null,
+        product_type: null,
+        accept_terms: 0,
+        show_contact_number: 0,
       },
       logoPreviewURL: [],
       rules: {
@@ -304,7 +323,6 @@ export default {
         })
     },
     setSubDistricts(districtId) {
-      console.log(districtId)
       this.$axios.get(`get-sub-districts/${districtId}`)
         .then((response) => {
           this.sub_districts = response.data.data
@@ -322,6 +340,7 @@ export default {
       formData.append('sub_category_id', this.newPost.sub_category_id)
       formData.append('division_id', this.newPost.division_id)
       formData.append('district_id', this.newPost.district_id)
+      formData.append('product_type', this.newPost.product_type)
       formData.append('sub_district_id', this.newPost.sub_district_id)
       formData.append('location', this.newPost.location)
       formData.append('price', this.newPost.price)
@@ -332,7 +351,7 @@ export default {
       formData.append('title', this.newPost.title)
       formData.append('size', this.newPost.size)
       formData.append('color', this.newPost.color)
-      formData.append('contact_name', this.newPost.color)
+      formData.append('contact_name', this.newPost.name)
       formData.append('features', this.newPost.features)
       formData.append('contact_name', this.newPost.email)
       formData.append('contact_number', this.newPost.mobile)
@@ -348,7 +367,9 @@ export default {
           localStorage.setItem('selectedComponent','MyAdsComponent')
           this.$refs.form.reset()
         })
-        .catch((error) => {})
+        .catch((error) => {
+          this.$toast.error(error.response.data.message)
+        })
         .finally(() => {
           this.loading = false
         })

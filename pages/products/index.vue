@@ -302,7 +302,6 @@ export default {
       this.loading = true;
       this.$axios.get('get-ads' + queryParams)
         .then((response) => {
-          console.log(response.data.data);
           this.items = response.data.data.products;
           this.pagination = response.data.data.pagination;
         })
