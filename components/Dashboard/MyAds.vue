@@ -33,7 +33,7 @@
             </v-chip>
           </template>
           <template v-slot:item.action="{ item }">
-            <v-btn icon small>
+            <v-btn icon small @click.prevent="editAd(item)">
               <v-icon small>mdi-pencil-circle-outline</v-icon>
             </v-btn>
             <v-btn icon small @click.prevent="openDeleteDialog(item)">
@@ -112,7 +112,6 @@ export default {
     this.initAds()
   },
   methods: {
-
     initAds() {
       this.loading = true
       this.$axios.get('products')
@@ -132,7 +131,7 @@ export default {
       this.$axios.delete('products/'+this.editedItem?.id)
         .then((response) => {
           this.items.splice(this.editedIndex, 1)
-          this.items = response.data.data
+          this.initAds()
           this.closeDeleteDialog()
         })
         .catch((err) => {
@@ -170,6 +169,11 @@ export default {
       this.editedIndex = this.items.indexOf(item)
       this.dialogDelete = true
     },
+    editAd(item) {
+      const itemJSON = JSON.stringify(item);
+      localStorage.setItem('edit-ad', itemJSON)
+      this.$emit('create-ad');
+    }
   }
 }
 </script>
