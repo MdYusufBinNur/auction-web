@@ -172,8 +172,13 @@
       </v-card-text>
       <v-card-actions align="right">
         <!-- Buttons to cancel or save the new post -->
-        <v-btn color="" rounded class="primary white--text px-5 mb-5" :loading="loading" text @click.prevent="submit">
+        <v-btn v-if="!newPost.id" color="" rounded class="primary white--text px-5 mb-5" :loading="loading" text
+               @click.prevent="submit">
           {{ $t('Publish') }}
+        </v-btn>
+        <v-btn v-if="newPost.id" color="" rounded class="primary white--text px-5 mb-5" :loading="loading" text
+               @click.prevent="update">
+          {{ $t('Update') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -211,7 +216,7 @@ export default {
       subCategoryLoader: false,
       newPost: {
         title: null,
-        image: [],
+        productImage: [],
         price: null,
         location: null,
         color: null,
@@ -233,7 +238,7 @@ export default {
       },
       defaultNewPost: {
         title: null,
-        image: [],
+        productImage: [],
         price: null,
         location: null,
         color: null,
@@ -284,7 +289,7 @@ export default {
         this.$forceUpdate();
       };
       reader.readAsDataURL(file); // Read the file as a data URL
-      this.newPost.image[index] = file; // Store the file in the appropriate index
+      this.newPost.productImage[index] = file; // Store the file in the appropriate index
     },
     openFileInput(index) {
       // Programmatically open the file input corresponding to the given index
@@ -292,19 +297,19 @@ export default {
     },
     canUpload(index) {
       for (let i = 0; i < index; i++) {
-        if (!this.newPost.image[i]) {
+        if (!this.newPost.productImage[i]) {
           return false; // Disable upload if any preceding slot is empty
         }
       }
 
-      if (this.newPost.image[index]) {
+      if (this.newPost.productImage[index]) {
         return true; // Disable upload if the current slot is empty
       }
 
       return true; // Enable upload if all preceding slots are filled
     },
     removeImage(index) {
-      this.$set(this.newPost.image, index, ''); // Reset the image file
+      this.$set(this.newPost.productImage, index, ''); // Reset the image file
       this.$set(this.logoPreviewURL, index, null); // Reset the preview URL
       // Force re-render of the component
       this.$forceUpdate();
@@ -382,10 +387,55 @@ export default {
       formData.append('contact_number', this.newPost.mobile)
       formData.append('additional_contact_number', this.newPost.additional_mobile)
       formData.append('show_contact_number', this.newPost.show_contact_number)
-      for (let i = 0; i < this.newPost.image.length; i++) {
-        formData.append(`image[${i}]`, this.newPost.image[i])
+      for (let i = 0; i < this.newPost.productImage.length; i++) {
+        formData.append(`image[${i}]`, this.newPost.productImage[i])
       }
       this.$axios.post('products', formData)
+        .then((response) => {
+          this.$toast.success(response.data.message)
+          this.newPost = Object.assign({}, this.defaultNewPost)
+          localStorage.setItem('selectedComponent', 'MyAdsComponent')
+          this.$refs.form.reset()
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message)
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+    update() {
+      if (!this.$refs.form.validate()) {
+        return
+      }
+      this.loading = true
+      let formData = new FormData()
+      formData.append('category_id', this.newPost.category_id)
+      formData.append('sub_category_id', this.newPost.sub_category_id)
+      formData.append('division_id', this.newPost.division_id)
+      formData.append('district_id', this.newPost.district_id)
+      formData.append('product_type', this.newPost.product_type)
+      formData.append('sub_district_id', this.newPost.sub_district_id)
+      formData.append('location', this.newPost.location)
+      formData.append('price', this.newPost.price)
+      formData.append('authenticity', this.newPost.authenticity)
+      formData.append('edition', this.newPost.edition)
+      formData.append('brand', this.newPost.brand)
+      formData.append('condition', this.newPost.condition)
+      formData.append('title', this.newPost.title)
+      formData.append('size', this.newPost.size)
+      formData.append('color', this.newPost.color)
+      formData.append('contact_name', this.newPost.name)
+      formData.append('features', this.newPost.features)
+      formData.append('contact_email', this.newPost.email)
+      formData.append('contact_number', this.newPost.mobile)
+      formData.append('additional_contact_number', this.newPost.additional_mobile)
+      formData.append('show_contact_number', this.newPost.show_contact_number)
+      formData.append('_method', 'put')
+      for (let i = 0; i < this.newPost.productImage.length; i++) {
+        formData.append(`image[${i}]`, this.newPost.productImage[i])
+      }
+      this.$axios.post('products/' + this.newPost.id, formData)
         .then((response) => {
           this.$toast.success(response.data.message)
           this.newPost = Object.assign({}, this.defaultNewPost)
@@ -408,6 +458,10 @@ export default {
         this.newPost.additional_mobile = item.additional_contact_number
         this.newPost.name = item.contact_name
         this.newPost.email = item.contact_email
+        this.newPost.mobile = item.contact_number
+        this.newPost.productImage = []
+        this.newPost.product_type = item.ad_type === "Normal Ad" ? "normal" : "premium"
+        this.newPost.condition = item.condition === "New" ? "new" : 'used'
         this.setSub(this.newPost.category_id)
         this.setDistricts(this.newPost.division_id)
         this.setSubDistricts(this.newPost.district_id)
