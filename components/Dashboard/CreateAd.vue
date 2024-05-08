@@ -11,7 +11,7 @@
               </v-card-text>
             </v-col>
             <v-col cols="12">
-              <v-select :items="adType" v-model="newPost.product_type" item-text="name" item-value="value"
+              <v-select :items="adType" :disabled="disableAdTypeSelection" v-model="newPost.product_type" item-text="name" item-value="value"
                         :rules="[v => !!v || 'Item is required']" :label="$t('Ad Type')" outlined hide-details="auto"
                         required></v-select>
             </v-col>
@@ -206,6 +206,7 @@ export default {
         },
       ],
       categories: [],
+      disableAdTypeSelection: false,
       subCategories: [],
       divisions: [],
       districts: [],
@@ -271,6 +272,12 @@ export default {
     }
   },
   created() {
+    if (this.$auth?.user?.data?.type === 'free') {
+      this.newPost.product_type = 'normal'
+      this.disableAdTypeSelection = true
+
+    }
+
     this.getLocalStorageAdData()
     this.getCategories()
     this.getDivisions()
