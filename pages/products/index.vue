@@ -57,7 +57,7 @@
             <v-col  v-show="loading" cols="12" md="4" v-for="n in 8" :key="n*100">
               <v-skeleton-loader type="card, article"></v-skeleton-loader>
             </v-col>
-            <v-col v-show="!loading" cols="12" sm="12" md="4" v-for="(item, n) in 6" :key="n">
+            <v-col v-show="!loading" cols="12" sm="12" md="4" v-for="(item, n) in items" :key="n">
               <v-card
                 class="mx-auto"
                 flat

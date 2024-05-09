@@ -15,7 +15,7 @@
                 {{ $t('Total Available Credit') }}
               </div>
               <v-list-item-title class="text-h5 mb-1">
-                {{ $t('1000') }}
+                {{ available }}
               </v-list-item-title>
               <v-list-item-subtitle>
                 {{ $t('use_credit') }}
@@ -47,7 +47,7 @@
                 {{ $t('total_used_credit') }}
               </div>
               <v-list-item-title class="text-h5 mb-1">
-                {{ $t('0') }}
+                {{ used }}
               </v-list-item-title>
               <v-list-item-subtitle>
                 {{ $t('used_credit') }}
@@ -84,8 +84,8 @@
             class="elevation-1"
           >
             <template v-slot:item.action="{ item }">
-              <v-chip small :color="item.action === 'credit' ? 'success' : 'primary'">
-                {{ item.action }}
+              <v-chip small class="text-capitalize" :color="item.action === 'credit' ? 'success' : 'primary'">
+                {{ item.points_type }}
               </v-chip>
             </template>
           </v-data-table>
@@ -112,33 +112,29 @@ export default {
         {text: 'Gateway', value: 'gateway'},
         {text: 'Points', value: 'points'}
       ],
-      items: [
-        {trxID: 'TrxYSba7as', date: '20/01/01', action: 'credit', gateway: 'Bkash', points: 10},
-        {trxID: 'dTxYSba7aae', date: '20/01/02', action: 'debit', gateway: 'Nagad', points: 20},
-        {trxID: '2rxYSba7as', date: '20/01/03', action: 'credit', gateway: 'Bkash', points: 15},
-        {trxID: 'TrxYSba7as', date: '20/01/04', action: 'credit', gateway: 'Bkash', points: 10},
-        {trxID: 'dTxYSba7aae', date: '20/01/05', action: 'debit', gateway: 'Nagad', points: 20},
-        {trxID: '2rxYSba7as', date: '20/01/06', action: 'credit', gateway: 'Bkash', points: 15},
-        {trxID: 'TrxYSba7as', date: '20/01/07', action: 'credit', gateway: 'Bkash', points: 10},
-        {trxID: 'dTxYSba7aae', date: '20/01/08', action: 'debit', gateway: 'Nagad', points: 20},
-        {trxID: '2rxYSba7as', date: '20/01/09', action: 'credit', gateway: 'Bkash', points: 15},
-        {trxID: 'TrxYSba7as', date: '20/01/10', action: 'credit', gateway: 'Bkash', points: 10},
-        {trxID: 'dTxYSba7aae', date: '20/01/11', action: 'debit', gateway: 'Nagad', points: 20},
-        {trxID: '2rxYSba7as', date: '20/01/12', action: 'credit', gateway: 'Bkash', points: 15},
-        {trxID: 'TrxYSba7as', date: '20/01/13', action: 'credit', gateway: 'Bkash', points: 10},
-        {trxID: 'dTxYSba7aae', date: '20/01/14', action: 'debit', gateway: 'Nagad', points: 20},
-        {trxID: '2rxYSba7as', date: '20/01/15', action: 'credit', gateway: 'Bkash', points: 15},
-        {trxID: 'TrxYSba7as', date: '20/01/16', action: 'credit', gateway: 'Bkash', points: 10},
-        {trxID: 'dTxYSba7aae', date: '20/01/17', action: 'debit', gateway: 'Nagad', points: 20},
-        {trxID: '2rxYSba7as', date: '20/01/18', action: 'credit', gateway: 'Bkash', points: 15},
-        {trxID: 'TrxYSba7as', date: '20/01/19', action: 'credit', gateway: 'Bkash', points: 10},
-        {trxID: 'dTxYSba7aae', date: '20/01/20', action: 'debit', gateway: 'Nagad', points: 20},
-
-      ]
+      items: [],
+      loading: false,
+      available: 0,
+      used: 0,
     }
   },
+  created() {
+    this.initWallet()
+  },
   methods: {
-
+    initWallet() {
+      this.loading = false
+      this.$axios.get('wallet')
+        .then((response) => {
+          this.available = response.data.data.available
+          this.used = response.data.data.used
+          this.items = response.data.data.history
+        })
+        .catch((err) => {})
+        .finally(() => {
+          this.loading = false
+        })
+    }
   }
 
 }
