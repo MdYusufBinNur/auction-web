@@ -51,7 +51,7 @@
           <v-row>
             <v-col cols="12">
               <v-card-text class="px-0">
-                {{selectedCategory ? selectedCategory?.name : ''}}
+                {{selectedCategory ? selectedCategory?.name : 'All'}}
               </v-card-text>
             </v-col>
             <v-col  v-show="loading" cols="12" md="4" v-for="n in 8" :key="n*100">
@@ -72,27 +72,27 @@
                   height="250"
                 >
                   <v-carousel-item
-                    v-for="(slide, i) in 4"
-                    :key="i"
+                    v-for="(slide, i) in item?.images"
+                    :key="i*200"
                   >
                     <v-img
                       height="250"
-                      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                      :src="slide.image"
                       lazy-src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
                     ></v-img>
                   </v-carousel-item>
                 </v-carousel>
 
 
-                <v-card-title>Samsung Galaxy Z10</v-card-title>
+                <v-card-title>{{ item.title }}</v-card-title>
 
                 <v-card-text>
                   <div class="text-subtitle-1">
-                    {{ $t('price') }} • 1200 TK
+                    {{ $t('price') }} • {{ item.price }} TK
                   </div>
 
                   <div>
-                    {{ $t('location') }}  : 29/A, Bismillah Tower, Badda, 1212 Dhaka'
+                    {{ $t('location') }}  : {{ item.location }}
                   </div>
                 </v-card-text>
 
@@ -317,7 +317,7 @@ export default {
       console.log(item)
     },
     gotoDetails(item) {
-      this.$router.push('/products/' + item)
+      this.$router.push('/products/' + item?.slug)
     },
     init() {
       this.loading = true
@@ -326,6 +326,26 @@ export default {
           this.loading = false
         })
     },
+    initAllAds() {
+      let query = this.$route.query['category']
+      let searchQuery = ''
+      if (query) {
+        searchQuery = '?category_id=' + query
+      }
+      this.loading = true
+      this.$axios.get('get-ads' + searchQuery)
+        .then((response) => {
+          this.items = response.data.data.products;
+          this.pagination = response.data.data.pagination;
+           this.selectedCategory = query ? this.items[0]?.category : {}
+        })
+        .catch((err) => {
+          console.log(err.data.message)
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    }
   },
   computed: {
     ...mapGetters({
@@ -338,7 +358,6 @@ export default {
       handler(nv, ov) {
         if (this.categoryList && this.categoryList.length) {
           this.categories = JSON.parse(JSON.stringify(this.categoryList))
-          this.selectedCategory = this.categories[0]
         }
       },
       immediate: true,
@@ -346,6 +365,7 @@ export default {
     },
   },
   created() {
+    this.initAllAds()
     if (!this.categories.length) {
       this.init()
     }

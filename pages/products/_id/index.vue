@@ -6,11 +6,11 @@
       </v-col>
       <v-col cols="12">
         <v-card-title class="px-0">
-          Mobile
+          {{this.item?.title}}
         </v-card-title>
         <v-card-text class="px-0">
           <div class="text-caption">
-            Posted on 05 Feb 8:29 pm, Cox's Bazar, Chattogram Division
+            Posted on {{this.item?.date + ', ' + this.item?.location}}
           </div>
         </v-card-text>
       </v-col>
@@ -18,9 +18,9 @@
         <v-card flat>
           <v-carousel>
             <v-carousel-item
-              v-for="(item,i) in items"
+              v-for="(item,i) in images"
               :key="i"
-              :src="item.src"
+              :src="item.image"
               reverse-transition="fade-transition"
               transition="fade-transition"
             ></v-carousel-item>
@@ -29,26 +29,26 @@
             <!-- Condition -->
             <v-row class="px-0">
               <v-col cols="12" sm="12">
-                <v-card-title class="px-0">{{ $t('price') }}: 12000TK</v-card-title>
+                <v-card-title class="px-0">{{ $t('price') }}: {{ this.item?.price }}TK</v-card-title>
               </v-col>
               <v-col cols="12" sm="6" class="py-0">
-                <v-card-text class="px-0">{{ $t('Condition') }}: New</v-card-text>
+                <v-card-text class="px-0">{{ $t('Condition') }}: {{ this.item?.condition }}</v-card-text>
               </v-col>
               <v-col cols="12" sm="6" class="py-0">
-                <v-card-text class="px-0">{{ $t('brand') }}: Samsung</v-card-text>
+                <v-card-text class="px-0">{{ $t('brand') }}: {{ this.item?.brand }}</v-card-text>
+              </v-col>
+<!--              <v-col cols="12" sm="6" class="py-0">-->
+<!--                <v-card-text class="px-0">{{ $t('model') }}: {{ this.item?.price }}</v-card-text>-->
+<!--              </v-col>-->
+              <v-col cols="12" sm="6" class="py-0">
+                <v-card-text class="px-0">{{ $t('edition') }}: {{ this.item?.edition }}</v-card-text>
               </v-col>
               <v-col cols="12" sm="6" class="py-0">
-                <v-card-text class="px-0">{{ $t('model') }}: Samsung galaxy s22 Ultra</v-card-text>
-              </v-col>
-              <v-col cols="12" sm="6" class="py-0">
-                <v-card-text class="px-0">{{ $t('edition') }}: New</v-card-text>
-              </v-col>
-              <v-col cols="12" sm="6" class="py-0">
-                <v-card-text class="px-0">{{ $t('authenticity') }}: Official</v-card-text>
+                <v-card-text class="px-0">{{ $t('authenticity') }}: {{ this.item?.authenticity }}</v-card-text>
               </v-col>
               <v-col cols="12" class="py-0">
                 <v-subheader class="px-0">Features:</v-subheader>
-                <v-card-text class="px-0">{{ features }}</v-card-text>
+                <v-card-text class="px-0">{{ this.item?.features  }}</v-card-text>
               </v-col>
             </v-row>
 
@@ -66,13 +66,13 @@
                 </v-card-text>
                 <v-divider />
                 <v-card-subtitle class="">
-                  Md Yusuf Bin Nur
+                  {{ this.item?.contact_name }}
                 </v-card-subtitle>
                 <v-card-subtitle class="py-0">
                   <v-icon  class="pr-2">
                     mdi-phone
                   </v-icon>
-                  {{ showMobile ? '018 156 253 75' : '017 XXXX XXX XXX'}}
+                  {{ this.item.show_contact_number ? this.item.contact_number : '01X XXXX XXX XXX'}}
                   <div class="text-caption" style="cursor: pointer" @click.prevent="togglePhoneNumber">
                     Click to show mobile number
                   </div>
@@ -110,41 +110,96 @@ export default {
     authenticity: 'Original',
     showMobile : false,
     features: '4G, Dual SIM, Micro SIM, Mini SIM, Android, Expandable Memory, 6 GB RAM, Bluetooth, Wifi, Fingerprint Sensor',
-    items: [
-      {
-        src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-      },
-      {
-        src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-      },
-      {
-        src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
-      },
-      {
-        src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
-      },
-    ],
-    breadcrumbs: [
-      {
-        text: 'Category',
-        href: '/products',
-      },
-      {
-        text: 'Mobile',
-        disabled: true,
-        href: '#',
-      },
-
-    ],
+    item: {
+      id: null,
+      category_id: null,
+      sub_category_id: null,
+      slug: null,
+      title: null,
+      size: null,
+      ad_type: null,
+      color: null,
+      location: null,
+      condition: null,
+      brand: null,
+      edition: null,
+      authenticity: null,
+      features: null,
+      division_id: null,
+      district_id: null,
+      sub_district_id: null,
+      view: null,
+      status: null,
+      points: null,
+      price: null,
+      contact_name: null,
+      contact_email: null,
+      contact_number: null,
+      additional_contact_number: null,
+      show_contact_number: null,
+      accept_terms: null,
+      created_at: null,
+      updated_at: null,
+      category_name: null,
+      sub_category_name: null,
+      image: null,
+      date: null
+    },
+    images: [],
+    breadcrumbs: [],
   }),
+  created() {
+    this.initAdDetails()
+  },
   methods: {
     togglePhoneNumber() {
-      this.showMobile = !this.showMobile;
+      this.item.show_contact_number = !this.item.show_contact_number;
     },
     gotoRoute(item) {
       localStorage.setItem('selectedComponent', item);
       this.$router.push('/dashboard/home')
+    },
+    initAdDetails() {
+      let query = this.$route.params['id']
+      if (!query) {
+        this.$router.push('/products')
+      }
+      this.loading = true
+      this.$axios.get('get-ads/' + query)
+        .then((response) => {
+          this.item = response.data?.data;
+          this.images = this.item?.images
+          this.setBreadcrumbs()
+        })
+        .catch((err) => {
+          console.log(err.data.message)
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+    setBreadcrumbs() {
+      // Clear existing breadcrumbs
+      this.breadcrumbs = [];
+
+      // Add the first breadcrumb for category
+      if (this.item && this.item.category_name) {
+        this.breadcrumbs.push({
+          text: this.item.category_name,
+          href: '/products',
+        });
+      }
+
+      // Add the second breadcrumb for subcategory
+      if (this.item && this.item.sub_category_name) {
+        this.breadcrumbs.push({
+          text: this.item.sub_category_name,
+          disabled: true,
+          href: '#',
+        });
+      }
     }
+
   }
 }
 </script>
