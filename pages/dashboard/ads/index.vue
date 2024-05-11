@@ -8,7 +8,7 @@
 import MyAds from "@/components/Dashboard/MyAds";
 export default {
   components: {MyAds},
-  layout: 'auth'
+  layout: 'dashboard'
 }
 </script>
 

@@ -137,7 +137,7 @@ export default {
   methods: {
     gotoRoute(item) {
       localStorage.setItem('selectedComponent', item);
-      this.$router.push('/dashboard/home')
+      this.$router.push('/dashboard/wallet')
     }
   }
 

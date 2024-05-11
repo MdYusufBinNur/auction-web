@@ -114,7 +114,7 @@ export default {
       login: '/auth/login',
       logout: '/auth/login',
       callback: '/auth/login',
-      home: '/dashboard/home'
+      home: '/dashboard/wallet'
     }
   },
 

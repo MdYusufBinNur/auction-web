@@ -1,15 +1,15 @@
 <template>
-  <div>
-    <CreateAd />
-  </div>
+<div>
+  <Profile />
+</div>
 </template>
 
 <script>
-import CreateAd from "@/components/Dashboard/CreateAd";
+import Profile from "@/components/Profile/Profile";
 export default {
   name: "index",
   layout: 'dashboard',
-  components: {CreateAd}
+  components: {Profile}
 }
 </script>
 

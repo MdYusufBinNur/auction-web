@@ -1,15 +1,15 @@
 <template>
   <div>
-    <CreateAd />
+    <Wallet />
   </div>
 </template>
 
 <script>
-import CreateAd from "@/components/Dashboard/CreateAd";
+import Wallet from "@/components/Dashboard/Wallet";
 export default {
   name: "index",
-  layout: 'dashboard',
-  components: {CreateAd}
+  layout:'dashboard',
+  components: {Wallet}
 }
 </script>
 

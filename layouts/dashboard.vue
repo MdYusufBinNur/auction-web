@@ -68,8 +68,47 @@
       </v-container>
     </v-app-bar>
     <v-main class="bg-white">
-      <nuxt/>
-      <slot/>
+      <v-container>
+        <v-row>
+          <v-col cols="12" md="3" class="hidden-sm-and-down grey lighten-5">
+            <v-card outlined class="mx-auto fill-height transparent" flat style="min-height: 80vh">
+              <v-list class="transparent">
+                <v-list-item
+                  v-for="item in items"
+                  :key="item.title"
+                  :ripple="false"
+                  @click="selectItem(item)"
+                  :class="{ 'active-item': isSelected(item) }"
+                >
+                  <v-list-item-icon>
+                    <v-icon>{{ item.icon }}</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+            </v-card>
+          </v-col>
+          <v-col cols="12" md="9" sm="12">
+            <v-alert
+              color="yellow lighten-4"
+              v-if="this.$auth?.user?.data?.status !== 'approved'"
+            >
+              <div class="text-h6">
+                Profile not approved yet.
+              </div>
+              <div class="black--text">
+                Your profile is under review. Until it's approved you won't be able to place any AD.
+                Thank You
+              </div>
+            </v-alert>
+            <nuxt/>
+            <slot/>
+          </v-col>
+        </v-row>
+      </v-container>
+
     </v-main>
     <BottomNavigation v-if="bp.smAndDown"/>
     <Footer v-if="bp.mdAndUp"/>
@@ -83,7 +122,7 @@ import BottomNavigation from "@/components/Common/BottomNavigation";
 import Footer from "@/components/Common/Footer";
 
 export default {
-  name: "auth",
+  name: "dashboard",
   middleware: ['auth'],
   components: {Footer, BottomNavigation},
   data() {
@@ -103,7 +142,15 @@ export default {
       drawer: true,
       username: '',
       userImage: '',
-
+      selectedComponent: 'WalletComponent',
+      items: [
+        // {title: 'Home', icon: 'mdi-view-dashboard-outline', component: 'HomeComponent'},
+        {title: 'Wallet', icon: 'mdi-wallet-outline', component: 'WalletComponent'},
+        {title: 'My Ads List', icon: 'mdi-format-list-bulleted', component: 'MyAdsComponent'},
+        // {title: 'Purchase List', icon: 'mdi-chart-timeline', component: 'PurchaseComponent'},
+        {title: 'Profile', icon: 'mdi-account-outline', component: 'ProfileComponent'},
+        {title: 'Chat', icon: 'mdi-wechat', component: 'ChatComponent'},
+      ],
     }
 
   },
@@ -132,7 +179,30 @@ export default {
         .finally(() => {
           this.loading = false
         })
-    }
+    },
+    selectItem(item) {
+      this.selectedComponent = item.component
+      switch (item.component) {
+        case 'WalletComponent':
+          this.$router.push('/dashboard/wallet')
+          return
+        case 'MyAdsComponent':
+          this.$router.push('/dashboard/ads')
+          return
+        case 'ProfileComponent':
+          this.$router.push('/dashboard/profile')
+          return
+        case 'ChatComponent':
+          this.$router.push('/dashboard/chat')
+          return
+        default:
+          this.$router.push('/dashboard/wallet')
+          return
+      }
+    },
+    isSelected(item) {
+      return this.selectedComponent === item.component;
+    },
   },
 
 }

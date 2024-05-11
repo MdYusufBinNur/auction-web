@@ -157,7 +157,7 @@ export default {
       }
     },
     emitCreateAdEvent() {
-      this.$emit('create-ad');
+      this.$router.push('/dashboard/ads/create')
     },
     closeDeleteDialog() {
       this.editedItem = {}
@@ -172,7 +172,7 @@ export default {
     editAd(item) {
       const itemJSON = JSON.stringify(item);
       localStorage.setItem('edit-ad', itemJSON)
-      this.$emit('create-ad');
+      this.$router.push('/dashboard/ads/create')
     }
   }
 }
