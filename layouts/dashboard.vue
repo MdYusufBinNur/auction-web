@@ -108,7 +108,6 @@
           </v-col>
         </v-row>
       </v-container>
-
     </v-main>
     <BottomNavigation v-if="bp.smAndDown"/>
     <Footer v-if="bp.mdAndUp"/>

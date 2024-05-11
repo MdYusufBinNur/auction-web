@@ -63,7 +63,6 @@ export default {
         {title: 'Wallet'},
         {title: 'Chat'},
         {title: 'Profile'},
-        {title: 'Purchase'},
       ],
     }
   },
@@ -71,22 +70,18 @@ export default {
     gotoRoute(target) {
       switch (target) {
         case 'Chat': {
-          localStorage.setItem('selectedComponent', 'ChatComponent');
-          this.$router.push('/dashboard/home')
+          this.$router.push('/dashboard/chat')
           return
         }
         case 'Profile': {
-          localStorage.setItem('selectedComponent', 'ProfileComponent');
-          this.$router.push('/dashboard/home')
+          this.$router.push('/dashboard/profile')
           return
         }
         case 'Wallet': {
-          localStorage.setItem('selectedComponent', 'WalletComponent');
-          this.$router.push('/dashboard/home')
+          this.$router.push('/dashboard/wallet')
           return
         }
         case 'Purchase': {
-          localStorage.setItem('selectedComponent', 'PurchaseComponent');
           this.$router.push('/dashboard/home')
           return
         }
