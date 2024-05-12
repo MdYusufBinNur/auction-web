@@ -2,8 +2,7 @@
   <v-app>
     <v-app-bar elevation="0" flat color="background" fixed app>
       <v-container class="d-flex flex-row align-center">
-        <v-spacer v-if="bp.smAndDown"/>
-        <v-app-bar-nav-icon :ripple="false">
+        <v-app-bar-nav-icon :ripple="false" class="px-15">
           <template v-slot:default>
             <v-img @click="$router.push('/')" :src="LogoSVG">
 
@@ -14,14 +13,14 @@
         <v-menu v-if="isLoggedIn" offset-y left transition="slide-y-transition">
           <template v-slot:activator="{ on, attrs }">
             <v-btn text plain small rounded v-bind="attrs" class="px-0" v-on="on" style="background-color: transparent">
-              <v-avatar size="30" v-show="bp.mdAndUp">
+              <v-avatar :size="bp.smAndDown ? 20 : 30" v-show="bp.mdAndUp" >
                 <v-img :src="'https://cdn.vuetifyjs.com/images/john.png'"></v-img>
               </v-avatar>
-              <v-list-item-content v-show="bp.mdAndUp" class="px-0">
+              <v-list-item-content  class="px-0">
 
-            <span class="pa-0 px-2 caption text-left text-capitalize white--text">
-              {{ username }}
-            </span>
+                  <span class="pa-0 px-2 caption text-left text-capitalize white--text">
+                    {{ username }}
+                  </span>
               </v-list-item-content>
               <v-icon left color="white">
                 mdi-menu-down
@@ -39,7 +38,7 @@
                 <v-avatar size="40" v-show="bp.mdAndUp">
                   <v-img :src="'https://cdn.vuetifyjs.com/images/john.png'"></v-img>
                 </v-avatar>
-                <v-list-item-content v-show="bp.mdAndUp">
+                <v-list-item-content >
                   <v-card-subtitle class="pa-0 px-2">
                     {{ username }}
                   </v-card-subtitle>

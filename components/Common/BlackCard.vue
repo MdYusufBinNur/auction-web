@@ -1,12 +1,9 @@
 <template>
   <v-card :flat="true" class="px-0 txt" color="primary" :min-height="'200px'"
           style="border-radius: unset">
-    <!--    <div :class="bp.mdAndUp ? 'text-h2' : 'text-h4'"  class="text-center fade-in-up text-capitalize" align="center" >-->
-    <!--      {{ title }}-->
-    <!--    </div>-->
 
-    <v-row class="d-flex justify-center">
-      <v-col cols="12" xs="2" sm="8" md="6" class="px-15">
+    <v-row class="d-flex justify-center mx-2">
+      <v-col cols="12" xs="2" sm="8" md="6" >
         <v-text-field
           rounded
           color="white"
