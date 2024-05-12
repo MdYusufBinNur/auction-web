@@ -12,10 +12,10 @@
       </v-card-text>
       <v-card-actions class="pb-8 px-5">
         <v-btn class="primary white--text text-capitalise px-5" small rounded @click="submitTRXId" :loading="loading">
-          {{ $t('submit_transaction')}}
+          {{ $t('submit_transaction') }}
         </v-btn>
         <v-btn rounded small class="px-5" color="primary" outlined text @click.prevent="closeDialog">
-          {{$t('close')}}
+          {{ $t('close') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -53,8 +53,24 @@ export default {
   },
   methods: {
     submitTRXId() {
-      this.$toast.success('Credit point added')
-      this.closeDialog()
+      if (!this.trxId)
+        return this.$toast.warning('Put your valid trxID')
+      this.loading = true
+      let formData = new FormData()
+      formData.append('trxID', this.trxId)
+      formData.append('gateway', this.selectedMethod)
+      this.$axios.post('submit-transaction', formData)
+        .then((response) => {
+          this.$toast.success(response.data.message)
+          this.closeDialog()
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message)
+        })
+        .finally(() => {
+          this.loading = false
+        })
+
     },
     closeDialog() {
       this.$emit('CloseSelectedDialog')
