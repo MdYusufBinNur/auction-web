@@ -6,7 +6,7 @@
       </v-card-title>
       <v-divider/>
       <v-card flat height="57vh" class="overflow-y-auto d-flex flex-column">
-        <div v-for="(chat, i) in messages" :key="i">
+        <div v-for="(chat, i) in chats" :key="i">
           <v-card
             v-if="chat.user_id === 1"
             class="d-flex flex-row mb-6 transparent"
@@ -23,7 +23,6 @@
               color=""
               style="max-width: 70%;  border-radius: 35px 0 10px 10px;"
             >
-
               {{chat.message}}
             </v-card>
           </v-card>
@@ -62,42 +61,61 @@
 export default {
   name: 'Chat',
   props: {
-    messages: {
-      type: Array,
+    receiverId: {
+      type: Number,
       required: true
     },
-    user: null,
   },
   data: () => ({
+    loading: true,
     message: {
       user_id: 2,
       message: null,
+    },
+    chats: [],
+  }),
+  mounted() {
+    this.getRecentChats();
+  },
+  watch: {
+    receiverId(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.getRecentChats();
+      }
     }
-  })
-  ,
+  },
   methods: {
     sendMessage() {
       if (this.message.message !== null) {
-        this.messages.push({
+        this.chats.push({
           user_id: 2,
           message: this.message.message
-        })
-        // this.scrollToElement()
+        });
+        this.message.message = null;
       }
-
-      this.message.message = null
-
+    },
+    getRecentChats() {
+      this.loading = true;
+      this.$axios.get('chats/' + this.receiverId)
+        .then((response) => {
+          this.chats = response.data.data;
+          console.log(response.data.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     scrollToElement() {
       const el = this.$el.getElementsByClassName('scroll-to-me')[0];
-
       if (el) {
-        // Use el.scrollIntoView() to instantly scroll to the element
-        el.scrollIntoView({behavior: 'smooth'});
+        el.scrollIntoView({ behavior: 'smooth' });
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>

@@ -10,7 +10,7 @@
         show-arrows
       >
         <v-slide-item
-          v-for="(chat, i) in recent"
+          v-for="(chat, i) in chats"
           :key="i"
         >
           <v-btn
@@ -24,12 +24,21 @@
           >
             <template v-slot:default>
               <v-card flat rounded class="transparent py-0">
-                <v-avatar size="40">
-                  <v-img :src="chat.avatar" lazy-src="https://cdn.vuetifyjs.com/images/lists/2.jpg"></v-img>
+                <v-avatar color="grey" size="40" v-if="!chat.photo">
+                  <v-icon dark>
+                    mdi-account-circle
+                  </v-icon>
                 </v-avatar>
+                <v-avatar v-else size="40">
+                  <v-img
+                    :alt="`${chat.title} avatar`"
+                    :src="chat.photo"
+                  ></v-img>
+                </v-avatar>
+
                 <v-card-actions class="py-0">
                   <v-card-text class="py-0 text-caption text-capitalize">
-                    {{ chat.title }}
+                    {{ chat.full_name }}
                   </v-card-text>
                 </v-card-actions>
               </v-card>
@@ -42,36 +51,39 @@
 
     </v-col>
     <v-col cols="12" sm="12" md="8" class="py-0">
-      <Chat :messages="messages" :user="user" />
+      <Chat v-if="receiver" :receiver-id="receiver" />
     </v-col>
     <v-col cols="12" sm="12" md="4" v-if="bp.mdAndUp">
-      <v-card flat max-height="70vh" class="overflow-y-auto" outlined>
+      <v-card flat height="70vh" class="overflow-y-auto" outlined>
         <v-list subheader>
           <v-subheader>Recent chat</v-subheader>
-
+          <v-divider />
           <v-list-item
-            v-for="(chat, i) in recent"
+            v-for="(chat, i) in chats"
             :key="i"
             @click.prevent="openChat(chat)"
-
           >
-            <v-list-item-avatar>
+            <v-list-item-avatar color="grey" size="40" v-if="!chat.photo">
+              <v-icon dark>
+                mdi-account-circle
+              </v-icon>
+            </v-list-item-avatar>
+            <v-list-item-avatar v-else>
               <v-img
                 :alt="`${chat.title} avatar`"
-                :src="chat.avatar"
+                :src="chat.photo"
               ></v-img>
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title v-text="chat.title"></v-list-item-title>
+              <v-list-item-title v-text="chat.full_name"></v-list-item-title>
               <v-card-text class="px-0 py-0 text-caption text--lighten-2">
-                Hello this is very good product. You can check it...
+               {{ chat?.message?.message }}
               </v-card-text>
             </v-list-item-content>
 
 
           </v-list-item>
-          <v-divider />
         </v-list>
 
       </v-card>
@@ -207,6 +219,7 @@ export default {
         avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
       },
     ],
+    chats: [],
     newMessage: '',
     userId: null,
     _token: null,
@@ -228,13 +241,32 @@ export default {
       file_name: null,
       message: null
     },
-    user : 'Yusuf'
+    loading: false,
+    user : 'Yusuf',
+    receiver: null
   }),
 
+  created() {
+    this.getRecentChats()
+  },
   methods: {
     openChat(item) {
-      this.user = item
+      this.receiver = item.id
     },
+    getRecentChats() {
+      this.loading = true
+      this.$axios.get('chats')
+        .then((response) => {
+          this.chats = response.data.data
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+
   }
 }
 </script>
