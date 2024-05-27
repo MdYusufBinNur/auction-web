@@ -8,7 +8,7 @@
       <v-card flat height="57vh" class="overflow-y-auto d-flex flex-column">
         <div v-for="(chat, i) in chats" :key="i">
           <v-card
-            v-if="chat.user_id === 1"
+            v-if="chat.user_id !== userID"
             class="d-flex flex-row mb-6 transparent"
             flat
             tile
@@ -44,14 +44,18 @@
         </div>
       </v-card>
       <div class="justify-end align-self-end bottom-center">
-        <v-text-field v-model="message.message" placeholder="Type you message here" outlined
-                      @submit="sendMessage">
-          <template v-slot:append>
-            <v-icon @click="sendMessage">
-              mdi-send
-            </v-icon>
-          </template>
-        </v-text-field>
+        <v-form ref="form" @submit="sendMessage">
+          <v-text-field v-model="message.message" placeholder="Type you message here" outlined>
+            <template v-slot:append>
+              <v-btn type="submit" icon class="transparent">
+                <v-icon @click="sendMessage">
+                  mdi-send
+                </v-icon>
+              </v-btn>
+            </template>
+          </v-text-field>
+        </v-form>
+
       </div>
     </div>
   </div>
@@ -73,9 +77,13 @@ export default {
       message: null,
     },
     chats: [],
+    userID: null
   }),
   mounted() {
     this.getRecentChats();
+  },
+  created() {
+    this.userID = this.$auth.user.data.id;
   },
   watch: {
     receiverId(newVal, oldVal) {
@@ -84,9 +92,15 @@ export default {
       }
     }
   },
+
+
   methods: {
     sendMessage() {
       if (this.message.message !== null) {
+
+        let formData = new FormData()
+        formData.append('receiver_id', '')
+        console.log(this.chats)
         this.chats.push({
           user_id: 2,
           message: this.message.message
@@ -99,7 +113,6 @@ export default {
       this.$axios.get('chats/' + this.receiverId)
         .then((response) => {
           this.chats = response.data.data;
-          console.log(response.data.data);
         })
         .catch((error) => {
           console.log(error);

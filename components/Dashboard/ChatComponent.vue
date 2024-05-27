@@ -251,7 +251,7 @@ export default {
   },
   methods: {
     openChat(item) {
-      this.receiver = item.id
+      this.receiver = item.room_id
     },
     getRecentChats() {
       this.loading = true
