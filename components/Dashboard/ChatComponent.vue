@@ -51,7 +51,9 @@
 
     </v-col>
     <v-col cols="12" sm="12" md="8" class="py-0">
+
       <Chat v-if="receiver" :receiver-id="receiver" />
+      <NoMessage v-else/>
     </v-col>
     <v-col cols="12" sm="12" md="4" v-if="bp.mdAndUp">
       <v-card flat height="70vh" class="overflow-y-auto" outlined>
@@ -94,9 +96,10 @@
 <script>
 import CardHeader from "@/components/Common/CardHeader";
 import Chat from "@/components/Dashboard/Chat";
+import NoMessage from "@/components/Common/NoMessage";
 export default {
   name: "ChatComponent",
-  components: {Chat, CardHeader},
+  components: {NoMessage, Chat, CardHeader},
   data: () => ({
     recent: [
       {
@@ -251,7 +254,7 @@ export default {
   },
   methods: {
     openChat(item) {
-      this.receiver = item.room_id
+      this.receiver = item
     },
     getRecentChats() {
       this.loading = true

@@ -1,12 +1,15 @@
 <template>
   <div>
-    <div>
+    <div v-if="!chats.length > 0">
+      <NoMessage />
+    </div>
+    <div class="scroll-to-me" v-else>
       <v-card-title class="py-0 py-2">
-        {{ user ? user.title : 'Yusuf' }}
+        {{ user ? user.full_name : '' }}
       </v-card-title>
       <v-divider/>
-      <v-card flat height="57vh" class="overflow-y-auto d-flex flex-column">
-        <div v-for="(chat, i) in chats" :key="i">
+      <v-card flat height="57vh" class="overflow-y-auto d-flex flex-column " :loading="loading">
+        <div v-for="(chat, i) in chats" :key="i" class="" v-if="!loading">
           <v-card
             v-if="chat.user_id !== userID"
             class="d-flex flex-row mb-6 transparent"
@@ -44,11 +47,11 @@
         </div>
       </v-card>
       <div class="justify-end align-self-end bottom-center">
-        <v-form ref="form" @submit="sendMessage">
+        <v-form ref="form" @submit.prevent="sendMessage">
           <v-text-field v-model="message.message" placeholder="Type you message here" outlined>
             <template v-slot:append>
               <v-btn type="submit" icon class="transparent">
-                <v-icon @click="sendMessage">
+                <v-icon >
                   mdi-send
                 </v-icon>
               </v-btn>
@@ -62,11 +65,12 @@
 </template>
 
 <script>
+import NoMessage from "@/components/Common/NoMessage";
 export default {
   name: 'Chat',
+  components: {NoMessage},
   props: {
     receiverId: {
-      type: Number,
       required: true
     },
   },
@@ -77,9 +81,11 @@ export default {
       message: null,
     },
     chats: [],
-    userID: null
+    userID: null,
+    user: null
   }),
   mounted() {
+    this.setUserInfo();
     this.getRecentChats();
   },
   created() {
@@ -88,6 +94,7 @@ export default {
   watch: {
     receiverId(newVal, oldVal) {
       if (newVal !== oldVal) {
+        this.setUserInfo()
         this.getRecentChats();
       }
     }
@@ -97,22 +104,32 @@ export default {
   methods: {
     sendMessage() {
       if (this.message.message !== null) {
-
         let formData = new FormData()
-        formData.append('receiver_id', '')
-        console.log(this.chats)
-        this.chats.push({
-          user_id: 2,
-          message: this.message.message
-        });
-        this.message.message = null;
+        formData.append('receiver_id', this.user?.id)
+        formData.append('message', this.message.message)
+
+        this.$axios.post('chats', formData)
+          .then((response) => {
+            this.chats.push(response.data.data)
+            this.message.message = null;
+            this.scrollToElement()
+          })
+          .catch((err) => {
+            this.$toast.error(err.response.data.message)
+          })
+          .finally(() => {
+            this.loading = false
+          })
+
       }
     },
     getRecentChats() {
       this.loading = true;
-      this.$axios.get('chats/' + this.receiverId)
+      this.$axios.get('chats/' + this.user?.room_id)
         .then((response) => {
           this.chats = response.data.data;
+          console.log(this.receiverId)
+          this.scrollToElement()
         })
         .catch((error) => {
           console.log(error);
@@ -121,6 +138,10 @@ export default {
           this.loading = false;
         });
     },
+    setUserInfo(){
+      this.user = this.receiverId
+    },
+
     scrollToElement() {
       const el = this.$el.getElementsByClassName('scroll-to-me')[0];
       if (el) {
