@@ -251,10 +251,18 @@ export default {
 
   created() {
     this.getRecentChats()
+    this.initSelectedUser()
   },
   methods: {
     openChat(item) {
       this.receiver = item
+    },
+    initSelectedUser() {
+      let query = this.$route.query['user']
+      console.log('query', query)
+
+      if (!query) return;
+
     },
     getRecentChats() {
       this.loading = true

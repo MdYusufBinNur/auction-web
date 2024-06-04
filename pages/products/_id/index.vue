@@ -77,7 +77,7 @@
                     Click to show mobile number
                   </div>
                 </v-card-subtitle>
-                <v-card-subtitle class="" style="cursor: pointer" @click.prevent="gotoRoute('ChatComponent')">
+                <v-card-subtitle class="" style="cursor: pointer" @click.prevent="gotoRoute">
                   <v-icon  class="pr-2">
                     mdi-wechat
                   </v-icon>
@@ -113,6 +113,7 @@ export default {
     item: {
       id: null,
       category_id: null,
+      user_id: null,
       sub_category_id: null,
       slug: null,
       title: null,
@@ -155,10 +156,13 @@ export default {
     togglePhoneNumber() {
       this.item.show_contact_number = !this.item.show_contact_number;
     },
-    gotoRoute(item) {
-      localStorage.setItem('selectedComponent', item);
-      this.$router.push('/dashboard/home')
+    gotoRoute() {
+      if (this.item.user_id) {
+        this.$router.push('/dashboard/chat?user=' + this.item?.user_id)
+      }
+
     },
+
     initAdDetails() {
       let query = this.$route.params['id']
       if (!query) {
