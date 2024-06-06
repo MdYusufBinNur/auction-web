@@ -121,7 +121,7 @@ import Footer from "@/components/Common/Footer";
 
 export default {
   name: "dashboard",
-  middleware: ['auth'],
+  middleware: ['auth-redirect'],
   components: {Footer, BottomNavigation},
   data() {
     return {

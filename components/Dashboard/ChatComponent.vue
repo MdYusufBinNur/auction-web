@@ -52,7 +52,7 @@
     </v-col>
     <v-col cols="12" sm="12" md="8" class="py-0">
 
-      <Chat v-if="receiver" :receiver-id="receiver" />
+      <Chat v-if="receiver" :receiver-id="receiver" @message-sent="handleMessageSent" />
       <NoMessage v-else/>
     </v-col>
     <v-col cols="12" sm="12" md="4" v-if="bp.mdAndUp">
@@ -101,135 +101,10 @@ export default {
   name: "ChatComponent",
   components: {NoMessage, Chat, CardHeader},
   data: () => ({
-    recent: [
-      {
-        active: true,
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-        title: 'Jason Oner',
-      },
-      {
-        active: true,
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-        title: 'Mike Carlson',
-      },
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-        title: 'Cindy Baker',
-      },
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-        title: 'Ali Connors',
-      },
-      {
-        active: true,
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-        title: 'Mike Carlson',
-      },
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-        title: 'Cindy Baker',
-      },
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-        title: 'Ali Connors',
-      }, {
-        active: true,
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-        title: 'Mike Carlson',
-      },
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-        title: 'Cindy Baker',
-      },
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-        title: 'Ali Connors',
-      },
-    ],
-    previous: [{
-      title: 'Travis Howard',
-      avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-    }],
-    messages: [
-      {
-        sender : 2,
-        message: 'Hello',
-        file_name: '',
-        file_image: '',
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-      },
-      {
-        user_id : 1,
-        message: "How're you ?",
-        file_name: '',
-        file_image: '',
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-      },
-      {
-        user_id : 2,
-        message: "I'm fine. Thank you",
-        file_name: '',
-        file_image: '',
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-      },
-      {
-        user_id : 2,
-        message: "I'm fine. Thank you and You ?",
-        file_name: '',
-        file_image: '',
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-      },
-      {
-        user_id : 1,
-        message: "I'm fine too",
-        file_name: '',
-        file_image: '',
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-      },
-      {
-        sender : 2,
-        message: 'আমরা প্রিমিয়াম ব্যবহারকারীদের জন্য বান্ডল বিজ্ঞাপন প্রদান করি। আপনি প্রিমিয়াম বিজ্ঞাপনের জন্য সময়সীমা সেট করতে পারেন।',
-        file_name: '',
-        file_image: '',
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-      },
-      {
-        user_id : 1,
-        message: "How're you ?",
-        file_name: '',
-        file_image: '',
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-      },
-      {
-        user_id : 2,
-        message: "আমরা প্রিমিয়াম ব্যবহারকারীদের জন্য বান্ডল বিজ্ঞাপন প্রদান করি। আপনি প্রিমিয়াম বিজ্ঞাপনের জন্য সময়সীমা সেট করতে পারেন।",
-        file_name: '',
-        file_image: '',
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-      },
-      {
-        user_id : 2,
-        message: "I'm fine. Thank you and You ?",
-        file_name: '',
-        file_image: '',
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-      },
-      {
-        user_id : 1,
-        message: "I'm fine too",
-        file_name: '',
-        file_image: '',
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-      },
-    ],
     chats: [],
     newMessage: '',
     userId: null,
     _token: null,
-    messageKey: {
-      receiver_id: 2,
-      message: null,
-    },
     receivers: [],
     avatarImage: '',
     isSelecting: false,
@@ -259,9 +134,16 @@ export default {
     },
     initSelectedUser() {
       let query = this.$route.query['user']
-      console.log('query', query)
-
       if (!query) return;
+      this.$axios.get('check-chats/' + query)
+        .then((response) => {
+          console.log(response.data.data)
+          this.receiver = response.data?.data?.receiver
+        })
+        .catch((error) => {
+          console.log(error.response)
+        })
+        .finally(() => {})
 
     },
     getRecentChats() {
@@ -277,6 +159,20 @@ export default {
           this.loading = false
         })
     },
+    handleMessageSent(data) {
+      const index = this.chats.findIndex(chat => chat.id === data.id);
+      // If the user's id is found in the chats array
+      if (index !== -1) {
+        // Update the existing chat message
+        this.chats[index].message = data.message;
+        // Move the updated chat to the top of the chats array
+        const updatedChat = this.chats.splice(index, 1);
+        this.chats.unshift(updatedChat[0]);
+      } else {
+        // If the user's id is not found, add the new chat to the beginning of the chats array
+        this.chats.unshift(data);
+      }
+    }
 
   }
 }

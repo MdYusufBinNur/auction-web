@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div v-if="!chats.length > 0">
+    <div v-if="!chats.length > 0 && this.user?.room_id">
       <NoMessage />
     </div>
-    <div class="scroll-to-me" v-else>
+    <div class="" v-else>
       <v-card-title class="py-0 py-2">
         {{ user ? user.full_name : '' }}
       </v-card-title>
       <v-divider/>
-      <v-card flat height="57vh" class="overflow-y-auto d-flex flex-column " :loading="loading">
+      <v-card flat height="57vh" class="overflow-y-auto d-flex flex-column scroll-to-me" :loading="loading">
         <div v-for="(chat, i) in chats" :key="i" class="" v-if="!loading">
           <v-card
             v-if="chat.user_id !== userID"
@@ -100,7 +100,6 @@ export default {
     }
   },
 
-
   methods: {
     sendMessage() {
       if (this.message.message !== null) {
@@ -113,6 +112,7 @@ export default {
             this.chats.push(response.data.data)
             this.message.message = null;
             this.scrollToElement()
+            this.emitTransformedData(response.data.data);
           })
           .catch((err) => {
             this.$toast.error(err.response.data.message)
@@ -123,12 +123,35 @@ export default {
 
       }
     },
+    emitTransformedData(response) {
+      const { receiver, id, room_id, seen,created_at, message  } = response;
+      const formattedCreatedAt = new Date(created_at).toISOString().split('T')[0];
+      const truncatedMessage = message.length > 150 ? message.substring(0, 150) + '...' : message;
+
+      const transformedData = {
+        full_name: receiver.full_name,
+        photo: receiver.photo,
+        id: receiver.id,
+        room_id: room_id,
+        message: {
+          id: id,
+          message: truncatedMessage,
+          seen: seen,
+          created_at: formattedCreatedAt,
+        },
+
+
+      };
+
+      // Emit the transformed data to the parent component
+      this.$emit('message-sent', transformedData);
+    },
     getRecentChats() {
       this.loading = true;
       this.$axios.get('chats/' + this.user?.room_id)
         .then((response) => {
           this.chats = response.data.data;
-          console.log(this.receiverId)
+
           this.scrollToElement()
         })
         .catch((error) => {

@@ -119,7 +119,13 @@ export default {
         .then((response) => {
           // this.$toast.success(response.data.message)
           // this.$auth.setUser(response.data.user)
-          this.$router.push('/dashboard/home');
+
+          const redirectRoute = sessionStorage.getItem('redirect') || '/dashboard/home'; // default to dashboard
+          sessionStorage.removeItem('redirect'); // clear the session storage
+
+          // Redirect to the saved route
+          this.$router.push(redirectRoute);
+          // this.$router.push('/dashboard/home');
         })
         .catch((error) => {
           this.$toast.error(error.response.data.message)
