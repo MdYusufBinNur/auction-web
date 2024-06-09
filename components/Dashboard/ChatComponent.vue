@@ -121,12 +121,19 @@ export default {
     },
     loading: false,
     user : 'Yusuf',
-    receiver: null
+    receiver: null,
+    pollingInterval: null
   }),
 
+
   created() {
-    this.getRecentChats()
-    this.initSelectedUser()
+    this.getRecentChats();
+    this.initSelectedUser();
+    this.startPolling();
+  },
+
+  beforeDestroy() {
+    this.stopPolling();
   },
   methods: {
     openChat(item) {
@@ -137,7 +144,6 @@ export default {
       if (!query) return;
       this.$axios.get('check-chats/' + query)
         .then((response) => {
-          console.log(response.data.data)
           this.receiver = response.data?.data?.receiver
         })
         .catch((error) => {
@@ -172,8 +178,14 @@ export default {
         // If the user's id is not found, add the new chat to the beginning of the chats array
         this.chats.unshift(data);
       }
-    }
+    },
+    startPolling() {
+      this.pollingInterval = setInterval(this.getRecentChats, 3000);
+    },
 
+    stopPolling() {
+      clearInterval(this.pollingInterval);
+    }
   }
 }
 </script>

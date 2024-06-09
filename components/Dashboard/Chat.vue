@@ -12,7 +12,7 @@
         <div v-for="(chat, i) in chats" :key="i" class="" v-if="!loading">
           <v-card
             v-if="chat.user_id !== userID"
-            class="d-flex flex-row mb-6 transparent"
+            class="d-flex flex-row transparent"
             flat
             tile
           >
@@ -82,11 +82,16 @@ export default {
     },
     chats: [],
     userID: null,
-    user: null
+    user: null,
+    pollingInterval: null
   }),
   mounted() {
     this.setUserInfo();
     this.getRecentChats();
+    this.startPolling();
+  },
+  beforeDestroy() {
+    this.stopPolling();
   },
   created() {
     this.userID = this.$auth.user.data.id;
@@ -161,6 +166,17 @@ export default {
           this.loading = false;
         });
     },
+    getChatUpdate() {
+      this.$axios.get('chats/' + this.user?.room_id)
+        .then((response) => {
+          this.chats = response.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+        });
+    },
     setUserInfo(){
       this.user = this.receiverId
     },
@@ -170,6 +186,13 @@ export default {
       if (el) {
         el.scrollIntoView({ behavior: 'smooth' });
       }
+    },
+    startPolling() {
+      this.pollingInterval = setInterval(this.getChatUpdate, 3000);
+    },
+
+    stopPolling() {
+      clearInterval(this.pollingInterval);
     }
   }
 };
