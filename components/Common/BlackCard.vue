@@ -4,7 +4,7 @@
       <v-col cols="12" xs="2" sm="8" md="6">
         <v-menu
           v-model="menu"
-          :close-on-content-click="true"
+          :close-on-content-click="false"
           offset-y
         >
           <template v-slot:activator="{ on, attrs }">
