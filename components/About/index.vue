@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-5 d-flex flex-row">
+  <v-container class="d-flex flex-row">
     <div class="pa-2 d-flex justify-center">
       <v-row class="">
         <v-col cols="12" class="text-center">
@@ -7,8 +7,8 @@
             {{ $t('about_us') }}
           </div>
         </v-col>
-        <v-col cols="12" class="" :class="bp.xs ? 'px-5' : ''">
-          <v-card-text class="black--text">
+        <v-col cols="12" class="" :class="bp.xs ? 'px-2' : ''">
+          <v-card-text class="black--text text-center">
             {{ context }}
           </v-card-text>
 

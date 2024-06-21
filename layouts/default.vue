@@ -6,7 +6,7 @@
         <v-app-bar-nav-icon :ripple="false">
 
           <template v-slot:default>
-            <v-img @click="$router.push('/')" :src="'/icons/logoSVG.svg'" contain aspect-ratio="1"/>
+            <v-img @click="$router.push('/')" :src="'/icons/Adbarta.svg'" contain aspect-ratio="11"/>
           </template>
         </v-app-bar-nav-icon>
         <v-spacer/>

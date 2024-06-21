@@ -3,35 +3,35 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: 'Auction - %s',
+    titleTemplate: 'AdBarta - %s',
     htmlAttrs: {
       lang: 'en'
     },
     meta: [
-      {charset: 'utf-8'},
-      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
         hid: 'description',
         name: 'description',
-        content: 'In the tapestry of my journey, I am guided by a steadfast belief in the power of long-term vision. For me, social work is a calling, a way of life that I embrace with a sense of purpose that runs deep. From the very first act of kindness, as a child, when I donated my excess clothes to those in need, I knew that this path was meant for me. It ignited a fire within, a commitment to serve, to stand alongside those who seek betterment, to be a beacon of hope.'
+        content: 'AdBarta is an online marketplace where users can buy and sell a wide range of products. From electronics and fashion to home goods and services, AdBarta offers a convenient platform for all your buying and selling needs. Join our community today and start exploring endless possibilities!'
       },
-      {name: 'format-detection', content: 'telephone=no'},
-      {property: 'og:type', content: 'website'},
-      {property: 'og:title', content: 'Auction'},
+      { name: 'format-detection', content: 'telephone=no' },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:title', content: 'AdBarta - Buy and Sell Online' },
       {
         property: 'og:description',
-        content: 'In the tapestry of my journey, I am guided by a steadfast belief in the power of long-term vision. For me, social work is a calling, a way of life that I embrace with a sense of purpose that runs deep. From the very first act of kindness, as a child, when I donated my excess clothes to those in need, I knew that this path was meant for me. It ignited a fire within, a commitment to serve, to stand alongside those who seek betterment, to be a beacon of hope.'
+        content: 'AdBarta is an online marketplace where users can buy and sell a wide range of products. From electronics and fashion to home goods and services, AdBarta offers a convenient platform for all your buying and selling needs. Join our community today and start exploring endless possibilities!'
       },
-      // Replace with the actual image URL
-
+      // { property: 'og:image', content: 'https://example.com/your-image-url.jpg' },  // Replace with the actual image URL
     ],
+
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
     ]
   },
 
-  ssr: false,
-  target: 'static',
+  // ssr: false,
+  // target: 'static',
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '~/assets/main.css'
@@ -58,7 +58,8 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
     "vue-toastification/nuxt",
-    '@nuxtjs/i18n'
+    '@nuxtjs/i18n',
+    '@nuxtjs/dotenv',
   ],
   i18n: {
     locales: [
@@ -85,7 +86,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'http://adbarta-api/api/v1',
+    baseURL: process.env.BASE_URL,
     // baseURL: 'https://service.gcare.com.bd/api/v1',
 
 

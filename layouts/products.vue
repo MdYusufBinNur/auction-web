@@ -5,9 +5,8 @@
         <v-spacer v-if="bp.smAndDown"/>
         <v-app-bar-nav-icon :ripple="false">
           <template v-slot:default>
-            <v-img @click="$router.push('/')" :src="LogoSVG">
+            <v-img @click="$router.push('/')" :src="'/icons/Adbarta.svg'" contain aspect-ratio="11"/>
 
-            </v-img>
           </template>
         </v-app-bar-nav-icon>
         <v-spacer/>

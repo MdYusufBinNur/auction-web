@@ -85,12 +85,16 @@ export default {
       },
       {
         title: 'All Ads',
-        to: '#'
+        to: '/products'
       },
       {
-        title: 'About Us',
-        to: '#'
-      }
+        title: 'Privacy policy',
+        to: '/privacy-policy'
+      },
+      {
+        title: 'Terms & Conditions',
+        to: '/terms-condition'
+      },
     ],
     useful: [
       {

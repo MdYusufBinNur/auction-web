@@ -11,11 +11,11 @@
       <v-icon color="white">mdi-home-outline</v-icon>
       <span>Home</span>
     </v-btn>
-    <v-btn @click.prevent="$router.push('/dashboard/ads')" class="white--text">
+    <v-btn @click="$router.push('/dashboard/ads')" class="white--text">
       <v-icon color="white">mdi-invoice-outline</v-icon>
       <span>All Ads</span>
     </v-btn>
-    <v-btn @click.prevent="$router.push('/dashboard/ads/create')" class="white--text">
+    <v-btn @click="$router.push('/dashboard/ads/create')" class="white--text">
       <v-icon color="white">mdi-book-plus-outline</v-icon>
       <span>Post Ad</span>
     </v-btn>
