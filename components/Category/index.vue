@@ -45,8 +45,6 @@ export default {
   name: "Category",
   data() {
     return {
-      service, overseas, agriculture, education, essential, business, women, fashion,
-      mobile, electronic, property, living, job, sports, pet, car,
       categories: [],
       loading: false
     }
