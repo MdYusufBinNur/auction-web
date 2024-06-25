@@ -1,0 +1,21 @@
+{
+  "name": "AdBarta",
+  "short_name": "AdBarta",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "description": "AdBarta is an online marketplace where users can buy and sell a wide range of products. From electronics and fashion to home goods and services, AdBarta offers a convenient platform for all your buying and selling needs. Join our community today and start exploring endless possibilities!",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
