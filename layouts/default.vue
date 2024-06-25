@@ -105,10 +105,13 @@ import ArrowUpRightSVG from "/static/icons/ArrowUpRightSVG.svg";
 import ShortLogoSVG from "/static/icons/ShortLogoSVG.svg";
 import BottomNavigation from "../components/Common/BottomNavigation.vue";
 import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
+import WhatsAppButton from "@/components/Social/WhatsAppButton";
 
 export default {
   name: "default",
-  components: {LanguageSwitcher, BottomNavigation, ShortLogoSVG, LogoSVG, ArrowUpRightSVG, MenuSVG, SearchSVG, Footer},
+  components: {
+    WhatsAppButton,
+    LanguageSwitcher, BottomNavigation, ShortLogoSVG, LogoSVG, ArrowUpRightSVG, MenuSVG, SearchSVG, Footer},
   data: () => ({
     dialog: false,
     notifications: false,

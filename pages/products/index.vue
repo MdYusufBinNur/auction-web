@@ -41,6 +41,7 @@
             <v-chip
               v-for="tag in categories"
               :key="tag"
+              @click="fetchData(tag)"
             >
               {{ tag.name }}
             </v-chip>
