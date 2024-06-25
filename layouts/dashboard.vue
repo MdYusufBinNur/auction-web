@@ -13,7 +13,7 @@
           <template v-slot:activator="{ on, attrs }">
             <v-btn text plain small rounded v-bind="attrs" class="px-0" v-on="on" style="background-color: transparent">
               <v-avatar :size="bp.smAndDown ? 20 : 30" v-show="bp.mdAndUp" >
-                <v-img :src="'https://cdn.vuetifyjs.com/images/john.png'"></v-img>
+                <v-img :src="userImage"></v-img>
               </v-avatar>
               <v-list-item-content  class="px-0">
 
@@ -35,7 +35,7 @@
                 selectable
               >
                 <v-avatar size="40" v-show="bp.mdAndUp">
-                  <v-img :src="'https://cdn.vuetifyjs.com/images/john.png'"></v-img>
+                  <v-img :src="userImage"></v-img>
                 </v-avatar>
                 <v-list-item-content >
                   <v-card-subtitle class="pa-0 px-2">
@@ -138,7 +138,7 @@ export default {
       dialog: false,
       drawer: true,
       username: '',
-      userImage: '',
+      userImage: 'https://cdn.vuetifyjs.com/images/john.png',
       selectedComponent: 'WalletComponent',
       items: [
         // {title: 'Home', icon: 'mdi-view-dashboard-outline', component: 'HomeComponent'},
@@ -162,6 +162,7 @@ export default {
       this.isLoggedIn = this.$auth?.loggedIn
       this.username = this.$auth?.user?.data?.name
       this.userRole = this.$auth?.user?.data?.role
+      this.userImage = this.$auth?.user?.data?.photo
     },
     logout() {
       this.loading = true

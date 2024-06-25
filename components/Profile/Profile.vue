@@ -13,7 +13,7 @@
               <span class="white--text px-5"> {{ editedItem.name }}</span>
               <v-spacer>
               </v-spacer>
-              <v-btn rounded outlined color="primary" class="white--text  text-capitalize" @click="openDialog">
+              <v-btn rounded outlined color="black" class="text-capitalize" @click="openDialog">
                 Update Info
               </v-btn>
             </v-app-bar>
@@ -394,20 +394,19 @@ export default {
       formData.append('street', this.editedItem.street)
       formData.append('dob', this.editedItem.dob)
 
-      if (this.editedItem.photo) {
+      if (this.editedItem.photo && this.editedItem.photo instanceof Blob) {
         formData.append('image', this.editedItem.photo)
       }
-      if (this.editedItem.nid_one) {
-        formData.append('nid_one', this.editedItem.nid_one)
+      if (this.editedItem.nid_one && this.editedItem.nid_one instanceof Blob) {
+        formData.append('nid_one', this.editedItem.nid_one);
       }
-      if (this.editedItem.nid_two) {
-        formData.append('nid_two', this.editedItem.nid_two)
+      if (this.editedItem.nid_two && this.editedItem.nid_two instanceof Blob) {
+        formData.append('nid_two', this.editedItem.nid_two);
       }
 
       this.$axios.post(`profile-update`, formData)
         .then((res) => {
           this.$toast.success(res.data.message)
-          console.log(res.data)
           this.editedItem = Object.assign({}, res.data.data)
           this.dialog = false
         })

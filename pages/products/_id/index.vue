@@ -8,9 +8,9 @@
         <v-card-title class="px-0">
           {{this.item?.title}}
         </v-card-title>
-        <v-card-text class="px-0">
+        <v-card-text class="px-0" v-if="this.item.date">
           <div class="text-caption">
-            Posted on {{this.item?.date + ', ' + this.item?.location}}
+            Posted on {{this.item.date + ', ' + this.item.location}}
           </div>
         </v-card-text>
       </v-col>

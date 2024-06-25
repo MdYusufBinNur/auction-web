@@ -27,24 +27,7 @@ export default {
   data() {
     return {
       aboutImage,
-      context: "About Auction, The Largest Marketplace in Bangladesh!\n" +
-        "Auction is a platform on which you can buy and sell almost everything! We help people buy and sell vehicles, find properties, get jobs or recruit employees, buy and sell mobile phones, purchase electronic products, and much more. With more than 50 categories our solutions are built to be safe, smart, and convenient for our customers.\n" +
-        "\n" +
-        "Buy, Sell, Rent, or Find Jobs in Bangladesh\n" +
-        "Every month, hundreds of millions of people use Auction to find and sell mobiles, musical instruments, cars, houses, jobs, and more through classified ads. To sell new items or sell used items quickly, Auction offers Ad Promotion features.\n" +
-        "\n" +
-        "Auction has an extensive collection of new and used goods, making it easier for users to quickly buy new items or buy used items at their desired location. To buy online, users easily can reach their desired products through filtering options.\n" +
-        "\n" +
-        "For businesses, Auction has introduced the ‘Membership’ service, which helps them expand their businesses online. Members will have their virtual shop with a Auction URL with free promotions of their goods. With different membership categories, businesses can flourish as verified members and authorized dealers.\n" +
-        "\n" +
-        "With millions of unique monthly visitors, thousands of interested buyers, and thousands of active dealers on our platform, Auction is the Largest Marketplace in Bangladesh.\n" +
-        "\n" +
-        "Benefits of Trading at Auction\n" +
-        "At Auction, we make it so easy to connect people to buy, sell or rent goods and services as other classified sites.\n" +
-        "\n" +
-        "Fast & Easy Experience: Navigated buying and selling experience in Bangladesh which is simpler, faster, and easier. Shop and sell on the go and get your desired products in just a few clicks.\n" +
-        "Post Ads Free: As a free classified website, we offer free ad posting features in many categories for the convenience of the users based on their locations.\n" +
-        "Safe & Secure Shopping: We have listed our verified members and authorized dealers to create a safe shopping experience for our users."
+      context: "We started our journey in 2024 with a vision to become the leading e-commerce online marketplace to buy and sell stuff in Bangladesh. We are rapidly powering up our organization, our service and our technology. Working with adbarta.com will be an unforgettable period in your life at a time when internet growth is exploding in Bangladesh. We offer highly competitive compensation, amazing team mates, exciting challenges and non-stop learning opportunities."
     }
   }
 }

@@ -24,7 +24,7 @@
 
             <v-card
               elevation="8"
-              class="transparent primary px-2"
+              class="primary px-2"
               dark
             >
               <v-icon color="white" class="pa-2">
@@ -56,7 +56,7 @@
 
             <v-card
               elevation="8"
-              class="transparent primary px-2"
+              class="primary px-2"
               dark
             >
               <v-icon color="white" class="pa-2">
