@@ -86,7 +86,10 @@ export default {
       this.menu = true
       let formData = new FormData()
       formData.append('title', this.searchKey)
-      this.$axios.get('search-ad', formData)
+      for (var pair of formData.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]);
+      }
+      this.$axios.post('search-ad', formData)
         .then((response) => {
           this.searchResults = response.data.data
         })
