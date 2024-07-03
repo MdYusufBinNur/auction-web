@@ -272,15 +272,17 @@ export default {
     }
   },
   created() {
+    this.getCategories()
+    this.getDivisions()
     if (this.$auth?.user?.data?.type === 'free') {
       this.newPost.product_type = 'normal'
       this.disableAdTypeSelection = true
-
     }
 
+
+
     this.getLocalStorageAdData()
-    this.getCategories()
-    this.getDivisions()
+
   },
   beforeDestroy() {
     localStorage.removeItem('edit-ad');
@@ -332,16 +334,22 @@ export default {
     },
     getCategories() {
       this.categoryLoader = true
-      this.$axios.get('category-list')
-        .then((response) => {
-          this.categories = response.data.data
-        })
-        .catch((error) => {
+      if (this.$auth?.user?.data?.categories && this.$auth?.user?.data?.categories.length > 0 ) {
+        this.categories = this.$auth?.user?.data?.categories
+        this.categoryLoader = false
+      } else {
+        this.$axios.get('category-list')
+          .then((response) => {
+            this.categories = response.data.data
+          })
+          .catch((error) => {
 
-        })
-        .finally(() => {
-          this.categoryLoader = false
-        })
+          })
+          .finally(() => {
+            this.categoryLoader = false
+          })
+      }
+
     },
     getDivisions() {
       this.$axios.get('divisions')
@@ -458,21 +466,24 @@ export default {
     },
 
     getLocalStorageAdData() {
-      const itemJSON = localStorage.getItem('edit-ad');
-      if (itemJSON) {
-        const item = JSON.parse(itemJSON);
-        this.newPost = Object.assign({}, item)
-        this.newPost.additional_mobile = item.additional_contact_number
-        this.newPost.name = item.contact_name
-        this.newPost.email = item.contact_email
-        this.newPost.mobile = item.contact_number
-        this.newPost.productImage = []
-        this.newPost.product_type = item.ad_type === "Normal Ad" ? "normal" : "premium"
-        this.newPost.condition = item.condition === "New" ? "new" : 'used'
-        this.setSub(this.newPost.category_id)
-        this.setDistricts(this.newPost.division_id)
-        this.setSubDistricts(this.newPost.district_id)
+      if (process.client) {
+        const itemJSON = localStorage.getItem('edit-ad');
+        if (itemJSON) {
+          const item = JSON.parse(itemJSON);
+          this.newPost = Object.assign({}, item)
+          this.newPost.additional_mobile = item.additional_contact_number
+          this.newPost.name = item.contact_name
+          this.newPost.email = item.contact_email
+          this.newPost.mobile = item.contact_number
+          this.newPost.productImage = []
+          this.newPost.product_type = item.ad_type === "Normal Ad" ? "normal" : "premium"
+          this.newPost.condition = item.condition === "New" ? "new" : 'used'
+          this.setSub(this.newPost.category_id)
+          this.setDistricts(this.newPost.division_id)
+          this.setSubDistricts(this.newPost.district_id)
+        }
       }
+
     }
   }
 }
