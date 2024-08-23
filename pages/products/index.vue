@@ -175,7 +175,18 @@ export default {
     },
     init() {
       this.loading = true
-      this.$store.dispatch('category/init')
+      // this.$store.dispatch('category/init')
+      //   .finally(() => {
+      //     this.loading = false
+      //   })
+      this.$axios
+        .get('category-list')
+        .then((response) => {
+          this.categories = response.data.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
         .finally(() => {
           this.loading = false
         })
@@ -202,21 +213,21 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      categoryList: 'category/getCategories'
-    })
+    // ...mapGetters({
+    //   categoryList: 'category/getCategories'
+    // })
   },
 
   watch: {
-    categoryList: {
-      handler(nv, ov) {
-        if (this.categoryList && this.categoryList.length) {
-          this.categories = JSON.parse(JSON.stringify(this.categoryList))
-        }
-      },
-      immediate: true,
-      deep: true
-    },
+    // categoryList: {
+    //   handler(nv, ov) {
+    //     if (this.categoryList && this.categoryList.length) {
+    //       this.categories = JSON.parse(JSON.stringify(this.categoryList))
+    //     }
+    //   },
+    //   immediate: true,
+    //   deep: true
+    // },
   },
   created() {
     this.initAllAds()
