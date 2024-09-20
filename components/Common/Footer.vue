@@ -95,6 +95,10 @@ export default {
         title: 'Terms & Conditions',
         to: '/terms-condition'
       },
+      {
+        title: 'Account Delete',
+        to: '/account-deletion-process'
+      },
     ],
     useful: [
       {
