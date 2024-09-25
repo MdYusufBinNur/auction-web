@@ -10,7 +10,7 @@
         {{ $t('buy_credit')}}
       </v-btn>
     </v-col>
-    <GlobalOnlinePayment order_id="1" @CloseGlobalPaymentDialog="handleCloseEvent" v-if="showGlobalPaymentDialog"/>
+    <GlobalOnlinePayment @CloseGlobalPaymentDialog="handleCloseEvent" v-if="showGlobalPaymentDialog"/>
 
   </v-row>
 </template>

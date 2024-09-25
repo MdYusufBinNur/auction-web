@@ -67,9 +67,9 @@ export default {
     };
   },
   props: {
-    order_id: {
+    amount: {
       type: Number,
-      required: true
+      required: false
     }
   },
   methods: {
@@ -81,7 +81,8 @@ export default {
       this.selectedOption = ''
       this.$emit('CloseGlobalPaymentDialog')
       this.dialog = false
-    }
+    },
+
   }
 }
 </script>
