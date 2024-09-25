@@ -79,7 +79,7 @@
                     <v-img
                       height="250"
                       :src="slide.image"
-                      lazy-src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                      lazy-src="https://picsum.photos/id/11/100/60"
                     ></v-img>
                   </v-carousel-item>
                 </v-carousel>

@@ -11,7 +11,8 @@
               </v-card-text>
             </v-col>
             <v-col cols="12">
-              <v-select :items="adType" :disabled="disableAdTypeSelection" v-model="newPost.product_type" item-text="name" item-value="value"
+              <v-select :items="adType" :disabled="disableAdTypeSelection" v-model="newPost.product_type"
+                        item-text="name" item-value="value"
                         :rules="[v => !!v || 'Item is required']" :label="$t('Ad Type')" outlined hide-details="auto"
                         required></v-select>
             </v-col>
@@ -81,7 +82,7 @@
             <v-col v-for="(image, index) in 4" :key="index" cols="12" sm="6" xs="6" md="3">
               <div class="custom_block" style="padding: 10px">
                 <v-row v-if="logoPreviewURL[index]" class="text-center">
-                  <v-col cols="12" class="d-flex justify-center">
+                  <v-col cols="12" class="d-flex justify-center align-stretch">
                     <v-img :src="logoPreviewURL[index]" max-width="120" height="auto"/>
                   </v-col>
                   <v-col cols="12">
@@ -117,6 +118,7 @@
                   color="primary"
                   rounded
                   outlined
+                  :loading="imageLoader[index]"
                   x-small
                   class="text-capitalize"
                   @click.prevent="openFileInput(index)">
@@ -213,6 +215,7 @@ export default {
       sub_districts: [],
       loading: false,
       dialogCreatePost: false,
+      imageLoader: [],
       categoryLoader: false,
       subCategoryLoader: false,
       newPost: {
@@ -280,7 +283,6 @@ export default {
     }
 
 
-
     this.getLocalStorageAdData()
 
   },
@@ -291,17 +293,32 @@ export default {
     onImageChange(event, index) {
       const file = event.target.files[0];
       if (!file) return; // Handle case when no file is selected
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.$set(this.logoPreviewURL, index, reader.result); // Update the preview URL
-        // Force re-render of the component
-        this.$forceUpdate();
-      };
-      reader.readAsDataURL(file); // Read the file as a data URL
-      this.newPost.productImage[index] = file; // Store the file in the appropriate index
+      // const reader = new FileReader();
+      // reader.onload = () => {
+      //   this.$set(this.logoPreviewURL, index, reader.result); // Update the preview URL
+      //   // Force re-render of the component
+      //   this.$forceUpdate();
+      // };
+      // reader.readAsDataURL(file);
+
+      let formData = new FormData()
+      formData.append('image', file)
+      this.$set(this.imageLoader, index, true);
+      this.$axios.post('upload-image', formData)
+        .then((response) => {
+          this.newPost.productImage[index] = response.data.data
+          this.logoPreviewURL[index] = response.data.data
+        })
+        .catch((error) => {
+          this.$toast.error(error.response.data.message)
+        })
+        .finally(() => {
+          this.$set(this.imageLoader, index, false);
+        })
+      // this.newPost.productImage[index] = file;
+      // Store the file in the appropriate index
     },
     openFileInput(index) {
-      // Programmatically open the file input corresponding to the given index
       this.$refs.fileInputs[index].click();
     },
     canUpload(index) {
@@ -318,8 +335,9 @@ export default {
       return true; // Enable upload if all preceding slots are filled
     },
     removeImage(index) {
-      this.$set(this.newPost.productImage, index, ''); // Reset the image file
-      this.$set(this.logoPreviewURL, index, null); // Reset the preview URL
+      this.newPost.productImage.splice(index, 1);  // Remove the image file from the array
+      this.logoPreviewURL.splice(index, 1);        // Remove the preview URL from the array
+
       // Force re-render of the component
       this.$forceUpdate();
     },
@@ -334,7 +352,7 @@ export default {
     },
     getCategories() {
       this.categoryLoader = true
-      if (this.$auth?.user?.data?.categories && this.$auth?.user?.data?.categories.length > 0 ) {
+      if (this.$auth?.user?.data?.categories && this.$auth?.user?.data?.categories.length > 0) {
         this.categories = this.$auth?.user?.data?.categories
         this.categoryLoader = false
       } else {
@@ -409,6 +427,7 @@ export default {
         .then((response) => {
           this.$toast.success(response.data.message)
           this.newPost = Object.assign({}, this.defaultNewPost)
+          this.logoPreviewURL = []
           localStorage.setItem('selectedComponent', 'MyAdsComponent')
           this.$refs.form.reset()
         })
@@ -456,6 +475,7 @@ export default {
           this.newPost = Object.assign({}, this.defaultNewPost)
           localStorage.setItem('selectedComponent', 'MyAdsComponent')
           this.$refs.form.reset()
+          this.logoPreviewURL = []
         })
         .catch((error) => {
           this.$toast.error(error.response.data.message)
