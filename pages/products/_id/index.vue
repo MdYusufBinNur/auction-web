@@ -29,7 +29,7 @@
             <!-- Condition -->
             <v-row class="px-0">
               <v-col cols="12" sm="12">
-                <v-card-title class="px-0">{{ $t('price') }}: {{ this.item?.price }}TK</v-card-title>
+                <v-card-title class="px-0">{{ $t('price') }}: {{ this.item?.price }}</v-card-title>
               </v-col>
               <v-col cols="12" sm="6" class="py-0">
                 <v-card-text class="px-0">{{ $t('Condition') }}: {{ this.item?.condition }}</v-card-text>
@@ -41,14 +41,16 @@
 <!--                <v-card-text class="px-0">{{ $t('model') }}: {{ this.item?.price }}</v-card-text>-->
 <!--              </v-col>-->
               <v-col cols="12" sm="6" class="py-0">
-                <v-card-text class="px-0">{{ $t('edition') }}: {{ this.item?.edition }}</v-card-text>
+                <v-card-text class="px-0">{{ $t('edition') }}: {{ this.item?.edition ?? '' }}</v-card-text>
               </v-col>
               <v-col cols="12" sm="6" class="py-0">
                 <v-card-text class="px-0">{{ $t('authenticity') }}: {{ this.item?.authenticity }}</v-card-text>
               </v-col>
               <v-col cols="12" class="py-0">
-                <v-subheader class="px-0">Features:</v-subheader>
-                <v-card-text class="px-0">{{ this.item?.features  }}</v-card-text>
+                <v-subheader class="px-0 font-weight-bold text-body-1">Features:</v-subheader>
+
+                <v-card-text class="px-0" style="white-space: pre-wrap;">{{ this.item?.features }}</v-card-text>
+
               </v-col>
             </v-row>
 
