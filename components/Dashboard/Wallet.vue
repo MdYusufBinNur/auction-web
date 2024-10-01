@@ -142,28 +142,28 @@ export default {
         })
     },
     executePayment() {
-      this.trxLoader = true
-      let formData = new FormData()
-      formData.append('paymentID', this.$route.query['paymentID'])
-      this.$axios.post('bkash-execute-payment', formData)
-        .then((response) => {
-          if (response?.data?.statusCode !== '0000') {
-            this.$toast.error(response?.data?.statusMessage)
-          } else {
-            this.$toast.success('Payment completed')
-          }
-          this.$router.push('/dashboard/wallet')
-          // this.initWallet()
-          // this.$router.push('/')
-        })
-        .catch((error) => {
-          // this.$toast.error(error.response.data.message)
-          this.$toast.error('Payment error!')
-          this.$router.push('/dashboard/wallet')
-        })
-        .finally(() => {
-          this.trxLoader = false
-        })
+      if (process.client) {
+        this.trxLoader = true
+        let formData = new FormData()
+        formData.append('paymentID', this.$route.query['paymentID'])
+        this.$axios.post('bkash-execute-payment', formData)
+          .then((response) => {
+            if (response?.data?.statusCode !== '0000') {
+              this.$toast.error(response?.data?.statusMessage)
+            } else {
+              this.$toast.success('Payment completed')
+            }
+            this.$router.push('/dashboard/wallet')
+          })
+          .catch((error) => {
+            this.$toast.error('Payment error!')
+            this.$router.push('/dashboard/wallet')
+          })
+          .finally(() => {
+            this.trxLoader = false
+          })
+      }
+
     }
 
   }
