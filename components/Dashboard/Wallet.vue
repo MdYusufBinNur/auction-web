@@ -153,6 +153,7 @@ export default {
             } else {
               this.$toast.success('Payment completed')
             }
+            this.initWallet()
             this.$router.push('/dashboard/wallet')
           })
           .catch((error) => {
