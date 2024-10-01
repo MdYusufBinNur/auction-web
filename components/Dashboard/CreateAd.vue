@@ -639,33 +639,49 @@ export default {
       if (!this.$refs.form.validate()) {
         return
       }
+
+      // Helper function to append only non-null and non-empty values
+      const appendIfNotNull = (key, value) => {
+        if (value !== null && value !== undefined && value !== '') {
+          formData.append(key, value)
+        }
+      }
+
       this.loading = true
       let formData = new FormData()
-      formData.append('category_id', this.newPost.category_id)
-      formData.append('sub_category_id', this.newPost.sub_category_id)
-      formData.append('division_id', this.newPost.division_id)
-      formData.append('district_id', this.newPost.district_id)
-      formData.append('product_type', this.newPost.product_type)
-      formData.append('sub_district_id', this.newPost.sub_district_id)
-      formData.append('location', this.newPost.location)
-      formData.append('price', this.newPost.price)
-      formData.append('authenticity', this.newPost.authenticity)
-      formData.append('edition', this.newPost.edition)
-      formData.append('brand', this.newPost.brand)
-      formData.append('condition', this.newPost.condition)
-      formData.append('title', this.newPost.title)
-      formData.append('size', this.newPost.size)
-      formData.append('color', this.newPost.color)
-      formData.append('contact_name', this.newPost.name)
-      formData.append('features', this.newPost.features)
-      formData.append('contact_email', this.newPost.email)
-      formData.append('contact_number', this.newPost.mobile)
-      formData.append('additional_contact_number', this.newPost.additional_mobile)
-      formData.append('show_contact_number', this.newPost.show_contact_number)
+
+      // Use the helper function to append form data
+      appendIfNotNull('category_id', this.newPost.category_id)
+      appendIfNotNull('sub_category_id', this.newPost.sub_category_id)
+      appendIfNotNull('division_id', this.newPost.division_id)
+      appendIfNotNull('district_id', this.newPost.district_id)
+      appendIfNotNull('product_type', this.newPost.product_type)
+      appendIfNotNull('sub_district_id', this.newPost.sub_district_id)
+      appendIfNotNull('location', this.newPost.location)
+      appendIfNotNull('price', this.newPost.price)
+      appendIfNotNull('authenticity', this.newPost.authenticity)
+      appendIfNotNull('edition', this.newPost.edition)
+      appendIfNotNull('brand', this.newPost.brand)
+      appendIfNotNull('condition', this.newPost.condition)
+      appendIfNotNull('title', this.newPost.title)
+      appendIfNotNull('size', this.newPost.size)
+      appendIfNotNull('color', this.newPost.color)
+      appendIfNotNull('contact_name', this.newPost.name)
+      appendIfNotNull('features', this.newPost.features)
+      appendIfNotNull('contact_email', this.newPost.email)
+      appendIfNotNull('contact_number', this.newPost.mobile)
+      appendIfNotNull('additional_contact_number', this.newPost.additional_mobile)
+      appendIfNotNull('show_contact_number', this.newPost.show_contact_number)
+
+      // Append method override for PUT request
       formData.append('_method', 'put')
+
+      // Handle images (assuming they should always be sent)
       for (let i = 0; i < this.newPost.productImage.length; i++) {
         formData.append(`image[${i}]`, this.newPost.productImage[i])
       }
+
+      // Send the request
       this.$axios.post('products/' + this.newPost.id, formData)
         .then((response) => {
           this.$toast.success(response.data.message)
@@ -681,6 +697,59 @@ export default {
           this.loading = false
         })
     },
+
+    // update() {
+    //   if (!this.$refs.form.validate()) {
+    //     return
+    //   }
+    //
+    //   const appendIfNotNull = (key, value) => {
+    //     if (value !== null && value !== undefined && value !== '') {
+    //       formData.append(key, value)
+    //     }
+    //   }
+    //   this.loading = true
+    //   let formData = new FormData()
+    //   formData.append('category_id', this.newPost.category_id)
+    //   formData.append('sub_category_id', this.newPost.sub_category_id)
+    //   formData.append('division_id', this.newPost.division_id)
+    //   formData.append('district_id', this.newPost.district_id)
+    //   formData.append('product_type', this.newPost.product_type)
+    //   formData.append('sub_district_id', this.newPost.sub_district_id)
+    //   formData.append('location', this.newPost.location)
+    //   formData.append('price', this.newPost.price)
+    //   formData.append('authenticity', this.newPost.authenticity)
+    //   formData.append('edition', this.newPost.edition)
+    //   formData.append('brand', this.newPost.brand)
+    //   formData.append('condition', this.newPost.condition)
+    //   formData.append('title', this.newPost.title)
+    //   formData.append('size', this.newPost.size)
+    //   formData.append('color', this.newPost.color)
+    //   formData.append('contact_name', this.newPost.name)
+    //   formData.append('features', this.newPost.features)
+    //   formData.append('contact_email', this.newPost.email)
+    //   formData.append('contact_number', this.newPost.mobile)
+    //   formData.append('additional_contact_number', this.newPost.additional_mobile)
+    //   formData.append('show_contact_number', this.newPost.show_contact_number)
+    //   formData.append('_method', 'put')
+    //   for (let i = 0; i < this.newPost.productImage.length; i++) {
+    //     formData.append(`image[${i}]`, this.newPost.productImage[i])
+    //   }
+    //   this.$axios.post('products/' + this.newPost.id, formData)
+    //     .then((response) => {
+    //       this.$toast.success(response.data.message)
+    //       this.newPost = Object.assign({}, this.defaultNewPost)
+    //       localStorage.setItem('selectedComponent', 'MyAdsComponent')
+    //       this.$refs.form.reset()
+    //       this.logoPreviewURL = []
+    //     })
+    //     .catch((error) => {
+    //       this.$toast.error(error.response.data.message)
+    //     })
+    //     .finally(() => {
+    //       this.loading = false
+    //     })
+    // },
 
     getLocalStorageAdData() {
       if (process.client) {
