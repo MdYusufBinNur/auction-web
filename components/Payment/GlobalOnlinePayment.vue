@@ -20,16 +20,16 @@
                 <v-img :src="bkash" alt="Bkash" max-width="100" max-height="100"/>
               </template>
             </v-radio>
-            <v-radio
-              :ripple="false"
-              color="secondary"
-              @click="showSelectedPaymentModal('nagad')"
-            >
-              <template v-slot:label>
-                <v-img :src="nagad" alt="Nagad" max-width="100" max-height="100"/>
-              </template>
+<!--            <v-radio-->
+<!--              :ripple="false"-->
+<!--              color="secondary"-->
+<!--              @click="showSelectedPaymentModal('nagad')"-->
+<!--            >-->
+<!--              <template v-slot:label>-->
+<!--                <v-img :src="nagad" alt="Nagad" max-width="100" max-height="100"/>-->
+<!--              </template>-->
 
-            </v-radio>
+<!--            </v-radio>-->
           </v-radio-group>
 
         </v-card-actions>

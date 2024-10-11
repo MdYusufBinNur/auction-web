@@ -201,36 +201,36 @@
               dense
             />
           </v-col>
-          <v-col cols="12" md="6" class="pa-2">
+<!--          <v-col cols="12" md="6" class="pa-2">-->
 
-            <label class="">{{ 'NID' }}</label>
+<!--            <label class="">{{ 'NID' }}</label>-->
 
-            <v-file-input
-              hide-details="auto"
-              v-model="editedItem.nid_one"
-              outlined
-              hint="Front part of your NID"
-              dense
-              prepend-icon=""
-              persistent-hint
-              append-icon="mdi-file"
-            />
-          </v-col>
-          <v-col cols="12" md="6" class="pa-2">
+<!--            <v-file-input-->
+<!--              hide-details="auto"-->
+<!--              v-model="editedItem.nid_one"-->
+<!--              outlined-->
+<!--              hint="Front part of your NID"-->
+<!--              dense-->
+<!--              prepend-icon=""-->
+<!--              persistent-hint-->
+<!--              append-icon="mdi-file"-->
+<!--            />-->
+<!--          </v-col>-->
+<!--          <v-col cols="12" md="6" class="pa-2">-->
 
-            <label class="">{{ 'NID' }}</label>
+<!--            <label class="">{{ 'NID' }}</label>-->
 
-            <v-file-input
-              hide-details="auto"
-              v-model="editedItem.nid_two"
-              outlined
-              persistent-hint
-              hint="Back part of your NID"
-              dense
-              prepend-icon=""
-              append-icon="mdi-file"
-            />
-          </v-col>
+<!--            <v-file-input-->
+<!--              hide-details="auto"-->
+<!--              v-model="editedItem.nid_two"-->
+<!--              outlined-->
+<!--              persistent-hint-->
+<!--              hint="Back part of your NID"-->
+<!--              dense-->
+<!--              prepend-icon=""-->
+<!--              append-icon="mdi-file"-->
+<!--            />-->
+<!--          </v-col>-->
 
         </v-row>
         <v-row no-gutters>
@@ -397,12 +397,12 @@ export default {
       if (this.editedItem.photo && this.editedItem.photo instanceof Blob) {
         formData.append('image', this.editedItem.photo)
       }
-      if (this.editedItem.nid_one && this.editedItem.nid_one instanceof Blob) {
-        formData.append('nid_one', this.editedItem.nid_one);
-      }
-      if (this.editedItem.nid_two && this.editedItem.nid_two instanceof Blob) {
-        formData.append('nid_two', this.editedItem.nid_two);
-      }
+      // if (this.editedItem.nid_one && this.editedItem.nid_one instanceof Blob) {
+      //   formData.append('nid_one', this.editedItem.nid_one);
+      // }
+      // if (this.editedItem.nid_two && this.editedItem.nid_two instanceof Blob) {
+      //   formData.append('nid_two', this.editedItem.nid_two);
+      // }
 
       this.$axios.post(`profile-update`, formData)
         .then((res) => {
