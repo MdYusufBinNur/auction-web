@@ -41,6 +41,7 @@ export default {
   plugins: [
     '@/plugins/globalPlugins.js',
     '@/plugins/axios.js',
+    { src: '~/plugins/socket.io.js', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -60,6 +61,7 @@ export default {
     "vue-toastification/nuxt",
     '@nuxtjs/i18n',
     '@nuxtjs/dotenv',
+    'nuxt-socket-io',
   ],
   i18n: {
     locales: [
@@ -82,7 +84,26 @@ export default {
       fallbackLocale: 'en',
     }
   },
-
+  io: {
+    // module options
+    sockets: [{
+      name: 'connected',
+      url: 'https://socket.adbarta.com/'
+    }],
+    server: {
+      cors: {
+        credentials: true,
+        origin: [
+          // whitelisted origins
+          'http://localhost:3001',
+          'https://adbarta.com',
+          'https://admin.adbarta.com',
+          'https://api.adbarta.com',
+          'https://socket.adbarta.com',
+        ]
+      }
+    }
+  },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308

@@ -88,7 +88,7 @@ export default {
   mounted() {
     this.setUserInfo();
     this.getRecentChats();
-    this.startPolling();
+    // this.startPolling();
   },
   beforeDestroy() {
     this.stopPolling();
@@ -111,7 +111,11 @@ export default {
         let formData = new FormData()
         formData.append('receiver_id', this.user?.id)
         formData.append('message', this.message.message)
-
+        const js = {
+          receiver_id : this.user?.id,
+          message : this.message.message,
+        }
+        this.$socket.emit('new_chat', js)
         this.$axios.post('chats', formData)
           .then((response) => {
             this.chats.push(response.data.data)

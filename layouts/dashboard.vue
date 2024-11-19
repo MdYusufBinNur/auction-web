@@ -117,6 +117,7 @@ import LogoSVG from "/static/icons/logoSVG.svg";
 import logoutIcon from "/static/icons/Logout.png";
 import BottomNavigation from "@/components/Common/BottomNavigation";
 import Footer from "@/components/Common/Footer";
+import io from "socket.io-client";
 
 export default {
   name: "dashboard",
@@ -148,6 +149,10 @@ export default {
         {title: 'Profile', icon: 'mdi-account-outline', component: 'ProfileComponent'},
         {title: 'Chat', icon: 'mdi-wechat', component: 'ChatComponent'},
       ],
+      socket: null, // Socket instance
+      chats: [], // Messages
+      userID: 2, // Current user
+      user: null,
     }
 
   },
@@ -201,8 +206,58 @@ export default {
     isSelected(item) {
       return this.selectedComponent === item.component;
     },
-  },
+    initSocket() {
+      this.socket = io("https://socket.adbarta.com", {
+        transports: ["websocket", "polling"],
+        withCredentials: true,
+      });
 
+      // Listen for connection
+      this.socket.on("connect", () => {
+        if (this.userID) {
+          // Send the userID to the server
+          console.log("Connected to the server via Socket.IO.");
+
+          this.socket.emit("connected", { user_id: this.userID });
+        }
+      });
+
+      // Listen for new messages continuously
+      this.socket.on("new", (message) => {
+        console.log("Received message:", message);
+        // this.handleNewMessage(message);
+      });
+      this.socket.on("online", (userId) => {
+        console.log("Online User ID is :", userId);
+        // this.handleNewMessage(message);
+      });
+
+      // Handle connection errors
+      this.socket.on("connect_error", (error) => {
+        console.error("Connection error:", error.message);
+      });
+    },
+
+  },
+  async mounted() {
+    this.userID = this.$auth.user.data.id
+
+    this.initSocket()
+  },
+  // mounted() {
+  //   this.$socket.on('connect', (socket) => {
+  //     console.log('Socket connection established', socket)
+  //   })
+  //   this.$socket.on('new', (message) => {
+  //     console.log(message)
+  //     // this.messages.push(message);
+  //   });
+  // },
+  beforeDestroy() {
+    if (this.socket) {
+      this.socket.disconnect(); // Disconnect the socket on component destroy
+    }
+  },
 }
 </script>
 

@@ -129,7 +129,7 @@ export default {
   created() {
     this.getRecentChats();
     this.initSelectedUser();
-    this.startPolling();
+    // this.startPolling();
   },
 
   beforeDestroy() {
