@@ -66,6 +66,7 @@
 
 <script>
 import NoMessage from "@/components/Common/NoMessage";
+import io from "socket.io-client";
 export default {
   name: 'Chat',
   components: {NoMessage},
@@ -77,18 +78,21 @@ export default {
   data: () => ({
     loading: true,
     message: {
-      user_id: 2,
+      user_id: null,
       message: null,
     },
     chats: [],
     userID: null,
     user: null,
-    pollingInterval: null
+    pollingInterval: null,
+    socket: null,
   }),
   mounted() {
     this.setUserInfo();
     this.getRecentChats();
+    // this.initSocket()
     // this.startPolling();
+    this.socket = this.$socket
   },
   beforeDestroy() {
     this.stopPolling();
@@ -105,7 +109,14 @@ export default {
     }
   },
 
+
   methods: {
+    // initSocket() {
+    //   this.socket = io("https://socket.adbarta.com", {
+    //     transports: ["websocket", "polling"],
+    //     withCredentials: true,
+    //   });
+    // },
     sendMessage() {
       if (this.message.message !== null) {
         let formData = new FormData()
@@ -114,8 +125,9 @@ export default {
         const js = {
           receiver_id : this.user?.id,
           message : this.message.message,
+          room_id: this.user?.room_id
         }
-        this.$socket.emit('new_chat', js)
+        this.socket.emit('new_chat', js)
         this.$axios.post('chats', formData)
           .then((response) => {
             this.chats.push(response.data.data)
@@ -148,8 +160,6 @@ export default {
           seen: seen,
           created_at: formattedCreatedAt,
         },
-
-
       };
 
       // Emit the transformed data to the parent component

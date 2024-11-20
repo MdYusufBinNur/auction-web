@@ -84,6 +84,10 @@
                   <v-list-item-content>
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
                   </v-list-item-content>
+                  <v-spacer />
+                  <v-chip x-small v-if="showChip && item.showSub" color="red">
+                    new
+                  </v-chip>
                 </v-list-item>
               </v-list>
             </v-card>
@@ -139,22 +143,23 @@ export default {
       dialog: false,
       drawer: true,
       username: '',
+      showChip: false,
       userImage: 'https://cdn.vuetifyjs.com/images/john.png',
       selectedComponent: 'WalletComponent',
       items: [
         // {title: 'Home', icon: 'mdi-view-dashboard-outline', component: 'HomeComponent'},
-        {title: 'Wallet', icon: 'mdi-wallet-outline', component: 'WalletComponent'},
-        {title: 'My Ads List', icon: 'mdi-format-list-bulleted', component: 'MyAdsComponent'},
+        {title: 'Wallet', icon: 'mdi-wallet-outline', component: 'WalletComponent', showSub: false},
+        {title: 'My Ads List', icon: 'mdi-format-list-bulleted', component: 'MyAdsComponent', showSub: false},
         // {title: 'Purchase List', icon: 'mdi-chart-timeline', component: 'PurchaseComponent'},
-        {title: 'Profile', icon: 'mdi-account-outline', component: 'ProfileComponent'},
-        {title: 'Chat', icon: 'mdi-wechat', component: 'ChatComponent'},
+        {title: 'Profile', icon: 'mdi-account-outline', component: 'ProfileComponent', showSub: false},
+        {title: 'Chat', icon: 'mdi-wechat', component: 'ChatComponent', showSub: true},
       ],
       socket: null, // Socket instance
       chats: [], // Messages
-      userID: 2, // Current user
+      userID: null, // Current user
       user: null,
+      socketId: null
     }
-
   },
   beforeCreate() {
     this.isLoggedIn = this.$auth?.loggedIn
@@ -196,6 +201,7 @@ export default {
           this.$router.push('/dashboard/profile')
           return
         case 'ChatComponent':
+          this.showChip = false
           this.$router.push('/dashboard/chat')
           return
         default:
@@ -207,29 +213,24 @@ export default {
       return this.selectedComponent === item.component;
     },
     initSocket() {
-      this.socket = io("https://socket.adbarta.com", {
-        transports: ["websocket", "polling"],
-        withCredentials: true,
-      });
+      // this.socket = io("https://socket.adbarta.com", {
+      //   transports: ["websocket", "polling"],
+      //   withCredentials: true,
+      // });
 
       // Listen for connection
       this.socket.on("connect", () => {
+        this.socketId = this.socket.id
+        console.log('Socket ID :',this.$socket.id)
         if (this.userID) {
-          // Send the userID to the server
-          console.log("Connected to the server via Socket.IO.");
-
-          this.socket.emit("connected", { user_id: this.userID });
+          this.socket.emit("connected", { user_id: this.userID, socketId: this.socketId });
         }
       });
 
       // Listen for new messages continuously
       this.socket.on("new", (message) => {
-        console.log("Received message:", message);
-        // this.handleNewMessage(message);
-      });
-      this.socket.on("online", (userId) => {
-        console.log("Online User ID is :", userId);
-        // this.handleNewMessage(message);
+        console.log("Received message dashboard layout:", message);
+        this.showChip = true
       });
 
       // Handle connection errors
@@ -241,7 +242,7 @@ export default {
   },
   async mounted() {
     this.userID = this.$auth.user.data.id
-
+    this.socket = this.$socket
     this.initSocket()
   },
   // mounted() {

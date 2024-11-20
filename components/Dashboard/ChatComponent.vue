@@ -4,7 +4,7 @@
       <CardHeader :title="'chat'" :button="false"/>
     </v-col>
     <v-col cols="12" sm="12" class="py-0" v-show="bp.smAndDown">
-      <v-divider />
+      <v-divider/>
       <v-slide-group
         multiple
         show-arrows
@@ -24,18 +24,43 @@
           >
             <template v-slot:default>
               <v-card flat rounded class="transparent py-0">
-                <v-avatar color="grey" size="40" v-if="!chat.photo">
-                  <v-icon dark>
-                    mdi-account-circle
-                  </v-icon>
-                </v-avatar>
-                <v-avatar v-else size="40">
-                  <v-img
-                    :alt="`${chat.title} avatar`"
-                    :src="chat.photo"
-                  ></v-img>
-                </v-avatar>
+                <v-badge
+                  bordered
+                  bottom
+                  color="red lighten-2"
+                  dot
+                  offset-x="10"
+                  offset-y="10"
+                  v-if="showBadge || chat.message.seen === 0"
+                >
+                  <div>
+                    <v-avatar color="grey" size="40" v-if="!chat.photo">
+                      <v-icon dark>
+                        mdi-account-circle
+                      </v-icon>
+                    </v-avatar>
+                    <v-avatar v-else size="40">
+                      <v-img
+                        :alt="`${chat.title} avatar`"
+                        :src="chat.photo"
+                      ></v-img>
+                    </v-avatar>
+                  </div>
+                </v-badge>
+                <div v-else>
+                  <v-avatar color="grey" size="40" v-if="!chat.photo">
+                    <v-icon dark>
+                      mdi-account-circle
+                    </v-icon>
+                  </v-avatar>
+                  <v-avatar v-else size="40">
+                    <v-img
+                      :alt="`${chat.title} avatar`"
+                      :src="chat.photo"
+                    ></v-img>
+                  </v-avatar>
 
+                </div>
                 <v-card-actions class="py-0">
                   <v-card-text class="py-0 text-caption text-capitalize">
                     {{ chat.full_name }}
@@ -47,19 +72,19 @@
           </v-btn>
         </v-slide-item>
       </v-slide-group>
-      <v-divider />
+      <v-divider/>
 
     </v-col>
     <v-col cols="12" sm="12" md="8" class="py-0">
 
-      <Chat v-if="receiver" :receiver-id="receiver" @message-sent="handleMessageSent" />
+      <Chat v-if="receiver" :receiver-id="receiver" @message-sent="handleMessageSent"/>
       <NoMessage v-else/>
     </v-col>
     <v-col cols="12" sm="12" md="4" v-if="bp.mdAndUp">
       <v-card flat height="70vh" class="overflow-y-auto" outlined>
         <v-list subheader>
           <v-subheader>Recent chat</v-subheader>
-          <v-divider />
+          <v-divider/>
           <v-list-item
             v-for="(chat, i) in chats"
             :key="i"
@@ -78,9 +103,10 @@
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title v-text="chat.full_name"></v-list-item-title>
+              <v-list-item-title :class="chat?.message?.seen === 0 ? 'font-weight-bold' : ''"
+                                 v-text="chat.full_name"></v-list-item-title>
               <v-card-text class="px-0 py-0 text-caption text--lighten-2">
-               {{ chat?.message?.message }}
+                {{ chat?.message?.message }}
               </v-card-text>
             </v-list-item-content>
 
@@ -97,6 +123,7 @@
 import CardHeader from "@/components/Common/CardHeader";
 import Chat from "@/components/Dashboard/Chat";
 import NoMessage from "@/components/Common/NoMessage";
+
 export default {
   name: "ChatComponent",
   components: {NoMessage, Chat, CardHeader},
@@ -120,11 +147,12 @@ export default {
       message: null
     },
     loading: false,
-    user : 'Yusuf',
+    user: 'Yusuf',
     receiver: null,
-    pollingInterval: null
+    pollingInterval: null,
+    socket: null,
+    showBadge: false
   }),
-
 
   created() {
     this.getRecentChats();
@@ -132,6 +160,10 @@ export default {
     // this.startPolling();
   },
 
+  mounted() {
+    this.socket = this.$socket
+    this.initSocket()
+  },
   beforeDestroy() {
     this.stopPolling();
   },
@@ -149,7 +181,8 @@ export default {
         .catch((error) => {
           console.log(error.response)
         })
-        .finally(() => {})
+        .finally(() => {
+        })
 
     },
     getRecentChats() {
@@ -182,9 +215,34 @@ export default {
     startPolling() {
       this.pollingInterval = setInterval(this.getRecentChats, 3000);
     },
-
     stopPolling() {
       clearInterval(this.pollingInterval);
+    },
+
+    initSocket() {
+      this.socket.on("new", (payload) => {
+        console.log("Received message On Chat Component :", payload);
+        // console.log("Received message On Chat Component :", payload.room_id);
+        console.log("Received message On Chat Component :", payload.message);
+        this.showChip = true
+        this.showBadge = true
+        this.getRecentChats()
+      });
+    },
+    updateChat(newMessage, roomId) {
+      this.chat = this.chat.map((item) => {
+        if (item.room_id === roomId) {
+          // Update the message for room_id 1
+          return {
+            ...item,
+            message: {
+              ...item.message,
+              ...newMessage // Merge new message properties
+            }
+          };
+        }
+        return item; // Leave other items unchanged
+      });
     }
   }
 }
