@@ -48,7 +48,19 @@
           :key="i"
           @click.prevent="gotoRoute(item.title)"
         >
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
+          <v-badge
+            color="red"
+            dot
+            v-if="item.title === 'Chat' && showChip"
+          >
+            <v-list-item-title>
+              {{ item.title }}
+            </v-list-item-title>
+          </v-badge>
+          <v-list-item-title v-else>
+            {{ item.title }}
+          </v-list-item-title>
+
         </v-list-item>
       </v-list>
     </v-menu>
@@ -64,6 +76,9 @@ export default {
         {title: 'Chat'},
         {title: 'Profile'},
       ],
+      socket: null, // Socket instance
+      user: null,
+      showChip: false,
     }
   },
   methods: {
@@ -86,8 +101,33 @@ export default {
           return
         }
       }
+    },
+
+    initSocket() {
+      // Listen for connection
+      this.socket.on("connect", () => {
+        this.socketId = this.socket.id
+        if (this.userID) {
+          this.socket.emit("connected", {user_id: this.userID, socketId: this.socketId});
+        }
+      });
+      // Listen for new messages continuously
+      this.socket.on("new", (message) => {
+        this.showChip = true
+      });
+      // Handle connection errors
+      this.socket.on("connect_error", (error) => {
+      });
+    },
+
+  },
+  async mounted() {
+    this.userID = this.$auth?.user?.data?.id
+    if (this.$auth?.user?.data?.id) {
+      this.socket = this.$socket
+      this.initSocket()
     }
-  }
+  },
 }
 </script>
 

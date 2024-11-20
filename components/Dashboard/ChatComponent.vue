@@ -221,9 +221,9 @@ export default {
 
     initSocket() {
       this.socket.on("new", (payload) => {
-        console.log("Received message On Chat Component :", payload);
+        // console.log("Received message On Chat Component :", payload);
         // console.log("Received message On Chat Component :", payload.room_id);
-        console.log("Received message On Chat Component :", payload.message);
+        // console.log("Received message On Chat Component :", payload.message);
         this.showChip = true
         this.showBadge = true
         this.getRecentChats()

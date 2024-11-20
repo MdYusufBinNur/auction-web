@@ -39,8 +39,8 @@
             show-arrows
           >
             <v-chip
-              v-for="tag in categories"
-              :key="tag"
+              v-for="(tag, i) in categories"
+              :key="i"
               @click="fetchData(tag)"
             >
               {{ tag.name }}
@@ -64,7 +64,9 @@
                 flat
                 outlined
               >
-
+                <div v-if="item.ad_type === 'premium'" class="premium-badge text-capitalize">
+                  {{ $t('premium') }}
+                </div>
                 <v-carousel
                   :continuous="false"
                   :cycle='false'
@@ -242,5 +244,19 @@ export default {
 .active-item {
   background-color: #f0f0f0; /* Your desired background color */
   color: #333; /* Your desired text color */
+}
+.premium-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #c5ae00;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 </style>
