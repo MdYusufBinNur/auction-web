@@ -31,7 +31,7 @@
                   dot
                   offset-x="10"
                   offset-y="10"
-                  v-if="showBadge || chat.message.seen === 0"
+                  v-if="chat.message.seen === 0"
                 >
                   <div>
                     <v-avatar color="grey" size="40" v-if="!chat.photo">
@@ -157,12 +157,12 @@ export default {
   created() {
     this.getRecentChats();
     this.initSelectedUser();
-    // this.startPolling();
+    this.startPolling();
   },
 
   mounted() {
-    this.socket = this.$socket
-    this.initSocket()
+    // this.socket = this.$socket
+    // this.initSocket()
   },
   beforeDestroy() {
     this.stopPolling();

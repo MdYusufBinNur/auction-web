@@ -41,6 +41,7 @@ export default {
   plugins: [
     '@/plugins/globalPlugins.js',
     '@/plugins/axios.js',
+    '@/plugins/chatUpdater.js',
     { src: '@/plugins/socket.io.js', ssr: false }
   ],
 
@@ -166,7 +167,8 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
   router: {
-    // middleware: ['auth-redirect']
+    middleware: ['chatUpdater']
+
   },
   // server: {
   //   host: '0.0.0.0', // default: localhost

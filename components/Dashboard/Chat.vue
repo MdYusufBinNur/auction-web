@@ -91,8 +91,8 @@ export default {
     this.setUserInfo();
     this.getRecentChats();
     // this.initSocket()
-    // this.startPolling();
-    this.socket = this.$socket
+    this.startPolling();
+    // this.socket = this.$socket
   },
   beforeDestroy() {
     this.stopPolling();
@@ -163,7 +163,7 @@ export default {
       };
 
       // Emit the transformed data to the parent component
-      this.$emit('message-sent', transformedData);
+      // this.$emit('message-sent', transformedData);
     },
     getRecentChats() {
       this.loading = true;

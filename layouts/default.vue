@@ -22,13 +22,15 @@
           </nuxt-link>
           <v-btn class="text-capitalize white--text" text @click.prevent="gotoRoute('ChatComponent')" rounded
                  :ripple="false">
-            Chat
+            <v-badge :color="newMessage ? 'red' :'res'" dot>
+              Chat
+            </v-badge>
           </v-btn>
           <v-btn class="bg-white text-capitalize mx-3" @click.prevent="gotoRoute('MyAdsComponent')" rounded
                  :ripple="false">
             Post your AD
           </v-btn>
-<!--          <LanguageSwitcher/>-->
+          <!--          <LanguageSwitcher/>-->
         </div>
       </v-container>
     </v-app-bar>
@@ -91,7 +93,7 @@
     <v-main class="bg-white">
       <nuxt/>
     </v-main>
-    <BottomNavigation v-if="bp.smAndDown"/>
+    <BottomNavigation v-if="bp.smAndDown" :newMessage="newMessage"/>
     <Footer v-if="bp.mdAndUp"/>
   </v-app>
 </template>
@@ -106,12 +108,17 @@ import ShortLogoSVG from "/static/icons/ShortLogoSVG.svg";
 import BottomNavigation from "../components/Common/BottomNavigation.vue";
 import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
 import WhatsAppButton from "@/components/Social/WhatsAppButton";
+import {mapGetters} from "vuex";
 
 export default {
   name: "default",
   components: {
     WhatsAppButton,
-    LanguageSwitcher, BottomNavigation, ShortLogoSVG, LogoSVG, ArrowUpRightSVG, MenuSVG, SearchSVG, Footer},
+    LanguageSwitcher, BottomNavigation, ShortLogoSVG, LogoSVG, ArrowUpRightSVG, MenuSVG, SearchSVG, Footer
+  },
+  beforeCreate() {
+    this.authenticated = this.$auth?.loggedIn
+  },
   data: () => ({
     dialog: false,
     notifications: false,
@@ -119,6 +126,7 @@ export default {
     widgets: false,
     drawer: false,
     group: null,
+    authenticated: false,
     items: [
       {
         title: 'All Ads',
@@ -129,14 +137,30 @@ export default {
         to: '/auth/login',
       },
     ],
-    opacity: 1
+    opacity: 1,
+    newMessage: false
   }),
   watch: {
     group() {
       this.drawer = false
     },
+    userChats: {
+      handler(newChats, oldChats) {
+        if (newChats){
+          this.newMessage = true
+        } else {
+          this.newMessage = false
+        }
+      },
+      deep: true, // Use this if `userChats` is a nested object/array
+      immediate: true, // Trigger watcher on component creation
+    },
   },
-
+  computed: {
+    ...mapGetters({
+      userChats: "chat/getUserChats",
+    }),
+  },
   methods: {
     gotoRoute(item) {
       localStorage.setItem('selectedComponent', item);

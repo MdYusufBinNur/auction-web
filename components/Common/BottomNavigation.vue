@@ -51,7 +51,7 @@
           <v-badge
             color="red"
             dot
-            v-if="item.title === 'Chat' && showChip"
+            v-if="item.title === 'Chat' && newMessage"
           >
             <v-list-item-title>
               {{ item.title }}
@@ -120,6 +120,12 @@ export default {
       });
     },
 
+  },
+  props: {
+    newMessage: {
+      type: Boolean,
+      default: false
+    }
   },
   async mounted() {
     this.userID = this.$auth?.user?.data?.id

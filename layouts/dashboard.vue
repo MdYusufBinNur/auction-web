@@ -85,7 +85,7 @@
                     <v-list-item-title>{{ item.title }}</v-list-item-title>
                   </v-list-item-content>
                   <v-spacer />
-                  <v-chip x-small v-if="showChip && item.showSub" color="red">
+                  <v-chip x-small v-if="newMessage && item.showSub" class="red">
                     new
                   </v-chip>
                 </v-list-item>
@@ -111,7 +111,7 @@
         </v-row>
       </v-container>
     </v-main>
-    <BottomNavigation v-if="bp.smAndDown"/>
+    <BottomNavigation v-if="bp.smAndDown" :new-message="newMessage"/>
     <Footer v-if="bp.mdAndUp"/>
   </v-app>
 </template>
@@ -122,6 +122,7 @@ import logoutIcon from "/static/icons/Logout.png";
 import BottomNavigation from "@/components/Common/BottomNavigation";
 import Footer from "@/components/Common/Footer";
 import io from "socket.io-client";
+import {mapGetters} from "vuex";
 
 export default {
   name: "dashboard",
@@ -158,8 +159,28 @@ export default {
       chats: [], // Messages
       userID: null, // Current user
       user: null,
-      socketId: null
+      socketId: null,
+      newMessage: false
+
     }
+  },
+  computed: {
+    ...mapGetters({
+      userChats: "chat/getUserChats",
+    }),
+  },
+  watch: {
+    userChats: {
+      handler(newChats, oldChats) {
+        if (newChats){
+          this.newMessage = true
+        } else {
+          this.newMessage = false
+        }
+      },
+      deep: true, // Use this if `userChats` is a nested object/array
+      immediate: true, // Trigger watcher on component creation
+    },
   },
   beforeCreate() {
     this.isLoggedIn = this.$auth?.loggedIn
@@ -241,10 +262,11 @@ export default {
 
   },
   async mounted() {
-    this.userID = this.$auth.user.data.id
-    this.socket = this.$socket
-    this.initSocket()
+    // this.userID = this.$auth.user.data.id
+    // this.socket = this.$socket
+    // this.initSocket()
   },
+
   // mounted() {
   //   this.$socket.on('connect', (socket) => {
   //     console.log('Socket connection established', socket)
