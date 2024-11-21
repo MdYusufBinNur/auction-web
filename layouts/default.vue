@@ -146,10 +146,12 @@ export default {
     },
     userChats: {
       handler(newChats, oldChats) {
-        if (newChats){
-          this.newMessage = true
+        // console.log(newChats)
+        if (newChats.length > 0 && newChats[0].seen === 0) {
+          // console.log('newChats', newChats)
+          this.newMessage = true;
         } else {
-          this.newMessage = false
+          this.newMessage = false;
         }
       },
       deep: true, // Use this if `userChats` is a nested object/array

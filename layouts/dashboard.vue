@@ -172,10 +172,10 @@ export default {
   watch: {
     userChats: {
       handler(newChats, oldChats) {
-        if (newChats){
-          this.newMessage = true
+        if (newChats.length > 0 && newChats[0].seen === 0) {
+          this.newMessage = true;
         } else {
-          this.newMessage = false
+          this.newMessage = false;
         }
       },
       deep: true, // Use this if `userChats` is a nested object/array

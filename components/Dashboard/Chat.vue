@@ -167,11 +167,12 @@ export default {
     },
     getRecentChats() {
       this.loading = true;
+
       this.$axios.get('chats/' + this.user?.room_id)
         .then((response) => {
           this.chats = response.data.data;
-
           this.scrollToElement()
+
         })
         .catch((error) => {
           console.log(error);
@@ -196,13 +197,17 @@ export default {
     },
 
     scrollToElement() {
-      const el = this.$el.getElementsByClassName('scroll-to-me')[0];
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
+      // const el = this.$el.getElementsByClassName('scroll-to-me')[0];
+      // if (el) {
+      //   el.scrollIntoView({ behavior: 'smooth' });
+      // }
+      const chatContainer = this.$el.querySelector('.scroll-to-me');
+      if (chatContainer) {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
       }
     },
     startPolling() {
-      this.pollingInterval = setInterval(this.getChatUpdate, 3000);
+      this.pollingInterval = setInterval(this.getChatUpdate, 4000);
     },
 
     stopPolling() {
@@ -213,4 +218,8 @@ export default {
 </script>
 
 <style scoped>
+.scroll-to-me {
+  max-height: 57vh; /* Matches the height you set */
+  overflow-y: auto; /* Ensures the container is scrollable */
+}
 </style>

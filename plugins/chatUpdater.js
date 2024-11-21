@@ -8,17 +8,17 @@ export default ({app, store, $axios}, inject) => {
           if (app.$auth.loggedIn) {
             const {error, message, data} = await $axios.get('/get-unread'); // Replace with your endpoint
             if (!data.error) {
-              console.log(data.data)
+              // console.log(data.data)
               store.commit('chat/setUserChats', data.data)
             }
           } else {
             stopChatUpdater();
           }
         } catch (error) {
-          console.error('Error updating chat:', error.message || error);
+          // console.error('Error updating chat:', error.message || error);
           stopChatUpdater(); // Safely stop on persistent errors
         }
-      }, 3000); // Poll every 3 seconds
+      }, 4000); // Poll every 3 seconds
     }
   };
 
