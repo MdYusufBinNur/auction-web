@@ -127,7 +127,7 @@ export default {
           message : this.message.message,
           room_id: this.user?.room_id
         }
-        this.socket.emit('new_chat', js)
+        // this.socket.emit('new_chat', js)
         this.$axios.post('chats', formData)
           .then((response) => {
             this.chats.push(response.data.data)
