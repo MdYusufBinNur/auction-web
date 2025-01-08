@@ -99,6 +99,10 @@ export default {
         title: 'Account Delete',
         to: '/account-deletion-process'
       },
+      {
+        title: 'Support',
+        to: '/support'
+      },
     ],
     useful: [
       {
