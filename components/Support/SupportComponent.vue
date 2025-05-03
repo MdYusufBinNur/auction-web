@@ -19,6 +19,9 @@
             <v-text-field v-model="editedItem.email" label="Email" outlined type="email" required></v-text-field>
           </v-col>
           <v-col cols="12" sm="12" md="12" lg="12">
+            <v-text-field v-model="editedItem.mobile" label="Mobile" outlined type="text" ></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="12" md="12" lg="12">
             <v-textarea v-model="editedItem.message" label="Message" outlined required></v-textarea>
           </v-col>
         </v-row>
@@ -58,6 +61,7 @@ export default {
         email: '',
         subject: '',
         message: '',
+        mobile: ''
       },
       defaultItem: {
         first_name: '',
@@ -65,6 +69,8 @@ export default {
         email: '',
         subject: '',
         message: '',
+        mobile: ''
+
       },
       loading: false,
       dialog: false,

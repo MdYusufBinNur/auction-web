@@ -3,25 +3,31 @@
     <v-container grid-list-lg class="">
       <v-row class="mb-2">
         <v-col cols="4" class="text-center justify-center align-self-center">
-          <div class="white--text" :style="bp.smAndDown ? 'text-align:center' : ''">
-            <h2 class="mb-2 white--text">Get In touch</h2>
-          </div>
+          <!--          <div class="white&#45;&#45;text" :style="bp.smAndDown ? 'text-align:center' : ''">-->
+          <!--            <h2 class="mb-2 white&#45;&#45;text">Get In touch</h2>-->
+          <!--          </div>-->
           <a
-              v-for="icon in icons"
-              :key="icon.icon"
-              class="mr-4"
-              target="_blank"
-              :href="icon.link"
+            v-for="icon in icons"
+            :key="icon.icon"
+            class="mr-4"
+            target="_blank"
+            :href="icon.link"
           >
             <v-hover v-slot:default="{ hover }">
               <v-icon :color="`${hover ? icon.color : 'white'}`" class size="24px">{{ icon.icon }}</v-icon>
             </v-hover>
           </a>
         </v-col>
+        <v-col cols="4" class="justify-center align-self-center text-center">
 
-        <v-col cols="4" class="justify-center align-self-center">
+          <v-btn class="bg-grey text-capitalize mx-3" rounded
+                 :ripple="false" to="support">
+            Contact Us
+          </v-btn>
+        </v-col>
+        <v-col cols="4" class="justify-center align-self-center text-center">
           <div>
-            <h2 class="mb-2 white--text">Quick Links</h2>
+            <!--            <h2 class="mb-2 white&#45;&#45;text">Quick Links</h2>-->
             <nuxt-link v-for="(item, i) in links" :key="i" :to="item.to" class="text-decoration-none white--text">
               <v-hover v-slot:default="{ hover }">
                 <span class="mb-3 font-weight-light text-body-2">
@@ -32,17 +38,7 @@
             </nuxt-link>
           </div>
         </v-col>
-        <v-col cols="4" class="justify-center align-self-center">
-          <h2 class="mb-2 white--text">Useful Links</h2>
-          <a v-for="(item, i) in useful" :key="i" href="#" class="text-decoration-none white--text">
-            <v-hover v-slot:default="{ hover }">
-                <span class="mb-3 font-weight-light text-body-2">
-                  {{ item.title }}
-                </span>
-            </v-hover>
-            <br>
-          </a>
-        </v-col>
+
       </v-row>
       <v-divider/>
       <v-row>
@@ -64,17 +60,17 @@ export default {
     icons: [
       {
         icon: "mdi-facebook",
-        link: "#",
+        link: "https://www.facebook.com/adbartabangladesgh",
         color: 'blue'
       },
       {
         icon: "mdi-youtube",
-        link: "#",
+        link: "https://www.youtube.com/@adbarta",
         color: 'red'
       },
       {
         icon: "mdi-instagram",
-        link: "#",
+        link: "https://www.instagram.com/adbartaltd",
         color: 'pink lighten-1'
       },
     ],
@@ -106,17 +102,17 @@ export default {
     ],
     useful: [
       {
-        title: 'Emergency services - 999',
-        to: '#'
+        title: 'Contact Us',
+        to: '/support'
       },
-      {
-        title: 'National Identity Card - 105',
-        to: '#'
-      },
-      {
-        title: 'Disaster warning - 10941',
-        to: '#'
-      },
+      // {
+      //   title: 'National Identity Card - 105',
+      //   to: '#'
+      // },
+      // {
+      //   title: 'Disaster warning - 10941',
+      //   to: '#'
+      // },
     ],
 
   }),
