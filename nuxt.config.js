@@ -42,7 +42,7 @@ export default {
     '@/plugins/globalPlugins.js',
     '@/plugins/axios.js',
     '@/plugins/chatUpdater.js',
-    { src: '@/plugins/socket.io.js', ssr: false }
+    // { src: '@/plugins/socket.io.js', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
