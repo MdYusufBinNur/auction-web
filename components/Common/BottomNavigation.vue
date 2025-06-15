@@ -131,7 +131,7 @@ export default {
     this.userID = this.$auth?.user?.data?.id
     if (this.$auth?.user?.data?.id) {
       this.socket = this.$socket
-      this.initSocket()
+      // this.initSocket()
     }
   },
 }

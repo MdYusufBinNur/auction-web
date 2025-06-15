@@ -465,8 +465,6 @@ export default {
       this.newPost.product_type = 'normal'
       this.disableAdTypeSelection = true
     }
-
-
     this.getLocalStorageAdData()
 
   },
@@ -754,6 +752,7 @@ export default {
     getLocalStorageAdData() {
       if (process.client) {
         const itemJSON = localStorage.getItem('edit-ad');
+
         if (itemJSON) {
           const item = JSON.parse(itemJSON);
           this.newPost = Object.assign({}, item)
@@ -762,7 +761,7 @@ export default {
           this.newPost.email = item.contact_email
           this.newPost.mobile = item.contact_number
           this.newPost.productImage = []
-          this.newPost.product_type = item.ad_type === "Normal Ad" ? "normal" : "premium"
+          this.newPost.product_type = item.ad_type === "normal" ? "normal" : "premium"
           this.newPost.condition = item.condition === "New" ? "new" : 'used'
           this.setSub(this.newPost.category_id)
           this.setDistricts(this.newPost.division_id)

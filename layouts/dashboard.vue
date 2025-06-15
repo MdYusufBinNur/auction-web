@@ -277,9 +277,9 @@ export default {
   //   });
   // },
   beforeDestroy() {
-    if (this.socket) {
-      this.socket.disconnect(); // Disconnect the socket on component destroy
-    }
+    // if (this.socket) {
+    //   this.socket.disconnect(); // Disconnect the socket on component destroy
+    // }
   },
 }
 </script>
