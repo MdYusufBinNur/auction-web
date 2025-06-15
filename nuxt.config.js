@@ -62,6 +62,7 @@ export default {
     "vue-toastification/nuxt",
     '@nuxtjs/i18n',
     '@nuxtjs/dotenv',
+    '@nuxtjs/google-analytics',
   ],
   i18n: {
     locales: [
@@ -170,6 +171,9 @@ export default {
     middleware: ['chatUpdater']
 
   },
+  googleAnalytics: {
+    id: 'G-MNHJX4RFF3', // Replace with your Google Analytics tracking ID
+  }
   // server: {
   //   host: '0.0.0.0', // default: localhost
   //   port: 3000 // default: 3000
