@@ -27,6 +27,15 @@ export default {
 
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
+    ],
+    script: [
+      {
+        src: "https://www.googletagmanager.com/gtag/js?id=G-MNHJX4RFF3",
+        async: true,
+      },
+      {
+        src: "gtag.js",
+      }
     ]
   },
 
@@ -62,7 +71,7 @@ export default {
     "vue-toastification/nuxt",
     '@nuxtjs/i18n',
     '@nuxtjs/dotenv',
-    '@nuxtjs/google-analytics',
+    // '@nuxtjs/google-analytics',
   ],
   i18n: {
     locales: [
